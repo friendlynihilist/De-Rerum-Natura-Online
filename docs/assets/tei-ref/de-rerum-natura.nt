@@ -1,0 +1,7 @@
+<https://137.204.168.14/lib/api/items/3><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
+<https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
+<https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/sometext-fragment>.
+<https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/random:text>.
+<https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
+<https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/sometext-fragment>.
+<https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/random:text>.

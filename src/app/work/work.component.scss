@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,700|Prata");
+
+a {
+    color: inherit;
+    text-decoration: none;
+  } /* Unvisited link  */
+
+.row {
+  padding-top: 2rem;
+}
+.card {
+  margin-bottom: 2rem;
+  a:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  } /* Mouse over link */
+  .card-title {
+    // a {
+    //     color: inherit;
+    //     text-decoration: none;
+    //   } /* Unvisited link  */
+      a:visited {
+        color: inherit;
+      } /* Visited link    */
+      a:hover {
+        color: #0084ffc9;
+      } /* Mouse over link */
+      a:active {
+        color: #2a6ed4;
+      } /* Selected link   */
+  }
+}
+
+h1 {
+  font-family: "Prata", serif;
+}
+
+.total-works {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+}
+
+.metadata {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+}
+
+.card-title {
+  font-family: "Prata", serif;
+}

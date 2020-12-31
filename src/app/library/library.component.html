@@ -1,0 +1,96 @@
+<div class="container-fluid" style="background-color: rgb(240, 240, 240)">
+  <div class="container n7-text-viewer">
+    <div class="row align-items-start">
+      <div class="col-4"><h1 class="main-title">Biblioteca</h1></div>
+      <div class="col-4"><button 
+        (click)="highlight()">Evidenzia</button></div>
+        <!-- <div class="col-4"><div id="seadragon-viewer" style="width: 800px; height: 600px;"></div></div> -->
+    </div>
+
+    <div class="row align-items-start">
+      <div class="col-12">
+
+        <!-- <pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher">
+          <pb-document
+            id="document1"
+            path="test/F-rom.xml"
+            odd="shakespeare"
+          ></pb-document>
+          
+          <pb-navigation direction="backward" unit="page" keyboard="left">
+            <paper-button>
+              <iron-icon icon="icons:chevron-left"></iron-icon>
+            </paper-button>
+          </pb-navigation>
+          <pb-view id="view1" src="document1" view="page"></pb-view>
+          
+          <pb-navigation direction="forward" unit="page" keyboard="right">
+            <paper-button>
+              <iron-icon icon="icons:chevron-right"></iron-icon>
+            </paper-button>
+          </pb-navigation>
+        </pb-page> -->
+
+        <pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher" api-version="1.0.0">
+          <pb-document path="playground/libersextus_validate.xml" odd="lucretius" id="document1">
+          </pb-document>
+          <!-- <pb-document path="test/F-rom.xml" odd="shakespeare" id="document2">
+          </pb-document> -->
+  
+          <app-drawer-layout force-narrow="force-narrow" narrow="">
+              <app-header-layout>
+                  <app-header fixed="fixed" data-template="browse:fix-links" style="
+                  transition-duration: 0ms;
+                  transform: translate3d(0px, 0px, 0px);
+                  left: 0px;
+                  right: 0.399994px;">
+                      <app-toolbar class="toolbar" sticky="sticky" style="transform: translate3d(0px, 0px, 0px)">
+                          <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" role="button"
+                              tabindex="0" aria-disabled="false"></paper-icon-button>
+  
+                          <pb-toggle-feature name="highlight1" selector="tei-app,pb-popover" default="off"
+                              action="disable" emit="transcription" subscribe="transcription">
+                              <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
+                          </pb-toggle-feature>
+                          <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
+                          <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
+                          <pb-navigation emit="transcription" keyboard="left" subscribe="transcription"
+                              direction="backward" unit="page">
+                              <paper-icon-button icon="icons:chevron-left" role="button" tabindex="0"
+                                  aria-disabled="false"></paper-icon-button>
+                          </pb-navigation>
+                          <pb-navigation emit="transcription" keyboard="right" subscribe="transcription"
+                              direction="forward" unit="page">
+                              <paper-icon-button icon="icons:chevron-right" role="button" tabindex="0"
+                                  aria-disabled="false"></paper-icon-button>
+                          </pb-navigation>
+  
+                          <pb-progress subscribe="transcription" indeterminate="" bottom-item="bottom-item"
+                              style="visibility: hidden"></pb-progress>
+                      </app-toolbar>
+                  </app-header>
+                  <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
+                      <div class="drawer-content">
+                          <h3>
+                              <pb-i18n key="document.contents">Contents</pb-i18n>
+                          </h3>
+                          <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true"
+                              src="document1" subscribe="toc" emit="toc" expand="expand" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                      </div>
+                  </pb-drawer>
+                  <main class="content-body">
+                     
+                    <pb-view id="view1" src="document1" subscribe="transcription" emit="transcription"></pb-view>
+                    <!-- <pb-view id="view2" src="document2" view="single" subscribe="transcription" emit="letter">
+                      <pb-param name="mode" value="commentary"></pb-param>
+                    </pb-view> -->
+                      
+                  </main>
+              </app-header-layout>
+          </app-drawer-layout>
+      </pb-page>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,700|Prata');
+
+.jumbotron {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    background-image: url("../../assets/img/plagueofathens.jpg");
+    background-position: center;
+    color: white;
+}
+
+.display-4 {
+    font-family: 'Prata', serif;
+}
+
+.lead {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+
+.description {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}

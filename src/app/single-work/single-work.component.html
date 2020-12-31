@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="container single-item">
+    <div class="row align-items-start">
+      <div class="col-4">
+        <!-- FIXME: undefined -->
+        <h1>{{ loadedItem["o:title"] }}</h1>
+      </div>
+    </div>
+
+    <!-- FIXME: use openseadragon -->
+    <div class="row justify-content-md-center image-container">
+      <div class="col-md-auto">
+        <!-- FIXME: undefined -->
+        <img [src]="loadedItem.thumbnail_display_urls.large" />
+      </div>
+    </div>
+    
+    <div class="description">
+      <div class="row justify-content-md-start metadata">
+        <div class="col-2">
+          <h2>Metadata</h2>
+        </div>
+
+        <div class="col-10 metadata">
+          <table class="table table-borderless">
+            <tbody *ngFor="let property of loadedItem | keyvalue">
+              <ng-container *ngIf="isValid(property.key)">
+                <tr *ngFor="let field of loadedItem[property.key]">
+                  <ng-container *ngIf="field['property_label'] != 'Title'">
+                    <td>
+                      <b>{{ field["property_label"] }}</b>
+                    </td>
+                    <td>
+                      {{ field["o:label"] || field["@value"] }}
+                      <a
+                        *ngIf="field['property_label'] === 'Relation'"
+                        [href]="buildLink(field)"
+                        >{{ field["display_title"] }}</a
+                      >
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

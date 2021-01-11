@@ -2,6 +2,11 @@
 <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
 <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/sometext-fragment>.
 <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/random:text>.
-<https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
-<https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/sometext-fragment>.
-<https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/random:text>.
+<https://137.204.168.14/lib/api/items/7><rdfs:seeAlso><TEI-DRN:sez1/ann1>.
+<TEI-DRN:sez1/ann1> <rdf:type> <http://www.w3.org/ns/oa#Annotation>.
+<TEI-DRN:sez1/ann1> <http://www.w3.org/ns/oa#hasBody> <https://137.204.168.14/lib/api/items/7>.
+<TEI-DRN:sez1/ann1> <http://www.w3.org/ns/oa#hasTarget> <TEI-DRN:sez1/ann1/trg>.
+<TEI-DRN:sez1/ann1/trg> <http://www.w3.org/ns/oa#hasSource> <TEI-DRN:sez1>.
+<TEI-DRN:sez1/ann1/trg> <http://www.w3.org/ns/oa#hasSelector> <TEI-DRN:sez1/ann1/trg/sel>.
+<TEI-DRN:sez1/ann1/trg/sel> <rdf:type> <http://www.w3.org/ns/oa#XPathSelector>.
+<TEI-DRN:sez1/ann1/trg/sel> <rdf:value> "//*/*[position()>2 and position()<5]/text()".

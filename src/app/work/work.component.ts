@@ -21,44 +21,9 @@ export class WorkComponent implements OnInit {
     this.fetchItems();
   }
 
-  // parsingArray = [];
-
-  parseRDFS(item) {
-    let parsingArray = [];
-    const parser = new N3.Parser({ format: 'N-Triples' });
-        parser.parse(`<https://137.204.168.14/lib/api/items/3><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
-        <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
-        <https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
-        <https://137.204.168.14/lib/api/items/31><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/sometext-fragment>.`, (error, quad, prefixes) => {
-          const store = new N3.Store();
-          store.addQuad(quad); // .addQuads
-          const uri = item["@id"];
-          const searchQuad = store.getQuads(
-            namedNode(uri),
-            null,
-            null
-          )[0];
-
-          const countQuad = store.countQuads(
-            namedNode(uri),
-            null,
-            null
-          );
-
-          if (searchQuad !== undefined) {
-            parsingArray.push(searchQuad);
-          }
-
-          // console.log(searchQuad);
-          // console.log(countQuad);
-        });
-      console.log(parsingArray);
-      return item;
-  }
 
   parseRDF(item) {
     item.ref_count = 0;
-    let refCount = 0;
     fetch('../../assets/tei-ref/de-rerum-natura.nt')
       .then((response) => response.text())
       .then((data) => {
@@ -80,14 +45,25 @@ export class WorkComponent implements OnInit {
               item.ref_count++
             }
           }
-          // if (searchQuad !== undefined) {
-          //   refCount++
-          //   item.ref_count++
-          // }
-          // console.log(searchQuad + ': ' + refCount.toString());
         });
       });
       return item;
+  }
+
+  parseMedia(item) {
+    let mediaUrl = item["o:media"].map((field) => field["@id"]);
+    
+    fetch(mediaUrl)
+    .then((response) => response.json())
+    .then((data) => { 
+      if (data["o:original_url"]) {
+        item.original_url = data["o:original_url"];
+      }
+      else {
+        item.video_source = data["o:source"];
+      }
+    });
+    return item;
   }
 
   slugify(text) {
@@ -117,7 +93,8 @@ export class WorkComponent implements OnInit {
         })
       )
       .subscribe((items) => {
-        items.map((item) => this.loadedItems.push(this.parseRDF(item)));
+        items.map((item) => this.loadedItems.push(this.parseMedia(this.parseRDF(item))));
+        // items.map((item) => console.log(this.parseMedia(item)));
         // console.log(this.parsingArray);
         // console.log(this.loadedItems.map((item) => item));
         // this.loadedItems = items;

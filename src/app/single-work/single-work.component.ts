@@ -4,14 +4,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import * as N3 from 'n3';
+import { namedNode } from 'n3/src/N3DataFactory';
+import { DataFactory } from 'rdf-data-factory';
 
 import { WorkService } from '../work/work.service';
 import { Work } from '../work/work';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-single-work',
   templateUrl: './single-work.component.html',
-  styleUrls: ['./single-work.component.scss'],
+  styleUrls: ['./single-work.component.scss']
 })
 export class SingleWorkComponent implements OnInit {
   item: { id: number; title: string };
@@ -24,10 +28,13 @@ export class SingleWorkComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private workService: WorkService,
-    private http: HttpClient
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {}
 
   loadedItem;
+
+  trustedDashboardUrl: SafeUrl;
 
   fetchItem() {
     //private?
@@ -45,18 +52,67 @@ export class SingleWorkComponent implements OnInit {
         })
       )
       .subscribe((item) => {
-        //...
-        // this.loadeditem = this.builditem(item);
-        // let rawOverview = JSON.parse(JSON.stringify(item));
-        // console.log(this.builditem(item));
-        // console.log(this.renderData(this.builditem(item)));
         item.map(i => {
           if (i['o:id'] === +this.id) {
-            this.loadedItem = i;
+            this.loadedItem = this.parseRDF(this.parseMedia(i));
           }
         })
-        console.log(this.loadedItem);
+        // console.log(this.parseRDF(this.parseMedia(this.loadedItem)));
       });
+  }
+
+  getId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return (match && match[2].length === 11)
+      ? match[2]
+      : null;
+}
+  
+  parseRDF(item) {
+    item.ref_count = 0;
+    fetch('../../assets/tei-ref/de-rerum-natura.nt')
+      .then((response) => response.text())
+      .then((data) => {
+        // Do something with your data
+        const parser = new N3.Parser({ format: 'N-Triples' });
+        parser.parse(data, (error, quad, prefixes) => {
+
+          const factory = new DataFactory();
+          const store = new N3.Store();
+
+          store.addQuad(quad); // .addQuads
+          const uri = item["@id"];
+          const searchQuad = store.getQuads(
+            factory.namedNode(uri)
+          );
+          for (const quad of searchQuad) {
+            if(quad.subject.value === uri)
+            {
+              item.ref_count++
+            }
+          }
+        });
+      });
+      return item;
+  }
+
+  parseMedia(item) {
+    let mediaUrl = item["o:media"].map((field) => field["@id"]);
+    
+    fetch(mediaUrl)
+    .then((response) => response.json())
+    .then((data) => { 
+      if (data["o:original_url"]) {
+        item.original_url = data["o:original_url"];
+      }
+      else {
+        const stripUrl = this.getId(data["o:source"]);
+        item.video_source = 'https://www.youtube.com/embed/' + stripUrl;
+      }
+    });
+    return item;
   }
 
   sub;

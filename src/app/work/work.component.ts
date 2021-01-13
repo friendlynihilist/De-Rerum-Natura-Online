@@ -94,10 +94,6 @@ export class WorkComponent implements OnInit {
       )
       .subscribe((items) => {
         items.map((item) => this.loadedItems.push(this.parseMedia(this.parseRDF(item))));
-        // items.map((item) => console.log(this.parseMedia(item)));
-        // console.log(this.parsingArray);
-        // console.log(this.loadedItems.map((item) => item));
-        // this.loadedItems = items;
       });
   }
 }

@@ -9,10 +9,10 @@
     
 
     <!-- FIXME: use openseadragon -->
-    <div class="row justify-content-md-center">
-      <div *ngIf="loadedItem.original_url; else loadVideo" class="col-md-auto image-container">
+    <div class="row justify-content-md-center image-container">
+      <div *ngIf="loadedItem.original_url; else loadVideo" class="col-md-auto">
         <!-- FIXME: undefined -->
-        <img [src]="loadedItem.original_url" />
+        <img [src]="loadedItem.thumbnail_display_urls.large" />
       </div>
       <ng-template #loadVideo>
         <!-- FIXME: undefined -->

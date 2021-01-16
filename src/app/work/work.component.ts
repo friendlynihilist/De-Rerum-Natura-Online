@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import * as N3 from 'n3';
-import { namedNode } from 'n3/src/N3DataFactory';
-import { DataFactory } from 'rdf-data-factory';
-// import { WorkService } from './work.service';
-// import { Work } from './work';
+import { parser } from '../parsers';
+
 
 @Component({
   selector: 'app-work',
@@ -19,51 +16,6 @@ export class WorkComponent implements OnInit {
 
   ngOnInit() {
     this.fetchItems();
-  }
-
-
-  parseRDF(item) {
-    item.ref_count = 0;
-    fetch('../../assets/tei-ref/de-rerum-natura.nt')
-      .then((response) => response.text())
-      .then((data) => {
-        // Do something with your data
-        const parser = new N3.Parser({ format: 'N-Triples' });
-        parser.parse(data, (error, quad, prefixes) => {
-
-          const factory = new DataFactory();
-          const store = new N3.Store();
-
-          store.addQuad(quad); // .addQuads
-          const uri = item["@id"];
-          const searchQuad = store.getQuads(
-            factory.namedNode(uri)
-          );
-          for (const quad of searchQuad) {
-            if(quad.subject.value === uri)
-            {
-              item.ref_count++
-            }
-          }
-        });
-      });
-      return item;
-  }
-
-  parseMedia(item) {
-    let mediaUrl = item["o:media"].map((field) => field["@id"]);
-    
-    fetch(mediaUrl)
-    .then((response) => response.json())
-    .then((data) => { 
-      if (data["o:original_url"]) {
-        item.original_url = data["o:original_url"];
-      }
-      else {
-        item.video_source = data["o:source"];
-      }
-    });
-    return item;
   }
 
   slugify(text) {
@@ -93,7 +45,7 @@ export class WorkComponent implements OnInit {
         })
       )
       .subscribe((items) => {
-        items.map((item) => this.loadedItems.push(this.parseMedia(this.parseRDF(item))));
+        items.map((item) => this.loadedItems.push(parser.parseMedia(parser.parseRDF(item))));
       });
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { parser } from '../parsers';
+import { TL, Timeline } from '@knight-lab/timelinejs/src/js/index';
 
 @Component({
   selector: 'app-timeline',
@@ -16,9 +17,15 @@ export class TimelineComponent implements OnInit {
   }
 
   loadedItems = [];
+  timeline_json = {
+    events: [],
+  };
+  options = {
+    debug: true,
+    // dragging: true
+  }
 
   fetchItems() {
-    //private?
     this.http
       .get('https://137.204.168.14/lib/api/items')
       .pipe(
@@ -33,66 +40,52 @@ export class TimelineComponent implements OnInit {
         })
       )
       .subscribe((items) => {
-        items.map((item) => this.loadedItems.push(parser.parseMedia(item)));
+        items.map((item) => this.loadedItems.push(parser.parseSimpleMedia(item)));
+        console.log(this.loadedItems)
         this.buildTimeline(this.loadedItems);
+        new Timeline('timeline-embed', this.timeline_json, this.options);
       });
   }
 
   buildTimeline(arr) {
-    console.log(arr);
+    // console.log(arr);
     const searchValue = (item) => {
       for (let field of item) {
         return field['@value'] || field['o:label'];
       }
     };
+
     arr.forEach((item) => {
-      const timeline = {
-        timeline: {
-          events: [
-            {
-              media: {
-                url: item.video_source
-                  ? item.video_source
-                  : item.thumbnail_display_urls.medium, // video_source || original_url
-                // "caption": "",
-                credit: searchValue(item['dcterms:creator']),
-              },
-              start_date: {
-                year: searchValue(item['dcterms:date']),
-              }, // dcterms:date
-              text: {
-                headline: item['o:title'], // o:title
-                text: item['dcterms:description']
-                  ? '<p>' +
-                    searchValue(item['dcterms:description']) +
-                    '</p>'
-                  : null, // dcterms:description
-              },
-            },
-          ],
+      // console.log(item['@id']);
+      const timeline_item = {
+        media: {
+          url: item.video_source ? item.video_source : item.thumbnail_display_urls.large, // FIXME: undefined
+          // "caption": "",
+          credit: searchValue(item['dcterms:creator']),
+        },
+        start_date: {
+          year: searchValue(item['dcterms:date']),
+        }, // dcterms:date
+        text: {
+          headline: `<a
+                href="work/${item['o:id']}/timeline">${item['o:title']}</a>`,
+          text: item['dcterms:description']
+            ? '<p>' + searchValue(item['dcterms:description']) + '</p>'
+            : null, // dcterms:description
         },
       };
-      console.log(timeline);
-      return timeline;
+      this.timeline_json.events.push(timeline_item);
     });
   }
 
-  timeline: {
-    events: [
-      {
-        media: {
-          url: ''; // video_source || original_url
-          caption: '';
-          credit: '';
-        };
-        start_date: {
-          year; // dcterms:date
-        };
-        text: {
-          headline: ''; // o:title
-          text: '<p></p>'; // dcterms:description
-        };
-      }
-    ];
-  };
+  slugify(text) {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, ''); // Trim - from end of text
+  }
 }

@@ -18,6 +18,22 @@ export const parser = {
     return item;
   },
 
+  parseSimpleMedia(item) {
+    let mediaUrl = item['o:media'].map((field) => field['@id']);
+
+    fetch(mediaUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data['o:original_url']) {
+          item.original_url = data['o:original_url'];
+        } else {
+          const stripUrl = this.getId(data["o:source"]);
+          item.video_source = 'https://www.youtube.com/watch?v=' + stripUrl;
+        }
+      });
+    return item;
+  },
+
   parseRDF(item) {
     item.ref_count = 0;
     fetch('../../assets/tei-ref/de-rerum-natura.nt')
@@ -72,4 +88,5 @@ export const parser = {
 
     return match && match[2].length === 11 ? match[2] : null;
   },
+
 };

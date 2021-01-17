@@ -10,6 +10,8 @@
       href="https://fonts.googleapis.com/css?family=Lato:300,700|Prata"
       rel="stylesheet"
     />
+    <link title="timeline-styles" rel="stylesheet" 
+href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
     <script 
     src="https://unpkg.com/@webcomponents/webcomponentsjs@2.4.3/webcomponents-loader.js"
     ></script>
@@ -17,8 +19,21 @@
       type="module"
       src="https://unpkg.com/@teipublisher/pb-components@latest/dist/pb-components-bundle.js"
     ></script>
+    <!-- 1 -->
+<script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
   </head>
   <body>
     <app-root></app-root>
   </body>
+  <!-- <script type="text/javascript">
+    // The TL.Timeline constructor takes at least two arguments:
+    // the id of the Timeline container (no '#'), and
+    // the URL to your JSON data file or Google spreadsheet.
+    // the id must refer to an element "above" this code,
+    // and the element must have CSS styling to give it width and height
+    // optionally, a third argument with configuration options can be passed.
+    // See below for more about options.
+    timeline = new TL.Timeline('timeline-embed',
+    timeline_json);
+</script> -->
 </html>

@@ -1,17 +1,17 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-
 import { WorkService } from '../work/work.service';
 import { Work } from '../work/work';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { parser } from '../parsers';
 
 @Component({
   selector: 'app-single-work',
   templateUrl: './single-work.component.html',
-  styleUrls: ['./single-work.component.scss'],
+  styleUrls: ['./single-work.component.scss']
 })
 export class SingleWorkComponent implements OnInit {
   item: { id: number; title: string };
@@ -22,15 +22,16 @@ export class SingleWorkComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private workService: WorkService,
-    private http: HttpClient
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {}
 
   loadedItem;
 
+  trustedDashboardUrl: SafeUrl;
+
   fetchItem() {
-    //private?
     this.http
       .get(`https://137.204.168.14/lib/api/items`)
       .pipe(
@@ -45,17 +46,11 @@ export class SingleWorkComponent implements OnInit {
         })
       )
       .subscribe((item) => {
-        //...
-        // this.loadeditem = this.builditem(item);
-        // let rawOverview = JSON.parse(JSON.stringify(item));
-        // console.log(this.builditem(item));
-        // console.log(this.renderData(this.builditem(item)));
         item.map(i => {
           if (i['o:id'] === +this.id) {
-            this.loadedItem = i;
+            this.loadedItem = parser.parseRDF(parser.parseMedia(i));
           }
         })
-        console.log(this.loadedItem);
       });
   }
 
@@ -93,21 +88,8 @@ export class SingleWorkComponent implements OnInit {
     else return false;
     }
 
-    slugify(text) {
-      return text
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, '-') // Replace spaces with -
-        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-        .replace(/\-\-+/g, '-') // Replace multiple - with single -
-        .replace(/^-+/, '') // Trim - from start of text
-        .replace(/-+$/, ''); // Trim - from end of text
-    }
-
     buildLink(obj) {
       let baseUrl="http://localhost:4200"
-      return `${baseUrl}/work/${obj['value_resource_id']}/${this.slugify(obj['display_title'])}`
+      return `${baseUrl}/work/${obj['value_resource_id']}/${parser.slugify(obj['display_title'])}`
     }
-
-  // OnBack(): void {this.router.navigate(['work']);} //per implementare un back button, poi servirà a button (click)="onBack()" nell'html
 }

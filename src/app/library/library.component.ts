@@ -22,26 +22,6 @@ export class LibraryComponent implements OnInit {
     this.open = event.detail;
   }
 
-  // duomo = {
-  //   Image: {
-  //     xmlns: "http://schemas.microsoft.com/deepzoom/2008",
-  //     Url: "//openseadragon.github.io/example-images/duomo/duomo_files/",
-  //     Format: "jpg",
-  //     Overlap: "2",
-  //     TileSize: "256",
-  //     Size: {
-  //       Width:  "13920",
-  //       Height: "10200"
-  //     }
-  //   }
-  // };
-  
-  // viewer = OpenSeadragon({
-  //   id: "seadragon-viewer",
-  //   prefixUrl: "//openseadragon.github.io/openseadragon/images/",
-  //   tileSources: this.duomo
-  // });
-
   highlight() {
     let view = document.querySelector('pb-view#view1');
     let shadow = view.shadowRoot;

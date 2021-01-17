@@ -10,6 +10,7 @@ import { StoryComponent } from './story/story.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SingleWorkComponent } from './single-work/single-work.component';
+import { TimelineComponent } from './timeline/timeline.component';
 // import { JwPaginationComponent } from 'jw-angular-pagination';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SingleWorkComponent } from './single-work/single-work.component';
     HomeComponent,
     StoryComponent,
     SingleWorkComponent,
+    TimelineComponent,
     // JwPaginationComponent
   ],
   imports: [

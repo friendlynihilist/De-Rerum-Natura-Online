@@ -11,8 +11,8 @@ export const parser = {
         if (data['o:original_url']) {
           item.original_url = data['o:original_url'];
         } else {
-            const stripUrl = this.getId(data["o:source"]);
-            item.video_source = 'https://www.youtube.com/embed/' + stripUrl;
+          const stripUrl = this.getId(data['o:source']);
+          item.video_source = 'https://www.youtube.com/embed/' + stripUrl;
         }
       });
     return item;
@@ -27,7 +27,7 @@ export const parser = {
         if (data['o:original_url']) {
           item.original_url = data['o:original_url'];
         } else {
-          const stripUrl = this.getId(data["o:source"]);
+          const stripUrl = this.getId(data['o:source']);
           item.video_source = 'https://www.youtube.com/watch?v=' + stripUrl;
         }
       });
@@ -36,10 +36,15 @@ export const parser = {
 
   parseRDF(item) {
     item.ref_count = 0;
+    item.has_object = '';
+    item.has_fragment;
+    item.has_selector;
+    item.has_target;
+    item.has_text;
+    item.has_xpath;
     fetch('../../assets/tei-ref/de-rerum-natura.nt')
       .then((response) => response.text())
       .then((data) => {
-        // Do something with your data
         const parser = new N3.Parser({ format: 'N-Triples' });
         parser.parse(data, (error, quad, prefixes) => {
           const factory = new DataFactory();
@@ -49,8 +54,65 @@ export const parser = {
           const uri = item['@id'];
           const searchQuad = store.getQuads(factory.namedNode(uri));
           for (const quad of searchQuad) {
-            if (quad.subject.value === uri) {
+            if (
+              quad.subject.value === uri &&
+              quad.predicate.value === 'rdfs:seeAlso'
+            ) {
               item.ref_count++;
+              item.has_object = quad.object.value;
+            }
+          }
+          const searchQuadB = store.getQuads(
+            factory.namedNode(item.has_object)
+          );
+          for (const quadB of searchQuadB) {
+            if (
+              quadB.subject.value === item.has_object &&
+              quadB.predicate.value === 'http://www.w3.org/ns/oa#hasBody' &&
+              quadB.object.value === uri
+            ) {
+              item.has_fragment = 'true';
+            }
+          }
+          const searchQuadC = store.getQuads(
+            factory.namedNode(item.has_object)
+          );
+          for (const quadC of searchQuadC) {
+            if (
+              quadC.subject.value === item.has_object &&
+              quadC.predicate.value === 'http://www.w3.org/ns/oa#hasTarget'
+            ) {
+              item.has_target = quadC.object.value;
+            }
+          }
+
+          const searchQuadD = store.getQuads(
+            factory.namedNode(item.has_target)
+          );
+          for (const quadD of searchQuadD) {
+            if (
+              quadD.subject.value === item.has_target &&
+              quadD.predicate.value === 'http://www.w3.org/ns/oa#hasSelector'
+            ) {
+              item.has_selector = quadD.object.value;
+            }
+          }
+
+          const searchQuadE = store.getQuads(
+            factory.namedNode(item.has_selector)
+          );
+          for (const quadE of searchQuadE) {
+            if (
+              quadE.subject.value === item.has_selector &&
+              quadE.predicate.value === 'rdf:value'
+            ) {
+              item.has_xpath = quadE.object.value;
+            }
+            if (
+              quadE.subject.value === item.has_selector &&
+              quadE.predicate.value === 'rdf:text'
+            ) {
+              item.has_text = quadE.object.value;
             }
           }
         });
@@ -88,5 +150,4 @@ export const parser = {
 
     return match && match[2].length === 11 ? match[2] : null;
   },
-
 };

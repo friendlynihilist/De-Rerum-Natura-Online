@@ -22,8 +22,7 @@ export class TimelineComponent implements OnInit {
   };
   options = {
     debug: true,
-    // dragging: true
-  }
+  };
 
   fetchItems() {
     this.http
@@ -40,15 +39,16 @@ export class TimelineComponent implements OnInit {
         })
       )
       .subscribe((items) => {
-        items.map((item) => this.loadedItems.push(parser.parseSimpleMedia(item)));
-        console.log(this.loadedItems)
+        items.map((item) =>
+          this.loadedItems.push(parser.parseSimpleMedia(item))
+        );
+        console.log(this.loadedItems);
         this.buildTimeline(this.loadedItems);
         new Timeline('timeline-embed', this.timeline_json, this.options);
       });
   }
 
   buildTimeline(arr) {
-    // console.log(arr);
     const searchValue = (item) => {
       for (let field of item) {
         return field['@value'] || field['o:label'];
@@ -56,22 +56,22 @@ export class TimelineComponent implements OnInit {
     };
 
     arr.forEach((item) => {
-      // console.log(item['@id']);
       const timeline_item = {
         media: {
-          url: item.video_source ? item.video_source : item.thumbnail_display_urls.large, // FIXME: undefined
-          // "caption": "",
+          url: item.video_source
+            ? item.video_source
+            : item.thumbnail_display_urls.large, // FIXME: undefined
           credit: searchValue(item['dcterms:creator']),
         },
         start_date: {
           year: searchValue(item['dcterms:date']),
-        }, // dcterms:date
+        },
         text: {
           headline: `<a
                 href="work/${item['o:id']}/timeline">${item['o:title']}</a>`,
           text: item['dcterms:description']
             ? '<p>' + searchValue(item['dcterms:description']) + '</p>'
-            : null, // dcterms:description
+            : null,
         },
       };
       this.timeline_json.events.push(timeline_item);

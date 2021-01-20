@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SingleWorkComponent } from './single-work/single-work.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { TextSelectorService } from './text-selector.service';
 // import { JwPaginationComponent } from 'jw-angular-pagination';
 
 @NgModule({
@@ -31,7 +32,7 @@ import { TimelineComponent } from './timeline/timeline.component';
     NgbModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [TextSelectorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

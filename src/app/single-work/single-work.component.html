@@ -6,7 +6,6 @@
         <h1>{{ loadedItem["o:title"] }}</h1>
       </div>
     </div>
-    
 
     <!-- FIXME: use openseadragon -->
     <div class="row justify-content-md-center image-container">
@@ -16,12 +15,48 @@
       </div>
       <ng-template #loadVideo>
         <!-- FIXME: undefined -->
-        <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(loadedItem.video_source)"
-   width="550" height="400" frameborder="0" allowfullscreen></iframe>
+        <iframe
+          [src]="
+            sanitizer.bypassSecurityTrustResourceUrl(loadedItem.video_source)
+          "
+          width="550"
+          height="400"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
       </ng-template>
     </div>
-    
+
     <div class="description">
+      <div
+        *ngIf="loadedItem.has_text"
+        class="row justify-content-md-start metadata"
+      >
+        <div class="col-2">
+          <h2>Riferimenti</h2>
+        </div>
+
+        <div class="col-10 metadata">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <td>
+                  <button
+                    (click)="updateXPath()"
+                    routerLink="/library"
+                    routerclass="text-fragment-link"
+                  >
+                    {{ loadedItem.has_text }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <hr *ngIf="loadedItem.has_text" />
+
       <div class="row justify-content-md-start metadata">
         <div class="col-2">
           <h2>Metadata</h2>

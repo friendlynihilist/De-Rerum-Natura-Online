@@ -25,6 +25,7 @@
     "@telenko/xdompath": "^1.0.1",
     "@types/openseadragon": "^2.4.5",
     "bootstrap": "^5.0.0-beta1",
+    "lodash": "^4.17.20",
     "n3": "^1.6.4",
     "openseadragon": "^2.4.2",
     "rdf-data-factory": "^1.0.4",

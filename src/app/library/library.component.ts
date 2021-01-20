@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TextSelectorService } from '../text-selector.service';
 // import OpenSeadragon = require("openseadragon")
 // import { XDomPath } from '@telenko/xdompath/src';
 
@@ -8,72 +11,75 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./library.component.scss'],
 })
 export class LibraryComponent implements OnInit {
-  constructor() {
-  }
+  subscription: Subscription;
+
+  constructor(
+    private textSelector: TextSelectorService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.subscription = this.textSelector.customerUpdate$.subscribe(
+      (updatedClientData) => {
+        this.delayHighlight(updatedClientData);
+      }
+    );
+    this.textSelector.customerUpdate$ = undefined;
   }
 
-  myTitle = 'project-angular';
-  open = false;
+  delayHighlight(item) {
+    setTimeout(function highlight() {
+      if (typeof item !== null || undefined) {
+        let view = document.querySelector('pb-view#view1');
+        let shadow = view.shadowRoot;
+        let allL = shadow.querySelectorAll('div.tei-l');
+        function nodeListToString(nodeList) {
+          return [].slice.call(nodeList).reduce((str, x) => {
+            return (str += x.outerHTML);
+          }, '');
+        }
+
+        let string = nodeListToString(allL);
+        let xmlString = '<div>' + string + '</div>';
+        let parser = new DOMParser();
+        let xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+        let evaluate = document.evaluate(
+          item,
+          xmlDoc,
+          null,
+          XPathResult.ORDERED_NODE_ITERATOR_TYPE,
+          null
+        );
+
+        while (evaluate.iterateNext) {
+          let node = evaluate.iterateNext();
+          console.log(node);
+          for (let i = 0; i < allL.length; i++) {
+            let nodeText = node.nodeValue; // FIXME: returns null on last cycle
+            let divH = <HTMLElement>allL[i];
+            if (divH.innerHTML === nodeText) {
+              divH.style.display = 'block';
+              divH.style.backgroundColor = '#ffff003b';
+            }
+          }
+        }
+      }
+    }, 2000);
+  }
+
+  //
+
+  myTitle = 'project-angular'; //FIXME: remove this
+  open = false; //FIXME: remove this
 
   toggle(event) {
+    //FIXME: remove this
     console.log(event);
     this.open = event.detail;
   }
 
-  highlight() {
-    let view = document.querySelector('pb-view#view1');
-    let shadow = view.shadowRoot;
-    let allL = shadow.querySelectorAll('div.tei-l');
-    function nodeListToString(nodeList) {
-      return [].slice.call(nodeList).reduce((str, x) => {
-        return (str += x.outerHTML);
-      }, '');
-    }
-
-    let string = nodeListToString(allL);
-    let xmlString = '<div>' + string + '</div>';
-    let parser = new DOMParser();
-    let xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-    let evaluate = document.evaluate(
-      '//*/*[position()>2 and position()<8]/text()',
-      xmlDoc,
-      null,
-      XPathResult.ORDERED_NODE_ITERATOR_TYPE,
-      null
-    );
-
-    while(evaluate.iterateNext) {
-      let node = evaluate.iterateNext();
-      for (let i = 0; i < allL.length; i++) {
-        let nodeText = node.nodeValue;
-        let divH = <HTMLElement>allL[i];
-        // console.log(`${nodeText} : ${allL[2].innerHTML}`);
-        if (divH.innerHTML === nodeText) {
-          //nodeText
-          // console.log('match');
-          divH.style.display = 'block';
-          divH.style.backgroundColor = 'yellow';
-        }
-      }
-    }
+  goTo() {
+    //FIXME: fix routing
+    this.router.navigate(['work', '7', 'natura-decomposta']);
   }
-
-  data: {
-    endpoint: 'http://staging.teipublisher.netseven.it/exist/apps/tei-publisher';
-    docs: [
-      {
-        xml: 'petrarca/seniles_(1)_1606990092.xml';
-        odd: 'test';
-        // id: 'seniles',
-      }
-      // {
-      //   xml: 'test/seniles.xml',
-      //   odd: 'test',
-      //   id: 'seniles2',
-      //   channel: 'altrochannel',
-      // },
-    ];
-  };
 }

@@ -10,4 +10,4 @@
 <TEI-DRN:sez1/ann1/trg> <http://www.w3.org/ns/oa#hasSelector> <TEI-DRN:sez1/ann1/trg/sel>.
 <TEI-DRN:sez1/ann1/trg/sel> <rdf:type> <http://www.w3.org/ns/oa#XPathSelector>.
 <TEI-DRN:sez1/ann1/trg/sel> <rdf:value> "//*/*[position()>2 and position()<5]/text()".
-<TEI-DRN:sez1/ann1/trg/sel> <rdf:text> "Versi di prova...".
+<TEI-DRN:sez1/ann1/trg/sel> <rdf:text> "Lorem ipsum...".

@@ -27,6 +27,7 @@
     "bootstrap": "^5.0.0-beta1",
     "lodash": "^4.17.20",
     "n3": "^1.6.4",
+    "ngx-order-pipe": "^2.1.1",
     "openseadragon": "^2.4.2",
     "rdf-data-factory": "^1.0.4",
     "rdflib": "^2.1.3",

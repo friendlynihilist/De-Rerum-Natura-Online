@@ -1,6 +1,216 @@
-<div class="container-fluid" style="background-color: rgb(240, 240, 240)">
-  <div class="container">
-    <div class="row align-items-start">
+<div
+  class="container-fluid adapted"
+  style="background-color: rgb(240, 240, 240)"
+>
+  <!-- METTI PADDING AL CONTAINER FLUID E TOGLI CONTAINER DALLA NAVBAR -->
+  <!-- <div class="container"> -->
+
+  <div class="row align-items-start">
+    <div class="col-4"><h1>Opere</h1></div>
+  </div>
+  <div class="row justify-content-md-start">
+    <div class="col-3 total-works">
+      <p style="font-size: 1.2rem">
+        <span style="font-weight: bold">Filtra i risultati</span>
+      </p>
+    </div>
+    <div class="col-4 total-works">
+      <p style="font-size: 1.2rem">
+        <span style="font-weight: bold">{{ loadedItems.length }}</span> Opere
+        totali
+      </p>
+    </div>
+    <div class="col-4">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        (change)="switchSort()"
+      >
+        <option selected>Ordine alfabetico (A→Z)</option>
+        <option value="1">Ordine alfabetico (Z→A)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-2 filters-list">
+      <!-- <h4 class="filters-title">Filtri</h4> -->
+
+      <button class="accordion">Author <span>{{ filteredItems.length }}</span></button>
+      <div class="panel">
+        <p class="metadata-artist" *ngFor="let filter of filteredItems">{{filter["value"]}} <span>{{filter["count"]}}</span></p>
+      </div>
+
+      <button class="accordion">Date</button>
+      <div class="panel">
+        <div class="row">
+          <div class="col-md-auto"><p>Lorem ipsum</p></div>
+          <div class="col-2">1</div>
+          <div class="col-md-auto"><p>Lorem ipsum apres</p></div>
+          <div class="col-2">33</div>
+          <div class="col-md-auto"><p>Lorem ipsum sdasdasd</p></div>
+          <div class="col-lg-2">3</div>
+        </div>
+      </div>
+
+      <button class="accordion">Subject</button>
+      <div class="panel">
+        <p>Lorem ipsum...</p>
+      </div>
+
+      <button class="accordion">Type</button>
+      <div class="panel">
+        <p>Lorem ipsum...</p>
+      </div>
+
+      <button class="accordion">Verses</button>
+      <div class="panel">
+        <p>Lorem ipsum...</p>
+      </div>
+    </div>
+
+    <div class="col items-list">
+      <div class="row">
+        <div class="col-lg-4 col-lg-auto item" *ngFor="let item of loadedItems">
+          <!-- PLACEHOLDER LOADER -->
+
+          <!-- <ng-container *ngIf="!isArrayLoaded">
+              <div class="card placeholder-card" style="width: 18rem">
+                <div class="placeholder-item"></div>
+                <div class="card-body">
+                  <h5 class="card-title placeholder-title"></h5>
+                  <br />
+                  <div class="placeholder-metadata"></div>
+                  <div class="placeholder-metadata"></div>
+                  <div class="placeholder-metadata"></div>
+                </div>
+              </div>
+            </ng-container> -->
+
+          <!-- <ng-container *ngIf="isArrayLoaded"> -->
+          <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
+            ><img
+              class="thumbnail-preview"
+              [src]="item.thumbnail_display_urls.large"
+          /></a>
+          <p
+            class="metadata-artist"
+            *ngFor="let field of item['dcterms:creator']"
+          >
+            {{ field["o:label"] || field["@value"] }}
+          </p>
+          <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
+            ><h3 class="metadata-title">{{ item["o:title"] }}</h3></a
+          >
+          <p class="metadata-date" *ngFor="let field of item['dcterms:date']">
+            {{ field["o:label"] || field["@value"] }}
+          </p>
+          <ng-container *ngIf="item['dcterms:type']">
+            <span class="metadata metadata-date"
+              >type
+              <ng-container *ngFor="let field of item['dcterms:type']">
+                <span
+                  *ngIf="field['@language'] === 'en-EN'"
+                  style="font-weight: bold"
+                  >{{ field["o:label"] || field["@value"] }}</span
+                >
+              </ng-container>
+            </span>
+            <br />
+          </ng-container>
+          <ng-container *ngIf="item['dcterms:subject']">
+            <span class="metadata metadata-date"
+              >subject
+              <ng-container *ngFor="let field of item['dcterms:subject']">
+                <span
+                  *ngIf="field['@language'] === 'en-EN'"
+                  style="font-weight: bold"
+                  >{{ field["o:label"] || field["@value"] }}</span
+                >
+              </ng-container>
+            </span>
+            <br />
+          </ng-container>
+          <span class="metadata metadata-date" *ngIf="item.ref_count"
+            >verses
+            <span style="font-weight: bold">{{ item.ref_count }}</span></span
+          >
+          <!-- </ng-container> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- </div> -->
+</div>
+
+<!-- <div class="card">
+              <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]">
+                <img
+                  [src]="item.thumbnail_display_urls.square"
+                  class="card-img-top"
+                />
+                
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ item["o:title"] }}
+                  </h5>
+                  <hr />
+                  <span
+                    class="metadata metadata-author"
+                    *ngFor="let field of item['dcterms:creator']"
+                    >author
+                    <span style="font-weight: bold">{{
+                      field["o:label"] || field["@value"]
+                    }}</span></span
+                  >
+                  <br />
+                  <span
+                    class="metadata metadata-date"
+                    *ngFor="let field of item['dcterms:date']"
+                    >date
+                    <span style="font-weight: bold">{{
+                      field["o:label"] || field["@value"]
+                    }}</span></span
+                  >
+                  <br />
+                  <ng-container *ngIf="item['dcterms:type']">
+                    <span class="metadata metadata-date"
+                      >type
+                      <ng-container *ngFor="let field of item['dcterms:type']">
+                        <span
+                          *ngIf="field['@language'] === 'en-EN'"
+                          style="font-weight: bold"
+                          >{{ field["o:label"] || field["@value"] }}</span
+                        >
+                      </ng-container>
+                    </span>
+                    <br />
+                  </ng-container>
+                  <ng-container *ngIf="item['dcterms:subject']">
+                    <span class="metadata metadata-date"
+                      >subject
+                      <ng-container *ngFor="let field of item['dcterms:subject']">
+                        <span
+                          *ngIf="field['@language'] === 'en-EN'"
+                          style="font-weight: bold"
+                          >{{ field["o:label"] || field["@value"] }}</span
+                        >
+                      </ng-container>
+                    </span>
+                    <br />
+                  </ng-container>
+                  <span class="metadata metadata-date" *ngIf="item.ref_count"
+                    >riferimenti
+                    <span style="font-weight: bold">{{
+                      item.ref_count
+                    }}</span></span
+                  >
+                </div>
+              </a>
+            </div> -->
+
+<!-- <div class="row align-items-start">
       <div class="col-4"><h1>Opere</h1></div>
     </div>
     <div class="row justify-content-md-start">
@@ -16,7 +226,11 @@
         </p>
       </div>
       <div class="col-4">
-        <select class="form-select" aria-label="Default select example">
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          (change)="switchSort()"
+        >
           <option selected>Ordine alfabetico (A→Z)</option>
           <option value="1">Ordine alfabetico (Z→A)</option>
         </select>
@@ -25,47 +239,87 @@
 
     <div class="row justify-content-md-start">
       <div class="col-3" *ngFor="let item of loadedItems">
-        <div class="card" style="width: 18rem">
-          <a
-                [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
-                >
-          <img
-            [src]="item.thumbnail_display_urls.square"
-            class="card-img-top"
-          />
-          <!-- FIX ME -->
-          <div class="card-body">
-            <h5 class="card-title">
-              {{ item["o:title"] }}
-            </h5>
-            <hr />
-            <span
-              class="metadata metadata-author"
-              *ngFor="let field of item['dcterms:creator']"
-              >autore
-              <span style="font-weight: bold">{{
-                field["o:label"] || field["@value"]
-              }}</span></span
-            >
-            <br />
-            <span
-              class="metadata metadata-date"
-              *ngFor="let field of item['dcterms:date']"
-              >data
-              <span style="font-weight: bold">{{
-                field["o:label"] || field["@value"]
-              }}</span></span
-            >
-            <br />
-            <span class="metadata metadata-date" *ngIf="item.ref_count"
-              >riferimenti
-              <span style="font-weight: bold">{{ item.ref_count }}</span></span
-            >
+
+        <ng-container *ngIf="!isArrayLoaded">
+          <div class="card placeholder-card" style="width: 18rem">
+            <div class="placeholder-item"></div>
+            <div class="card-body">
+              <h5 class="card-title placeholder-title"></h5>
+              <br />
+              <div class="placeholder-metadata"></div>
+              <div class="placeholder-metadata"></div>
+              <div class="placeholder-metadata"></div>
+            </div>
           </div>
-          </a
-              >
+        </ng-container>
+
+
+        <ng-container *ngIf="isArrayLoaded">
+          <div class="card" style="width: 18rem">
+            <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]">
+              <img
+                [src]="item.thumbnail_display_urls.square"
+                class="card-img-top"
+              />
+             
+              <div class="card-body">
+                <h5 class="card-title">
+                  {{ item["o:title"] }}
+                </h5>
+                <hr />
+                <span
+                  class="metadata metadata-author"
+                  *ngFor="let field of item['dcterms:creator']"
+                  >author
+                  <span style="font-weight: bold">{{
+                    field["o:label"] || field["@value"]
+                  }}</span></span
+                >
+                <br />
+                <span
+                  class="metadata metadata-date"
+                  *ngFor="let field of item['dcterms:date']"
+                  >date
+                  <span style="font-weight: bold">{{
+                    field["o:label"] || field["@value"]
+                  }}</span></span
+                >
+                <br />
+                <ng-container *ngIf="item['dcterms:type']">
+                  <span class="metadata metadata-date"
+                    >type
+                    <ng-container *ngFor="let field of item['dcterms:type']">
+                      <span
+                        *ngIf="field['@language'] === 'en-EN'"
+                        style="font-weight: bold"
+                        >{{ field["o:label"] || field["@value"] }}</span
+                      >
+                    </ng-container>
+                  </span>
+                  <br />
+                </ng-container>
+                <ng-container *ngIf="item['dcterms:subject']">
+                  <span class="metadata metadata-date"
+                    >subject
+                    <ng-container *ngFor="let field of item['dcterms:subject']">
+                      <span
+                        *ngIf="field['@language'] === 'en-EN'"
+                        style="font-weight: bold"
+                        >{{ field["o:label"] || field["@value"] }}</span
+                      >
+                    </ng-container>
+                  </span>
+                  <br />
+                </ng-container>
+                <span class="metadata metadata-date" *ngIf="item.ref_count"
+                  >riferimenti
+                  <span style="font-weight: bold">{{
+                    item.ref_count
+                  }}</span></span
+                >
+              </div>
+            </a>
+          </div>
+        </ng-container>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+        </div> -->

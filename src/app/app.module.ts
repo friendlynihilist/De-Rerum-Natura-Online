@@ -35,4 +35,5 @@ import { TextSelectorService } from './text-selector.service';
   providers: [TextSelectorService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,13 +1,161 @@
+#TEXT REFERENCES
 <https://137.204.168.14/lib/api/items/3><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
 <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://data.perseus.org/texts/urn:cts:latinLit:phi0550.phi001.perseus-lat1>.
 <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/sometext-fragment>.
 <https://137.204.168.14/lib/api/items/5><http://www.w3.org/2000/01/rdf-schema#seeAlso><http://mydomain.org/texts/random:text>.
 <https://137.204.168.14/lib/api/items/7><rdfs:seeAlso><TEI-DRN:sez1/ann1>.
-<TEI-DRN:sez1/ann1> <rdf:type> <http://www.w3.org/ns/oa#Annotation>.
-<TEI-DRN:sez1/ann1> <http://www.w3.org/ns/oa#hasBody> <https://137.204.168.14/lib/api/items/7>.
-<TEI-DRN:sez1/ann1> <http://www.w3.org/ns/oa#hasTarget> <TEI-DRN:sez1/ann1/trg>.
-<TEI-DRN:sez1/ann1/trg> <http://www.w3.org/ns/oa#hasSource> <TEI-DRN:sez1>.
-<TEI-DRN:sez1/ann1/trg> <http://www.w3.org/ns/oa#hasSelector> <TEI-DRN:sez1/ann1/trg/sel>.
-<TEI-DRN:sez1/ann1/trg/sel> <rdf:type> <http://www.w3.org/ns/oa#XPathSelector>.
-<TEI-DRN:sez1/ann1/trg/sel> <rdf:value> "//*/*[position()>2 and position()<5]/text()".
-<TEI-DRN:sez1/ann1/trg/sel> <rdf:text> "Lorem ipsum...".
+<TEI-DRN:sez1/ann1><rdf:type><http://www.w3.org/ns/oa#Annotation>.
+<TEI-DRN:sez1/ann1><http://www.w3.org/ns/oa#hasBody><https://137.204.168.14/lib/api/items/7>.
+<TEI-DRN:sez1/ann1><http://www.w3.org/ns/oa#hasTarget><TEI-DRN:sez1/ann1/trg>.
+<TEI-DRN:sez1/ann1/trg><http://www.w3.org/ns/oa#hasSource><TEI-DRN:sez1>.
+<TEI-DRN:sez1/ann1/trg><http://www.w3.org/ns/oa#hasSelector><TEI-DRN:sez1/ann1/trg/sel>.
+<TEI-DRN:sez1/ann1/trg/sel><rdf:type><http://www.w3.org/ns/oa#XPathSelector>.
+<TEI-DRN:sez1/ann1/trg/sel><rdf:value>"//*/*[position()>2 and position()<5]/text()".
+<TEI-DRN:sez1/ann1/trg/sel><rdf:text>"Lorem ipsum...".
+#STORY 1
+<http://www.example.com/story_1><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/storyTitle_1><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/story_1><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/storyTitle_1>.
+<http://www.example.com/storyTitle_1><rdfs:label>"La peste d'Atene".
+<http://www.example.com/topicCollection_1><http://erlangen-crm.org/140617/P67_refers_to><http://www.example.com/story_1>.
+<http://www.example.com/topicCollection_1><rdf:_1><http://www.example.com/topic_1>.
+<http://www.example.com/topicCollection_1><rdf:_2><http://www.example.com/topic_2>.
+<http://www.example.com/topicCollection_1><rdf:_3><http://www.example.com/topic_3>.
+<http://www.example.com/topicCollection_1><rdf:_4><http://www.example.com/topic_4>.
+<http://www.example.com/topicCollection_1><rdf:_5><http://www.example.com/topic_5>.
+<http://www.example.com/topicCollection_1><rdf:_6><http://www.example.com/topic_6>.
+<http://www.example.com/topicCollection_1><rdf:_7><http://www.example.com/topic_7>.
+<http://www.example.com/topicCollection_1><rdf:_8><http://www.example.com/topic_8>.
+<http://www.example.com/topicCollection_1><rdf:_9><http://www.example.com/topic_9>.
+#TOPIC 1
+<http://www.example.com/topic_1><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_1><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_1><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_1>.
+<http://www.example.com/topicTitle_1><rdfs:label>"Lucrezio".
+<http://www.example.com/topicTitle_1><rdf:value>"<h2>Lucrezio</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_1><ex:hasNamedEntity><http://www.example.com/Thucydides>.
+<http://www.example.com/Thucydides><rdfs:seeAlso><http://viaf.org/viaf/95161463/#Thucydides>.
+<http://www.example.com/Thucydides><rdf:type><http://www.example.com/Person>.
+<http://www.example.com/Thucydides><rdfs:label>"Tucidide".
+<http://www.example.com/topic_1><ex:hasNamedEntity><http://www.example.com/Rasputin>.
+<http://www.example.com/Rasputin><rdfs:seeAlso><http://viaf.org/viaf/95161463/#Rasputin>.
+<http://www.example.com/Rasputin><rdf:type><http://www.example.com/Person>.
+<http://www.example.com/Rasputin><rdfs:label>"Rasputin".
+<http://www.example.com/topicBody_1><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_1><rdfs:label>"Prova".
+<http://www.example.com/topicBody_1><rdf:value>"<p>La Peste d'Atene, inserita nel finale del <i>De rerum natura</i>, è una rielaborazione della descrizione fatta da <a href='http://viaf.org/viaf/95161463/#Thucydides' class='entity-person'>Tucidide</a> (<i>Storie</i> 2,47-54) dell’epidemia che colpì la citta greca nel 431/430 a.C., alla fine del primo anno della guerra del Peloponneso. L’operazione di Lucrezio non è una semplice ‘traduzione’, che si risolve in un passaggio di codice (dal greco al latino) e di genere (dalla storiografia al poema didascalico): è piuttosto una riscrittura dell’<i>excursus</i> tucidideo per renderlo funzionale all’impianto filosofico del poema lucreziano. Secondo la filosofia di Epicuro, seguita da Lucrezio, ogni cosa è formata da atomi che costantemente si aggregano e disgregano sotto la spinta di movimenti che portano la vita (<i>motus genitales</i>) e movimenti che portano la morte (<i>motus exitiales</i>): nel <i>De rerum natura</i> tale condizione è iconicamente rappresentata per mezzo della responsione a distanza tra il proemiale ‘inno a Venere’ – inno al ‘piacere’, alla voluptas che porta alla nascita delle cose –  e il finale, costituito appunto dalla peste di Atene, che si configura come un vero e proprio triumphus mortis. Ma nel sistema filosofico di Epicuro nascita e morte sono due movimenti che si implicano vicendevolmente, la cui eterna alternanza produce l’eterno divenire delle cose; per questo un lettore attento del <i>De rerum natura</i> sa che la peste d’Atene non è solo il finale del poema: è il presupposto per ricominciarne la lettura, per rileggere l’inno a Venere.</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_1><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_1>.
+#TOPIC 2
+<http://www.example.com/topic_2><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_2><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_2><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_2>.
+<http://www.example.com/topicTitle_2><rdfs:label>"Secondo".
+<http://www.example.com/topicTitle_2><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_2><ex:hasNamedEntity><http://www.example.com/Arturo_Schwarz>.
+<http://www.example.com/Arturo_Schwarz><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Arturo_Schwarz><rdf:type><http://www.example.com/Person>.
+<http://www.example.com/Arturo_Schwarz><rdfs:label>"Arturo Schwarz".
+<http://www.example.com/topicBody_2><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_2><rdfs:label>"Prova".
+<http://www.example.com/topicBody_2><rdf:value>"<p>Nell’aprile del 1958 Arturo Schwarz pubblica De rerum natura, una cartella, stampata in 51 esemplari, che raccoglie 36 acqueforti di Enrico Baj. A questo progetto Baj iniziò a lavorare già nel 1952, cioè lo stesso anno in cui lanciava, assieme a Sergio Dangelo, il primo manifesto del Movimento Nucleare. Tra il 1952 e il 1953 Baj incide circa sessanta lastre, sperimentando cosi una tecnica che lo costringe a misurarsi con un tratto sottile, continuo e nitido; sceglie poi di riorganizzare il materiale in maniera autonoma rispetto al testo di Lucrezio selezionando 36 incisioni, che vengono a formare tre sezioni di dodici elementi l’una: le storie del sole (1-12), della vita (13-24) e della morte (25-36). «Sotto l’occhio vigile del sole, il primitivo disordine informale gradatamente perviene a organizzarsi, fino all’emergere delle presenze umane, sino alla storia dei rapporti tra uomo e donna, ai suoi giochi sociali (la musica, la danza, la toeletta) e alle sue tragedie (la guerra, la pestilenza, la morte), per narrare infine il disfacimento del tutto e il suo ciclico restituirsi al caos originario» (Arturo Schwarz).</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_2><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_2>.
+#TOPIC 3
+<http://www.example.com/topic_3><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_3><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_3><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_3>.
+<http://www.example.com/topicTitle_3><rdfs:label>"Terzo".
+<http://www.example.com/topicTitle_3><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_3><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_3><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_3><rdfs:label>"Prova".
+<http://www.example.com/topicBody_3><rdf:value>"<p>Questo è il terzo topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_3><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_3>.
+#TOPIC 4
+<http://www.example.com/topic_4><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_4><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_4><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_4>.
+<http://www.example.com/topicTitle_4><rdfs:label>"Quarto".
+<http://www.example.com/topicTitle_4><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_4><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_4><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_4><rdfs:label>"Prova".
+<http://www.example.com/topicBody_4><rdf:value>"<p>Questo è il quarto topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_4><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_4>.
+#TOPIC 5
+<http://www.example.com/topic_5><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_5><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_5><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_5>.
+<http://www.example.com/topicTitle_5><rdfs:label>"Quinto".
+<http://www.example.com/topicTitle_5><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_5><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_5><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_5><rdfs:label>"Prova".
+<http://www.example.com/topicBody_5><rdf:value>"<p>Questo è il quinto topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_5><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_5>.
+#TOPIC 6
+<http://www.example.com/topic_6><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_6><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_6><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_6>.
+<http://www.example.com/topicTitle_6><rdfs:label>"Sesto".
+<http://www.example.com/topicTitle_6><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_6><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_6><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_6><rdfs:label>"Prova".
+<http://www.example.com/topicBody_6><rdf:value>"<p>Questo è il sesto topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_6><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_6>.
+#TOPIC 7
+<http://www.example.com/topic_7><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_7><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_7><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_7>.
+<http://www.example.com/topicTitle_7><rdfs:label>"Settimo".
+<http://www.example.com/topicTitle_7><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_7><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_7><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_7><rdfs:label>"Prova".
+<http://www.example.com/topicBody_7><rdf:value>"<p>Questo è il settimo topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_7><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_7>.
+#TOPIC 8
+<http://www.example.com/topic_8><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_8><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_8><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_8>.
+<http://www.example.com/topicTitle_8><rdfs:label>"Ottavo".
+<http://www.example.com/topicTitle_8><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_8><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_8><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_8><rdfs:label>"Prova".
+<http://www.example.com/topicBody_8><rdf:value>"<p>Questo è il ottavo topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_8><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_8>.
+#TOPIC 9
+<http://www.example.com/topic_9><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<http://www.example.com/topicTitle_9><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<http://www.example.com/topic_9><http://erlangen-crm.org/140617/P102_has_title><http://www.example.com/topicTitle_9>.
+<http://www.example.com/topicTitle_9><rdfs:label>"Nono".
+<http://www.example.com/topicTitle_9><rdf:value>"<h2>Enrico Baj, <i>De rerum natura</i> (1958)</h2>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_9><ex:hasNamedEntity><http://www.example.com/Excalibur>.
+<http://www.example.com/Excalibur><rdfs:seeAlso><http://viaf.org/viaf/54154160>.
+<http://www.example.com/Excalibur><rdf:type><http://www.example.com/Item>.
+<http://www.example.com/Excalibur><rdfs:label>"Excalibur".
+<http://www.example.com/topicBody_9><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<http://www.example.com/topicBody_9><rdfs:label>"Prova".
+<http://www.example.com/topicBody_9><rdf:value>"<p>Questo è il nono topic</p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<http://www.example.com/topic_9><http://erlangen-crm.org/140617/P3_has_note><http://www.example.com/topicBody_9>.
+
+

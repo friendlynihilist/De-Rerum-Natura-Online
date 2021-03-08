@@ -1,1 +1,30 @@
-<p>story works!</p>
+<div class="container-fluid adapted">
+  <div class="timeline">
+    <div id="timeline-embed" style="width: 100%; height: 600px"></div>
+  </div>
+  <div class="carousel"></div>
+  <div class="body">
+    <div class="row">
+      <div class="col-4">
+        <div class="table-of-contents">
+          <ul>
+            <ng-container *ngFor="let button of buttonArray">
+            <li><button [id]="button.id" (click)="parseTopic(button.id)">{{button.label}}</button></li>
+            </ng-container>
+          </ul>
+
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="topic-container">
+          
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="sidebar">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<www.example.com/story_1><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<www.example.com/storyTitle_1><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<www.example.com/story_1><http://erlangen-crm.org/140617/P102_has_title><www.example.com/storyTitle_1>.
+<www.example.com/storyTitle_1><rdfs:label>"La peste d'Atene".
+<www.example.com/topicCollection_1><http://erlangen-crm.org/140617/P67_refers_to><www.example.com/story_1>.
+<www.example.com/topicCollection_1><rdf:_1><www.example.com/topic_1>.
+<www.example.com/topicCollection_1><rdf:_2><www.example.com/topic_2>.
+<www.example.com/topicCollection_1><rdf:_3><www.example.com/topic_3>.
+<www.example.com/topicCollection_1><rdf:_4><www.example.com/topic_4>.
+<www.example.com/topicCollection_1><rdf:_5><www.example.com/topic_5>.
+<www.example.com/topicCollection_1><rdf:_6><www.example.com/topic_6>.
+<www.example.com/topicCollection_1><rdf:_7><www.example.com/topic_7>.
+<www.example.com/topicCollection_1><rdf:_8><www.example.com/topic_8>.
+<www.example.com/topicCollection_1><rdf:_9><www.example.com/topic_9>.
+<www.example.com/topic_1><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
+<www.example.com/topicTitle_1><rdf:type><http://erlangen-crm.org/140617/E35_Title>.
+<www.example.com/topic_1><http://erlangen-crm.org/140617/P102_has_title><www.example.com/topicTitle_1>.
+<www.example.com/topicTitle_1><rdfs:label>"Lucrezio".
+<www.example.com/topic_1><rdfs:seeAlso><http://viaf.org/viaf/95161463/#Thucydides>.
+<www.example.com/topicBody_1><rdf:type><http://erlangen-crm.org/091125/E62.String>.
+<www.example.com/topicBody_1><rdfs:label>"La peste d’Atene, inserita nel finale del De rerum natura, è una rielaborazione della descrizione fatta da Tucidide (Storie 2,47-54) dell’epidemia che colpì la citta greca nel 431/430 a.C., alla fine del primo anno della guerra del Peloponneso.
+L’operazione di Lucrezio non è una semplice ‘traduzione’, che si risolve in un passaggio di codice (dal greco al latino) e di genere (dalla storiografia al poema didascalico): è piuttosto una riscrittura dell’excursus tucidideo per renderlo funzionale all’impianto filosofico del poema lucreziano. Secondo la filosofia di Epicuro, seguita da Lucrezio, ogni cosa è formata da atomi che costantemente si aggregano e disgregano sotto la spinta di movimenti che portano la vita (motus genitales) e movimenti che portano la morte (motus exitiales): nel De rerum natura tale condizione è iconicamente rappresentata per mezzo della responsione a distanza tra il proemiale ‘inno a Venere’ – inno al ‘piacere’, alla voluptas che porta alla nascita delle cose –  e il finale, costituito appunto dalla peste di Atene, che si configura come un vero e proprio triumphus mortis. Ma nel sistema filosofico di Epicuro nascita e morte sono due movimenti che si implicano vicendevolmente, la cui eterna alternanza produce l’eterno divenire delle cose; per questo un lettore attento del De rerum natura sa che la peste d’Atene non è solo il finale del poema: è il presupposto per ricominciarne la lettura, per rileggere l’inno a Venere.
+".
+<www.example.com/topicBody_1><rdf:value>"<p>Conversione utf-8 to ascii, poi vedo se alcuni caratteri dell'html rimangono integri. Quello che mi <i>pare</i></p>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#HTML>.
+<www.example.com/topic_1><http://erlangen-crm.org/140617/P3_has_note><www.example.com/topicBody_1>.
+
+
+

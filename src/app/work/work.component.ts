@@ -16,8 +16,10 @@ import { access } from 'fs';
   styleUrls: ['./work.component.scss'],
 })
 export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
+  filterTypesArray = ['creator', 'date', 'subject', 'type'];
   loadedItems = [];
   filteredItems = [];
+  reserved = [];
   order;
   isArrayLoaded: boolean = false;
 
@@ -26,11 +28,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   ngOnInit() {
     this.fetchItems();
     this.enableDropDown();
-    console.log(this.filteredItems);
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   ngAfterViewChecked() {
     this.waitToLoad();
@@ -47,21 +47,39 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
       .replace(/-+$/, ''); // Trim - from end of text
   }
 
-  filterItems() {
-    let filteredArray = [];
-    this.loadedItems.map((item) =>
-      item['dcterms:creator'].map((field) => {
-        if (field['o:label'] || field['@value']) {
-          filteredArray.push(field['o:label'] || field['@value'])
-        }
-      })
+  filterItems(selectedFilter, type) { //FIXME: TYPE AND SUBJECT DO NOT WORK
+    console.log(type);
+    let filteredArray = this.loadedItems.filter((item) =>
+      item[`dcterms:${type}`].every((field) =>
+        selectedFilter.includes(field['o:label'] || field['@value'])
+      )
     );
-    let filteredSet = [ ...new Set(filteredArray) ];
+    this.reserved = this.loadedItems;
+    this.loadedItems = filteredArray;
+  }
+
+  getFilters(type) {
+    let filteredArray = [];
+    this.loadedItems.map((item) => {
+      if (item[`dcterms:${type}`]) {
+        item[`dcterms:${type}`].map((field) => {
+          if (type === 'type' || type === 'subject') {
+            if (field['@language'] === 'en-EN') {
+              filteredArray.push(field['o:label'] || field['@value']);
+            }
+          } else if (field['o:label'] || field['@value']) {
+            filteredArray.push(field['o:label'] || field['@value']);
+          }
+        });
+      }
+    });
+    let filteredSet = [...new Set(filteredArray)];
     for (let value of filteredSet) {
-      let count = filteredArray.filter(x => x == value).length;
+      let count = filteredArray.filter((x) => x == value).length;
       this.filteredItems.push({
-        "value": value,
-        "count": count
+        label: type,
+        value: value,
+        count: count,
       });
     }
   }
@@ -155,7 +173,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
           this.loadedItems.push(parser.parseMedia(parser.parseRDF(item)))
         );
         this.sortDescItems(this.loadedItems);
-        this.filterItems();
+        for (let type of this.filterTypesArray) {
+          this.getFilters(type)
+        }
       });
   }
 }

@@ -6,28 +6,27 @@
   <!-- <div class="container"> -->
 
   <div class="row align-items-start">
-    <div class="col-4"><h1>Opere</h1></div>
+    <div class="col-4"><h1>Items</h1></div>
   </div>
   <div class="row justify-content-md-start">
     <div class="col-3 total-works">
       <p style="font-size: 1.2rem">
-        <span style="font-weight: bold">Filtra i risultati</span>
+        <span style="font-weight: bold">Filter the results</span>
       </p>
     </div>
     <div class="col-4 total-works">
       <p style="font-size: 1.2rem">
-        <span style="font-weight: bold">{{ loadedItems.length }}</span> Opere
-        totali
+        <span style="font-weight: bold">{{ loadedItems.length }}</span> total Items
       </p>
     </div>
     <div class="col-4">
       <select
-        class="form-select"
+        class="form-select selectpicker show-tick"
         aria-label="Default select example"
         (change)="switchSort()"
       >
-        <option selected>Ordine alfabetico (A→Z)</option>
-        <option value="1">Ordine alfabetico (Z→A)</option>
+        <option selected>Alphabetical order (A→Z)</option>
+        <option value="1">Alphabetical order (Z→A)</option>
       </select>
     </div>
   </div>
@@ -36,11 +35,11 @@
     <div class="col-lg-2 filters-list">
       <!-- <h4 class="filters-title">Filtri</h4> -->
 
-      <button class="accordion">Author <span>{{ filteredItems.length }}</span></button>
+      <button class="accordion">Author</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'creator'">
-        <button class="metadata-artist" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></button>
+        <li class="filter-artist" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
           </ng-container>
       </ng-container>
       </div>
@@ -49,7 +48,7 @@
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'date'">
-        <button class="metadata-artist" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></button>
+        <li class="filter-date" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
           </ng-container>
           </ng-container>
       </div>
@@ -58,7 +57,7 @@
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'subject'">
-        <button class="metadata-artist" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></button>
+        <li class="filter-subject" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
           </ng-container>
           </ng-container>
       </div>
@@ -67,7 +66,7 @@
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'type'">
-        <button class="metadata-artist" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></button>
+        <li class="filter-type" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
           </ng-container>
           </ng-container>
       </div>
@@ -79,6 +78,11 @@
     </div>
 
     <div class="col items-list">
+      <div class="row no-padding-row">
+        <div class="col-lg-auto active-filter-badge" *ngFor="let badge of activeFilterBadges">
+          <span class="badge badge-secondary filter-badge" id="{{badge.label}}-badge" (click)="removeFilter(badge.label)">{{badge.label}}</span>
+        </div>
+      </div>
       <div class="row">
         <div class="col-lg-4 col-lg-auto item" *ngFor="let item of loadedItems">
           <!-- PLACEHOLDER LOADER -->
@@ -119,7 +123,6 @@
               >type
               <ng-container *ngFor="let field of item['dcterms:type']">
                 <span
-                  *ngIf="field['@language'] === 'en-EN'"
                   style="font-weight: bold"
                   >{{ field["o:label"] || field["@value"] }}</span
                 >
@@ -132,7 +135,6 @@
               >subject
               <ng-container *ngFor="let field of item['dcterms:subject']">
                 <span
-                  *ngIf="field['@language'] === 'en-EN'"
                   style="font-weight: bold"
                   >{{ field["o:label"] || field["@value"] }}</span
                 >
@@ -152,183 +154,3 @@
 
   <!-- </div> -->
 </div>
-
-<!-- <div class="card">
-              <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]">
-                <img
-                  [src]="item.thumbnail_display_urls.square"
-                  class="card-img-top"
-                />
-                
-                <div class="card-body">
-                  <h5 class="card-title">
-                    {{ item["o:title"] }}
-                  </h5>
-                  <hr />
-                  <span
-                    class="metadata metadata-author"
-                    *ngFor="let field of item['dcterms:creator']"
-                    >author
-                    <span style="font-weight: bold">{{
-                      field["o:label"] || field["@value"]
-                    }}</span></span
-                  >
-                  <br />
-                  <span
-                    class="metadata metadata-date"
-                    *ngFor="let field of item['dcterms:date']"
-                    >date
-                    <span style="font-weight: bold">{{
-                      field["o:label"] || field["@value"]
-                    }}</span></span
-                  >
-                  <br />
-                  <ng-container *ngIf="item['dcterms:type']">
-                    <span class="metadata metadata-date"
-                      >type
-                      <ng-container *ngFor="let field of item['dcterms:type']">
-                        <span
-                          *ngIf="field['@language'] === 'en-EN'"
-                          style="font-weight: bold"
-                          >{{ field["o:label"] || field["@value"] }}</span
-                        >
-                      </ng-container>
-                    </span>
-                    <br />
-                  </ng-container>
-                  <ng-container *ngIf="item['dcterms:subject']">
-                    <span class="metadata metadata-date"
-                      >subject
-                      <ng-container *ngFor="let field of item['dcterms:subject']">
-                        <span
-                          *ngIf="field['@language'] === 'en-EN'"
-                          style="font-weight: bold"
-                          >{{ field["o:label"] || field["@value"] }}</span
-                        >
-                      </ng-container>
-                    </span>
-                    <br />
-                  </ng-container>
-                  <span class="metadata metadata-date" *ngIf="item.ref_count"
-                    >riferimenti
-                    <span style="font-weight: bold">{{
-                      item.ref_count
-                    }}</span></span
-                  >
-                </div>
-              </a>
-            </div> -->
-
-<!-- <div class="row align-items-start">
-      <div class="col-4"><h1>Opere</h1></div>
-    </div>
-    <div class="row justify-content-md-start">
-      <div class="col-3 total-works">
-        <p style="font-size: 1.2rem">
-          <span style="font-weight: bold">Filtra i risultati</span>
-        </p>
-      </div>
-      <div class="col-4 total-works">
-        <p style="font-size: 1.2rem">
-          <span style="font-weight: bold">{{ loadedItems.length }}</span> Opere
-          totali
-        </p>
-      </div>
-      <div class="col-4">
-        <select
-          class="form-select"
-          aria-label="Default select example"
-          (change)="switchSort()"
-        >
-          <option selected>Ordine alfabetico (A→Z)</option>
-          <option value="1">Ordine alfabetico (Z→A)</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row justify-content-md-start">
-      <div class="col-3" *ngFor="let item of loadedItems">
-
-        <ng-container *ngIf="!isArrayLoaded">
-          <div class="card placeholder-card" style="width: 18rem">
-            <div class="placeholder-item"></div>
-            <div class="card-body">
-              <h5 class="card-title placeholder-title"></h5>
-              <br />
-              <div class="placeholder-metadata"></div>
-              <div class="placeholder-metadata"></div>
-              <div class="placeholder-metadata"></div>
-            </div>
-          </div>
-        </ng-container>
-
-
-        <ng-container *ngIf="isArrayLoaded">
-          <div class="card" style="width: 18rem">
-            <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]">
-              <img
-                [src]="item.thumbnail_display_urls.square"
-                class="card-img-top"
-              />
-             
-              <div class="card-body">
-                <h5 class="card-title">
-                  {{ item["o:title"] }}
-                </h5>
-                <hr />
-                <span
-                  class="metadata metadata-author"
-                  *ngFor="let field of item['dcterms:creator']"
-                  >author
-                  <span style="font-weight: bold">{{
-                    field["o:label"] || field["@value"]
-                  }}</span></span
-                >
-                <br />
-                <span
-                  class="metadata metadata-date"
-                  *ngFor="let field of item['dcterms:date']"
-                  >date
-                  <span style="font-weight: bold">{{
-                    field["o:label"] || field["@value"]
-                  }}</span></span
-                >
-                <br />
-                <ng-container *ngIf="item['dcterms:type']">
-                  <span class="metadata metadata-date"
-                    >type
-                    <ng-container *ngFor="let field of item['dcterms:type']">
-                      <span
-                        *ngIf="field['@language'] === 'en-EN'"
-                        style="font-weight: bold"
-                        >{{ field["o:label"] || field["@value"] }}</span
-                      >
-                    </ng-container>
-                  </span>
-                  <br />
-                </ng-container>
-                <ng-container *ngIf="item['dcterms:subject']">
-                  <span class="metadata metadata-date"
-                    >subject
-                    <ng-container *ngFor="let field of item['dcterms:subject']">
-                      <span
-                        *ngIf="field['@language'] === 'en-EN'"
-                        style="font-weight: bold"
-                        >{{ field["o:label"] || field["@value"] }}</span
-                      >
-                    </ng-container>
-                  </span>
-                  <br />
-                </ng-container>
-                <span class="metadata metadata-date" *ngIf="item.ref_count"
-                  >riferimenti
-                  <span style="font-weight: bold">{{
-                    item.ref_count
-                  }}</span></span
-                >
-              </div>
-            </a>
-          </div>
-        </ng-container>
-        </div>
-        </div> -->

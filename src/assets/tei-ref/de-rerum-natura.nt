@@ -11,7 +11,7 @@
 <TEI-DRN:sez1/ann1/trg><http://www.w3.org/ns/oa#hasSelector><TEI-DRN:sez1/ann1/trg/sel>.
 <TEI-DRN:sez1/ann1/trg/sel><rdf:type><http://www.w3.org/ns/oa#XPathSelector>.
 <TEI-DRN:sez1/ann1/trg/sel><rdf:value>"//*/*[position()>2 and position()<5]/text()".
-<TEI-DRN:sez1/ann1/trg/sel><rdf:text>"Lorem ipsum...".
+<TEI-DRN:sez1/ann1/trg/sel><rdf:text>"...et recreaverunt vitam legesque rogarunt et primae dederunt solacia dulcia vitae... (VI, 2-5)".
 #STORY 1
 <http://www.example.com/story_1><rdf:type><http://erlangen-crm.org/140617/E89_Propositional_Object>.
 <http://www.example.com/storyTitle_1><rdf:type><http://erlangen-crm.org/140617/E35_Title>.

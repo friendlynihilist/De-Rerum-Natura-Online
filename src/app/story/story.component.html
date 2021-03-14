@@ -5,22 +5,28 @@
   <div class="carousel"></div>
   <div class="body">
     <div class="row">
-      <div class="col-4">
+      <div class="col-12">
+      <h2>La Peste d'Atene</h2>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-md-auto">
         <div class="table-of-contents">
           <ul>
             <ng-container *ngFor="let button of buttonArray">
-            <li><button [id]="button.id" (click)="parseTopic(button.id)">{{button.label}}</button></li>
+            <a><li [id]="button.id" (click)="parseTopic(button.id)">{{button.label}}</li></a>
             </ng-container>
           </ul>
 
         </div>
       </div>
-      <div class="col-4">
+      
+      <div class="col-6">
         <div class="topic-container">
           
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-md-auto">
         <div class="sidebar">
 
         </div>

@@ -1,4 +1,55 @@
+* {
+  font-family: "Lato", sans-serif;
+}
+
 .adapted {
     padding-left: 4vw;
     padding-right: 4vw;
   }
+
+.body {
+  margin-top: 4vh;
+  margin-bottom: 14vh;
+  align-items: center;
+  img {
+    height: 50px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  line-height: 1.2;
+  font-size: 2.3rem;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+.table-of-contents {
+  border-right: 1px solid rgba(49, 48, 48, 0.322);
+  padding-right: 1vw;
+  
+  ul {
+    list-style-type: none;
+  }
+  a {
+    &:active {
+      color:blue;
+    }
+  }
+  li {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.486);
+
+    &:hover {
+      color: black;
+    }
+
+    // &:active {
+    //   a {
+    //     color: red;
+    //   }
+    //   color: red;
+    // }
+  }
+}

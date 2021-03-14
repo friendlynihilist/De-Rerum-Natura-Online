@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { parser } from '../parsers';
 import { TL, Timeline } from '@knight-lab/timelinejs/src/js/index';
+// import * as Tocbot from 'tocbot';
 
 @Component({
   selector: 'app-story',
@@ -41,19 +42,26 @@ export class StoryComponent implements OnInit {
               "rdf_value": "http://www.example.com/Thucydides"
             }
           },
-          {
-            "person": {
-              "label": "Rasputin",
-              "url": "http://viaf.org/viaf/95161463/#Rasputin",
-              "rdf_value": "http://www.example.com/Rasputin"
-            }
-          }
         ]
       },
       "http://www.example.com/topic_2": {
-        "title": "Secondo",
-        "body": "<p>Nell’aprile del 1958 Arturo Schwarz pubblica De rerum natura, una cartella, stampata in 51 esemplari, che raccoglie 36 acqueforti di Enrico Baj. A questo progetto Baj iniziò a lavorare già nel 1952, cioè lo stesso anno in cui lanciava, assieme a Sergio Dangelo, il primo manifesto del Movimento Nucleare. Tra il 1952 e il 1953 Baj incide circa sessanta lastre, sperimentando cosi una tecnica che lo costringe a misurarsi con un tratto sottile, continuo e nitido; sceglie poi di riorganizzare il materiale in maniera autonoma rispetto al testo di Lucrezio selezionando 36 incisioni, che vengono a formare tre sezioni di dodici elementi l’una: le storie del sole (1-12), della vita (13-24) e della morte (25-36). «Sotto l’occhio vigile del sole, il primitivo disordine informale gradatamente perviene a organizzarsi, fino all’emergere delle presenze umane, sino alla storia dei rapporti tra uomo e donna, ai suoi giochi sociali (la musica, la danza, la toeletta) e alle sue tragedie (la guerra, la pestilenza, la morte), per narrare infine il disfacimento del tutto e il suo ciclico restituirsi al caos originario» (Arturo Schwarz).</p>",
+        "title": "Enrico Baj, De rerum natura (1958)",
+        "body": "<p>Nell’aprile del 1958 <a href='http://viaf.org/viaf/54154160'>Arturo Schwarz</a> pubblica <i>De rerum natura</i>, una cartella, stampata in 51 esemplari, che raccoglie 36 acqueforti di <a href='https://viaf.org/viaf/6887/'>Enrico Baj</a>. A questo progetto Baj iniziò a lavorare già nel 1952, cioè lo stesso anno in cui lanciava, assieme a <a href='https://viaf.org/viaf/90380241/'>Sergio Dangelo</a>, il primo manifesto del Movimento Nucleare. Tra il 1952 e il 1953 Baj incide circa sessanta lastre, sperimentando cosi una tecnica che lo costringe a misurarsi con un tratto sottile, continuo e nitido; sceglie poi di riorganizzare il materiale in maniera autonoma rispetto al testo di Lucrezio selezionando 36 incisioni, che vengono a formare tre sezioni di dodici elementi l’una: le storie del sole (1-12), della vita (13-24) e della morte (25-36). «Sotto l’occhio vigile del sole, il primitivo disordine informale gradatamente perviene a organizzarsi, fino all’emergere delle presenze umane, sino alla storia dei rapporti tra uomo e donna, ai suoi giochi sociali (la musica, la danza, la toeletta) e alle sue tragedie (la guerra, la pestilenza, la morte), per narrare infine il disfacimento del tutto e il suo ciclico restituirsi al caos originario» (Arturo Schwarz).</p>",
         "named_entities": [
+          {
+            "person": {
+              "label": "Enrico Baj",
+              "url": "https://viaf.org/viaf/6887/",
+              "rdf_value": "http://www.example.com/Enrico_Baj"
+            }
+          },
+          {
+            "person": {
+              "label": "Sergio Dangelo",
+              "url": "https://viaf.org/viaf/90380241/",
+              "rdf_value": "http://www.example.com/Sergio_Dangelo"
+            }
+          },
           {
             "person": {
               "label": "Arturo Schwarz",
@@ -64,96 +72,180 @@ export class StoryComponent implements OnInit {
         ]
       },
       "http://www.example.com/topic_3": {
-        "title": "Terzo",
-        "body": "<p>Questo è il terzo topic</p>",
+        "title": "Enrico Baj, De rerum natura (1958) - Le storie della morte",
+        "body": "<p>La terza sezione, che rappresenta le storie della morte, si apre con un dittico che sembra rievocare due passi contigui che si incontrano nel proemio del I libro del <i>De rerum natura</i>: <i>L’uomo che lotta col drago</i> (25) sembra infatti rimandare alla lotta di Epicuro contro la mostruosa <i>religio</i> evocata nel primo elogio del filosofo (Lucr. 1, 63-79), mentre l’acquaforte successiva (26) rappresenta il sacrificio di Ifianassa, descritto in Lucr. 1, 80-101 quale exemplum dei terribili delitti compiuti in nome della religio (Lucr. 1,101 <i>tantum religio potuit suadere malorum</i>). Le restanti incisioni, aperte dall’inquietante <i>Insetto</i>(27), illustrano allora guerra (28 <i>Battaglia</i>) e morte, una morte che giunge sotto forma di una pestilenza che consuma progressivamente i corpi, disgregandoli in informi spirali atomiche (29-34): quelle stesse spirali atomiche che nelle storie del sole rappresentavano l’origine delle cose, il passaggio dal caos al cosmo, dall’informale alla forma. Baj sembra allora riproporre la struttura ciclica del poema lucreziano, che si chiude con la peste di Atene per poi riaprirsi, di nuovo, col proemiale inno a Venere. Una ciclicità che sembra suggellata dal dittico finale, dove al volto deformato nell’urlo (<a href=’http://localhost:4200/work/21/donna-urlante’>35 <i>Donna urlante</i></a>) segue «la serena immagine del silenzio» (36) che ha l’aspetto di «una giovane e graziosa fanciulla, quasi presaga di un nuovo inizio dopo le rovine» (Martina Corgnati).</p>",
         "named_entities": [
           {
+            "person": {
+              "label": "Enrico Baj",
+              "url": "https://viaf.org/viaf/6887/",
+              "rdf_value": "http://www.example.com/Enrico_Baj"
+            }
+          },
+          {
             "item": {
-              "label": "Excalibur",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
+              "label": "Donna Urlante",
+              "url": "http://localhost:4200/work/21/donna-urlante",
+              "rdf_value": "http://www.example.com/Donna_Urlante"
             }
           }
         ]
       },
       "http://www.example.com/topic_4": {
-        "title": "Quarto",
-        "body": "<p>Questo è il quarto topic</p>",
+        "title": "Jean Chièze, Lucrèce. De natura rerum (1958) ",
+        "body": "<p>Nel 1958 l’<i>Union Latine d’Editions</i> pubblica la traduzione francese del De rerum natura di Mauro Meunier accompagnata da 19 incisioni di <a href='https://viaf.org/viaf/7388391/'>Jean Chièze</a>. L’ultima di queste xilografie raffigura una scena ispirata alla peste d’Atene di Lucrezio, in particolare ai vv. 1272-1275, dove sono descritti i cadaveri degli appestati stipati all’interno dei templi. L’ispirazione lucreziana risulta però contaminata con la memoria iconografica, dal momento che l’associazione tra cadaveri e templi è ben presente in varie rappresentazioni di antiche pestilenze, come nella Peste di Azoth di <a href='https://viaf.org/viaf/24606800/'>Nicolas Poussin</a> (1631): <img src='../../assets/img/Nicolas_Poussin_-_La_Peste_à_Ashdod.jpg' width='90%' style='display:block;margin-left:auto;margin-right:auto;padding:20px'/> o nella Peste in una città antica del pittore fiammingo <a href=’ https://viaf.org/viaf/24606800/’>Michiel Sweerts</a>  (1652/1654): <img src='../../assets/img/plagueofathens.jpg' width='90%' style='display:block;margin-left:auto;margin-right:auto;padding:20px'> Se esaminata alla luce di questi modelli la soluzione proposta da Chièze, che rappresenta i cadaveri riversi lungo la scalinata del tempio, risulta più patetica e più in linea con il pensiero filosofico di Lucrezio: è come se questi uomini morissero mentre cercano invano un ultimo, disperato, aiuto degli dèi.</p>",
         "named_entities": [
           {
-            "item": {
-              "label": "Excalibur",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
+            "person": {
+              "label": "Jean Chièze",
+              "url": "https://viaf.org/viaf/7388391/",
+              "rdf_value": "http://www.example.com/Jean_Chièze"
+            }
+          },
+          {
+            "person": {
+              "label": "Nicolas Poussin",
+              "url": "https://viaf.org/viaf/24606800/",
+              "rdf_value": "http://www.example.com/Jean_Chièze"
+            }
+          },
+          {
+            "person": {
+              "label": "Michiel Sweerts",
+              "url": "https://viaf.org/viaf/24606800/",
+              "rdf_value": "http://www.example.com/Jean_Chièze"
             }
           }
         ]
       },
       "http://www.example.com/topic_5": {
-        "title": "Quinto",
-        "body": "<p>Questo è il quinto topic</p>",
+        "title": "Teresa Procaccini, Op. 17: La peste d’Atene (1958)",
+        "body": "<p>Nello stesso anno in cui <a href=’#’>Baj</a> e <a href=’#’>Chièze</a> pubblicano i loro lavori lucreziani, <a href=’#’>Teresa Procaccini</a> licenzia <a href=’#’>La peste d’Atene</a>, cantata per coro e orchestra ispirata al finale del <i>De rerum natura</i>, di cui vengono selezionate le sezioni più dense di pathos: Lucr. 1,1138-1146 (l’inizio dell’epidemia e i primi sintomi del male); 1158-1159 (al dolore fisico si unisce un senso d’angoscia); 1216-1224 (la morte non risparmia nemmeno gli animali); 1230-1234 (il pensiero della morte affligge gli appestati); 1252-1258 (i corpi ammassati dei malati, i famigliari che muoiono gli uni sugli altri). Può essere interessante il confronto con la selezione che farà, trent’anni più tardi <a href=’#’>Edoardo Sanguineti</a>, chiamato dal compositore <a href=’#’>Luca Lombardi</a> a realizzare un’«anti-antologia» lucreziana divisa in tre sezioni (Natura, Amore, Morte), che costituiranno le tre parte di <i>Oratorio materialistico</i>: per la terza sezione – l’unica non ancora musicata da Lombardi – Sanguineti sceglierà infatti brani molto espressivi e violenti, indugiando soprattutto sui sintomi della peste (Lucr. 6,1138-1144; 1197-1214; 1263-1281). Dal punto di vista musicale la cantata di <a href=’#’>Teresa Procaccini</a> offre un vasto affresco sinfonico-corale, le cui sezioni, ben distinte e caratterizzate, si susseguono senza soluzione di continuità. La scrittura corale – un declamato omoritmico che suggerisce un’atmosfera sonora arcaica – inserisce la cantata nell’alveo della corrente neoclassica, basata sul recupero di stilemi musicali anticheggianti o sull’impiego di riferimenti al mondo latino e greco. L’opera si caratterizza per l’impiego di una scrittura orchestrale moderno-espressionista: rispetto al declamato arcaizzante e misurato del coro, la parte strumentale tende a rendere l’atmosfera cupa e spettrale dei versi con timbri scuri e colori accesi. La suddivisione in sezioni ben distinte, la scrittura orchestrale tesa a valorizzare il clima espressivo dei versi, e, in generale, il rapporto descrittivo-imitativo che la musica instaura con il contenuto poetico, conferiscono alla <i>Peste d’Atene</i> una qualità cinematografica.</p>",
         "named_entities": [
           {
-            "item": {
-              "label": "Excalibur",
+            "person": {
+              "label": "Enrico Baj",
               "url": "http://viaf.org/viaf/54154160",
               "rdf_value": "http://www.example.com/Excalibur"
             }
-          }
+          },
+          {
+            "person": {
+              "label": "Jeanne Chièze",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
+          {
+            "person": {
+              "label": "Luca Lombardi",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
+          {
+            "person": {
+              "label": "Teresa Procaccini",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
+          {
+            "person": {
+              "label": "Edoardo Sanguineti",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
+          {
+            "item": {
+              "label": "Op. 17: La peste d'Atene",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
         ]
       },
-      "http://www.example.com/topic_6": {
-        "title": "Sesto",
-        "body": "<p>Questo è il sesto topic</p>",
-        "named_entities": [
-          {
-            "item": {
-              "label": "Excalibur",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          }
-        ]
-      },
-      "http://www.example.com/topic_7": {
-        "title": "Settimo",
-        "body": "<p>Questo è il settimo topic</p>",
-        "named_entities": [
-          {
-            "item": {
-              "label": "Excalibur",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          }
-        ]
-      },
-      "http://www.example.com/topic_8": {
-        "title": "Ottavo",
-        "body": "<p>Questo è il ottavo topic</p>",
-        "named_entities": [
-          {
-            "item": {
-              "label": "Excalibur",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          }
-        ]
-      },
-      "http://www.example.com/topic_9": {
-        "title": "Nono",
-        "body": "<p>Questo è il nono topic</p>",
-        "named_entities": [
-          {
-            "item": {
-              "label": "Excalibur",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          }
-        ]
-      }
+      // "http://www.example.com/topic_6": {
+      //   "title": "Sesto",
+      //   "body": "<p>Questo è il sesto topic</p>",
+      //   "named_entities": [
+      //     {
+      //       "person": {
+      //         "label": "Enrico Baj",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     },
+      //     {
+      //       "person": {
+      //         "label": "La peste d'Atene",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     },
+      //     {
+      //       "person": {
+      //         "label": "La peste d'Atene",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     },
+      //     {
+      //       "person": {
+      //         "label": "La peste d'Atene",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     },
+      //     {
+      //       "item": {
+      //         "label": "Op. 17: La peste d'Atene",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     },
+      //   ]
+      // },
+      // "http://www.example.com/topic_7": {
+      //   "title": "Settimo",
+      //   "body": "<p>Questo è il settimo topic</p>",
+      //   "named_entities": [
+      //     {
+      //       "item": {
+      //         "label": "Excalibur",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     }
+      //   ]
+      // },
+      // "http://www.example.com/topic_8": {
+      //   "title": "Ottavo",
+      //   "body": "<p>Questo è il ottavo topic</p>",
+      //   "named_entities": [
+      //     {
+      //       "item": {
+      //         "label": "Excalibur",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     }
+      //   ]
+      // },
+      // "http://www.example.com/topic_9": {
+      //   "title": "Nono",
+      //   "body": "<p>Questo è il nono topic</p>",
+      //   "named_entities": [
+      //     {
+      //       "item": {
+      //         "label": "Excalibur",
+      //         "url": "http://viaf.org/viaf/54154160",
+      //         "rdf_value": "http://www.example.com/Excalibur"
+      //       }
+      //     }
+      //   ]
+      // }
     }
   ];
   topicArray_2 = [];
@@ -418,12 +510,6 @@ export class StoryComponent implements OnInit {
   }
 
   createButtons(array) {
-    // console.log(array);
-    // for (let element of array) {
-    //  console.log(element);
-    // //  element.map(prova => console.log(prova));
-     
-    // }
     array.map((element) => {
       for (let topic in element) {
         this.buttonArray.push({ id: topic, label: element[topic].title });
@@ -458,19 +544,22 @@ export class StoryComponent implements OnInit {
               }
             }
           });
-          // for (let entity of element[topic].named_entities) {
-          //   for (let field of entity);
-          //   console.log(entity);
-          // }
         }
         if (topic === chosenTopic) {
           document.querySelector('.sidebar').innerHTML = '';
-          if (peopleArray) {
+          if (peopleArray.length > 0) {
             let divSide = document.createElement('div');
+            // divSide.style.border = '1px solid rgba(0, 0, 0, 0.39)';
+            // divSide.style.padding = '1rem';
             divSide.className = 'people';
-            divSide.innerHTML = '<h4>People</h4>';
+            let titleSide = document.createElement('h4');
+            titleSide.innerHTML = 'People';
+            titleSide.style.borderBottom = '1px solid rgba(0, 0, 0, 0.39)';
+            titleSide.style.padding = '0.6rem';
+            divSide.appendChild(titleSide); 
             selectSide.appendChild(divSide);
             let ulSide = document.createElement('ul');
+            ulSide.style.listStyleType = 'none';
             divSide.appendChild(ulSide);
             for (let entity of peopleArray) {
               let liSide = document.createElement('li');
@@ -478,12 +567,18 @@ export class StoryComponent implements OnInit {
               ulSide.appendChild(liSide);
             }
           }
-          if (itemsArray) {
+          if (itemsArray.length > 0) {
             let divSide = document.createElement('div');
+            let titleSide = document.createElement('h4');
+            titleSide.innerHTML = 'Items';
+            titleSide.style.borderBottom = '1px solid rgba(0, 0, 0, 0.39)';
+            titleSide.style.padding = '0.6rem';
+            divSide.appendChild(titleSide); 
             divSide.className = 'items';
-            divSide.innerHTML = '<h4>Items</h4>';
+            
             selectSide.appendChild(divSide);
             let ulSide = document.createElement('ul');
+            ulSide.style.listStyleType = 'none';
             divSide.appendChild(ulSide);
             for (let entity of itemsArray) {
               let liSide = document.createElement('li');

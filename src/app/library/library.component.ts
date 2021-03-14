@@ -127,7 +127,7 @@ export class LibraryComponent implements OnInit, AfterViewInit {
           }
         }
       }
-    }, 2000);
+    }, 5000);
   }
 
   //

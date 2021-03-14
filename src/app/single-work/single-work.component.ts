@@ -140,6 +140,7 @@ export class SingleWorkComponent implements OnInit, OnDestroy {
             this.textSelector.updatedCustomer(this.updatedClient);
           }
         });
+        console.log(item);
       });
   }
 

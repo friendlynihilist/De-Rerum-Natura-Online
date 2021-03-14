@@ -33,7 +33,7 @@
         class="row justify-content-md-start metadata"
       >
         <div class="col-2">
-          <h2>Riferimenti</h2>
+          <h2>Verses</h2>
         </div>
 
         <div class="col-10 metadata">
@@ -41,13 +41,14 @@
             <tbody>
               <tr>
                 <td>
-                  <button
+                  <span
                     (click)="updateXPath()"
                     routerLink="/library"
                     routerclass="text-fragment-link"
+                    class="text-fragment-link"
                   >
-                    {{ loadedItem.has_text }}
-                  </button>
+                    {{ loadedItem.has_text }} <i class="fas fa-pen-fancy"></i>
+                </span>
                 </td>
               </tr>
             </tbody>
@@ -72,11 +73,16 @@
                       <b>{{ field["property_label"] }}</b>
                     </td>
                     <td>
-                      {{ field["o:label"] || field["@value"] }}
+                      <span *ngIf="field['type'] !== 'uri'">{{ field["o:label"] || field["@value"] }}</span>
                       <a
                         *ngIf="field['property_label'] === 'Relation'"
                         [href]="buildLink(field)"
                         >{{ field["display_title"] }}</a
+                      >
+                      <a
+                        *ngIf="field['type'] === 'uri'"
+                        [href]="field['@id']"
+                        >{{ field["o:label"] || field["@value"] }} <i class="fas fa-external-link-alt"></i></a
                       >
                     </td>
                   </ng-container>

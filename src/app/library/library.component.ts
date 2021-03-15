@@ -1,8 +1,18 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
+import { bootstrap } from 'bootstrap';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TextSelectorService } from '../text-selector.service';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css'; // optional for styling
 // import OpenSeadragon = require("openseadragon")
 // import { XDomPath } from '@telenko/xdompath/src';
 
@@ -13,7 +23,7 @@ import { TextSelectorService } from '../text-selector.service';
 })
 export class LibraryComponent implements OnInit, AfterViewInit {
   subscription: Subscription;
-  updae
+  updae;
 
   constructor(
     private textSelector: TextSelectorService,
@@ -28,10 +38,15 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.subscription = this.textSelector.customerUpdate$.subscribe(
       (updatedClientData) => {
+        console.log(updatedClientData);
         this.delayHighlight(updatedClientData);
       }
     );
     this.textSelector.customerUpdate$ = undefined;
+    //     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    //   return new bootstrap.Popover(popoverTriggerEl)
+    // })
   }
 
   ngAfterViewInit() {
@@ -45,8 +60,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   checkIfLoaded() {
-    window.addEventListener("load", function (event) {
-      console.log("All resources finished loading!");
+    window.addEventListener('load', function (event) {
+      console.log('All resources finished loading!');
       //here i should do something, either returning false or...
       //...manipulating the isLoading, but i can't access isLoading from here
     });
@@ -75,15 +90,15 @@ export class LibraryComponent implements OnInit, AfterViewInit {
         null
       );
 
-      while (evaluate.iterateNext) {
+      while (evaluate.iterateNext !== null) {
         let node = evaluate.iterateNext();
         console.log(node);
         for (let i = 0; i < allL.length; i++) {
           let nodeText = node.nodeValue; // FIXME: returns null on last cycle
           let divH = <HTMLElement>allL[i];
           if (divH.innerHTML === nodeText) {
-            divH.style.display = 'block';
-            divH.style.backgroundColor = '#ffff003b';
+            divH.style.display = 'inline';
+            divH.style.borderBottom = '2px dotted #2481dc85';
           }
         }
       }
@@ -114,20 +129,46 @@ export class LibraryComponent implements OnInit, AfterViewInit {
           null
         );
 
-        while (evaluate.iterateNext) {
+        while (evaluate.iterateNext !== null) {
+          //FIXME
           let node = evaluate.iterateNext();
-          console.log(node);
+          console.log(node); //FIXME
           for (let i = 0; i < allL.length; i++) {
             let nodeText = node.nodeValue; // FIXME: returns null on last cycle
             let divH = <HTMLElement>allL[i];
             if (divH.innerHTML === nodeText) {
-              divH.style.display = 'block';
-              divH.style.backgroundColor = '#ffff003b';
+              divH.style.display = 'inline';
+              divH.style.borderBottom = '2px dotted #2481dc85';
+              let inner = divH.innerText;
+              divH.innerHTML = `<a href="http://localhost:4200/work/7/natura-decomposta" id="text-reference-${i}">
+              ${inner}
+            </a>`;
+              let reference = shadow.getElementById(`text-reference-${i}`);
+              tippy(reference, {
+                theme: 'light',
+                content: `<img style="width:100%" src="https://137.204.168.14/lib/files/large/c03cfc0843862a6b1ff72f73954d47cfefe2fe0d.jpg"></img><span>Natura decomposta</span>`,
+                allowHTML: true,
+                // interactive: true,
+              });
+              // new bootstrap.Popover(shadow.querySelector('.example-popover'), {
+              //   container: 'body'
+              // })
+              // let popoverTriggerList = [].slice.call(
+              //   shadow.querySelectorAll('[data-bs-toggle="popover"]')
+              // );
+              // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+              //   return new bootstrap.Popover(popoverTriggerEl);
+              // });
+              // $('[data-toggle="popover"]').popover();
+              // new bootstrap.Popover(divH);
+              // new bootstrap.Tooltip(divH, {
+              //   boundary: ShadowRoot
+              //   })
             }
           }
         }
       }
-    }, 5000);
+    }, 2000);
   }
 
   //

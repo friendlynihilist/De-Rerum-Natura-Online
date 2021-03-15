@@ -3,14 +3,14 @@
     <div class="row align-items-start">
       <div class="col-4"><h1 class="main-title"><i>De rerum natura</i></h1></div>
     </div>
-
+    <!-- <button id="prova">Prova</button> -->
     <div class="row align-items-start">
       <div class="col-12">
        <ng-container>
-        <pb-page endpoint="http://staging.teipublisher.netseven.it/exist/apps/tei-publisher" api-version="1.0.0">
+        <pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher" api-version="1.0.0"> <!-- api-version="1.0.0"-->
           <pb-document path="playground/libersextus_validate.xml" odd="lucretius" id="document1">
           </pb-document>
-          <pb-document path="playground/deangelis_comm.xml" odd="lucretius" id="document2">
+          <pb-document path="playground/drn_translation.xml" odd="lucretius" id="document2">
           </pb-document>
   
           <app-drawer-layout force-narrow="force-narrow" narrow="">
@@ -21,10 +21,11 @@
                   left: 0px;
                   right: 0.399994px;">
                       <app-toolbar class="toolbar" sticky="sticky" style="transform: translate3d(0px, 0px, 0px)">
-                          <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" role="button"
-                              tabindex="0" aria-disabled="false"></paper-icon-button>
+                          <!-- <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" role="button"
+                              tabindex="0" aria-disabled="false"></paper-icon-button> -->
+                              
   
-                          <pb-toggle-feature name="highlight1" selector="tei-app,pb-popover" default="off"
+                          <pb-toggle-feature name="highlight" selector="tei-app,pb-popover,pb-highlight" default="off"
                               action="disable" emit="transcription" subscribe="transcription">
                               <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
                           </pb-toggle-feature>

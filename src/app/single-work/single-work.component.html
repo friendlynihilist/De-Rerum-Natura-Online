@@ -74,12 +74,12 @@
                     </td>
                     <td>
                       <span *ngIf="field['type'] !== 'uri'">{{ field["o:label"] || field["@value"] }}</span>
-                      <a
+                      <a class="link"
                         *ngIf="field['property_label'] === 'Relation'"
                         [href]="buildLink(field)"
-                        >{{ field["display_title"] }}</a
+                        >{{ field["display_title"] }} <i *ngIf="field['display_title']" class="fas fa-cubes"></i></a
                       >
-                      <a
+                      <a class="link"
                         *ngIf="field['type'] === 'uri'"
                         [href]="field['@id']"
                         >{{ field["o:label"] || field["@value"] }} <i class="fas fa-external-link-alt"></i></a

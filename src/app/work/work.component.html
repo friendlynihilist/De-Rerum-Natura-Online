@@ -80,11 +80,11 @@
     <div class="col items-list">
       <div class="row no-padding-row">
         <div class="col-lg-auto active-filter-badge" *ngFor="let badge of activeFilterBadges">
-          <span class="badge badge-secondary filter-badge" id="{{badge.label}}-badge" (click)="removeFilter(badge.label)">{{badge.label}}</span>
+          <span class="badge badge-secondary filter-badge slide current" id="{{badge.label}}-badge" (click)="removeFilter(badge.label)">{{badge.label}}</span>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4 col-lg-auto item" *ngFor="let item of loadedItems">
+        <div class="col-lg-4 col-lg-auto item slide current" *ngFor="let item of loadedItems">
           <!-- PLACEHOLDER LOADER -->
 
           <!-- <ng-container *ngIf="!isArrayLoaded">
@@ -101,9 +101,11 @@
             </ng-container> -->
 
           <!-- <ng-container *ngIf="isArrayLoaded"> -->
-          <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
+        <div class="link-wrapper">
+          <a
+           [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
             ><img
-              class="thumbnail-preview"
+              class="thumbnail-preview scale-image"
               [src]="item.thumbnail_display_urls.large"
           /></a>
           <p
@@ -112,7 +114,7 @@
           >
             {{ field["o:label"] || field["@value"] }}
           </p>
-          <a [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
+          <a class="link hover-1" [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
             ><h3 class="metadata-title">{{ item["o:title"] }}</h3></a
           >
           <p class="metadata-date" *ngFor="let field of item['dcterms:date']">
@@ -146,6 +148,7 @@
             >verses
             <span style="font-weight: bold">{{ item.ref_count }}</span></span
           >
+        </div>
           <!-- </ng-container> -->
         </div>
       </div>

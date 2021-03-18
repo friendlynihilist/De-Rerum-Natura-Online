@@ -1,5 +1,6 @@
-# DrnFrontend
+# De Rerum Natura Online
 
+De Rerum Natura Online (DRN) is a flexible framework for creating digital exhibitions. In particular, this demo hosts heterogeneous collections regarding the reception of Lucretius' De rerum natura in contemporary art.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
 ## Development server

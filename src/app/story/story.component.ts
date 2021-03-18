@@ -2,51 +2,47 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import * as N3 from 'n3';
 import { DataFactory } from 'rdf-data-factory';
 import { HttpClient } from '@angular/common/http';
+import { CarouselComponent, OwlOptions } from 'ngx-owl-carousel-o';
 import { map } from 'rxjs/operators';
 import { parser } from '../parsers';
 import { TL, Timeline } from '@knight-lab/timelinejs/src/js/index';
-// import * as Tocbot from 'tocbot';
+import { bootstrap } from 'bootstrap';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-story',
   templateUrl: './story.component.html',
   styleUrls: ['./story.component.scss'],
+  providers: [NgbCarouselConfig]
 })
 export class StoryComponent implements OnInit {
-  constructor(private http: HttpClient, private renderer: Renderer2) {}
+
+  images = ['../../assets/img/baj_1.JPG', '../../assets/img/baj_2.JPG', '../../assets/img/sieni_1.JPG'];
+
+  constructor(private http: HttpClient, private renderer: Renderer2, config: NgbCarouselConfig) {
+    config.interval = 20000;
+    config.keyboard = true;
+    config.animation = true;
+    config.pauseOnHover = true;
+  }
 
   ngOnInit(): void {
+    
     this.fetchItems();
-    // this.parseRDF();
-    // this.createDataModel();
-    // this.topicArray_3 = this.topicArray_2;
-    // this.convertArray(this.topicArray_2);
     this.createButtons(this.topicArray);
-    this.parseTopic('http://www.example.com/topic_1');
-    // this.parseRDF();
-    // this.createDataModel();
-    console.log(this.topicArray);
-    console.log(this.topicArray_2);
+    this.isActive();
+    this.parseTopic('http://www.example.com/topic_2');
+    // console.log(this.timeline_json);
+    // console.log(this.topicArray);
+    // console.log(this.topicArray_2);
   }
-  
+
   topicArray = [
     {
-      "http://www.example.com/topic_1": {
-        "title": "Lucrezio",
-        "body": "<p>La Peste d'Atene, inserita nel finale del <i>De rerum natura</i>, è una rielaborazione della descrizione fatta da <a href='http://viaf.org/viaf/95161463/#Thucydides' class='entity-person'>Tucidide</a> (<i>Storie</i> 2,47-54) dell’epidemia che colpì la citta greca nel 431/430 a.C., alla fine del primo anno della guerra del Peloponneso. L’operazione di Lucrezio non è una semplice ‘traduzione’, che si risolve in un passaggio di codice (dal greco al latino) e di genere (dalla storiografia al poema didascalico): è piuttosto una riscrittura dell’<i>excursus</i> tucidideo per renderlo funzionale all’impianto filosofico del poema lucreziano. Secondo la filosofia di Epicuro, seguita da Lucrezio, ogni cosa è formata da atomi che costantemente si aggregano e disgregano sotto la spinta di movimenti che portano la vita (<i>motus genitales</i>) e movimenti che portano la morte (<i>motus exitiales</i>): nel <i>De rerum natura</i> tale condizione è iconicamente rappresentata per mezzo della responsione a distanza tra il proemiale ‘inno a Venere’ – inno al ‘piacere’, alla voluptas che porta alla nascita delle cose –  e il finale, costituito appunto dalla peste di Atene, che si configura come un vero e proprio triumphus mortis. Ma nel sistema filosofico di Epicuro nascita e morte sono due movimenti che si implicano vicendevolmente, la cui eterna alternanza produce l’eterno divenire delle cose; per questo un lettore attento del <i>De rerum natura</i> sa che la peste d’Atene non è solo il finale del poema: è il presupposto per ricominciarne la lettura, per rileggere l’inno a Venere.</p>",
-        "named_entities": [
-          {
-            "person": {
-              "label": "Tucidide",
-              "url": "http://viaf.org/viaf/95161463/#Thucydides",
-              "rdf_value": "http://www.example.com/Thucydides"
-            }
-          },
-        ]
-      },
       "http://www.example.com/topic_2": {
-        "title": "Enrico Baj, De rerum natura (1958)",
-        "body": "<p>Nell’aprile del 1958 <a href='http://viaf.org/viaf/54154160'>Arturo Schwarz</a> pubblica <i>De rerum natura</i>, una cartella, stampata in 51 esemplari, che raccoglie 36 acqueforti di <a href='https://viaf.org/viaf/6887/'>Enrico Baj</a>. A questo progetto Baj iniziò a lavorare già nel 1952, cioè lo stesso anno in cui lanciava, assieme a <a href='https://viaf.org/viaf/90380241/'>Sergio Dangelo</a>, il primo manifesto del Movimento Nucleare. Tra il 1952 e il 1953 Baj incide circa sessanta lastre, sperimentando cosi una tecnica che lo costringe a misurarsi con un tratto sottile, continuo e nitido; sceglie poi di riorganizzare il materiale in maniera autonoma rispetto al testo di Lucrezio selezionando 36 incisioni, che vengono a formare tre sezioni di dodici elementi l’una: le storie del sole (1-12), della vita (13-24) e della morte (25-36). «Sotto l’occhio vigile del sole, il primitivo disordine informale gradatamente perviene a organizzarsi, fino all’emergere delle presenze umane, sino alla storia dei rapporti tra uomo e donna, ai suoi giochi sociali (la musica, la danza, la toeletta) e alle sue tragedie (la guerra, la pestilenza, la morte), per narrare infine il disfacimento del tutto e il suo ciclico restituirsi al caos originario» (Arturo Schwarz).</p>",
+        "title": "Le acqueforti di Baj",
+        "body": "<p>Nell’aprile del 1958 <a href='http://viaf.org/viaf/54154160'>Arturo Schwarz</a> <i class='fas fa-external-link-alt'></i> pubblica <i>De rerum natura</i>, una cartella, stampata in 51 esemplari, che raccoglie 36 acqueforti di <a href='https://viaf.org/viaf/6887/'>Enrico Baj</a> <i class='fas fa-external-link-alt'></i>. A questo progetto Baj iniziò a lavorare già nel 1952, cioè lo stesso anno in cui lanciava, assieme a <a href='https://viaf.org/viaf/90380241/'>Sergio Dangelo</a> <i class='fas fa-external-link-alt'></i>, il primo manifesto del Movimento Nucleare. Tra il 1952 e il 1953 Baj incide circa sessanta lastre, sperimentando cosi una tecnica che lo costringe a misurarsi con un tratto sottile, continuo e nitido; sceglie poi di riorganizzare il materiale in maniera autonoma rispetto al testo di Lucrezio selezionando 36 incisioni, che vengono a formare tre sezioni di dodici elementi l’una: le storie del sole (1-12), della vita (13-24) e della morte (25-36). «Sotto l’occhio vigile del sole, il primitivo disordine informale gradatamente perviene a organizzarsi, fino all’emergere delle presenze umane, sino alla storia dei rapporti tra uomo e donna, ai suoi giochi sociali (la musica, la danza, la toeletta) e alle sue tragedie (la guerra, la pestilenza, la morte), per narrare infine il disfacimento del tutto e il suo ciclico restituirsi al caos originario» (Arturo Schwarz).</p>",
+        "href": "donne-nude",
         "named_entities": [
           {
             "person": {
@@ -72,8 +68,9 @@ export class StoryComponent implements OnInit {
         ]
       },
       "http://www.example.com/topic_3": {
-        "title": "Enrico Baj, De rerum natura (1958) - Le storie della morte",
-        "body": "<p>La terza sezione, che rappresenta le storie della morte, si apre con un dittico che sembra rievocare due passi contigui che si incontrano nel proemio del I libro del <i>De rerum natura</i>: <i>L’uomo che lotta col drago</i> (25) sembra infatti rimandare alla lotta di Epicuro contro la mostruosa <i>religio</i> evocata nel primo elogio del filosofo (Lucr. 1, 63-79), mentre l’acquaforte successiva (26) rappresenta il sacrificio di Ifianassa, descritto in Lucr. 1, 80-101 quale exemplum dei terribili delitti compiuti in nome della religio (Lucr. 1,101 <i>tantum religio potuit suadere malorum</i>). Le restanti incisioni, aperte dall’inquietante <i>Insetto</i>(27), illustrano allora guerra (28 <i>Battaglia</i>) e morte, una morte che giunge sotto forma di una pestilenza che consuma progressivamente i corpi, disgregandoli in informi spirali atomiche (29-34): quelle stesse spirali atomiche che nelle storie del sole rappresentavano l’origine delle cose, il passaggio dal caos al cosmo, dall’informale alla forma. Baj sembra allora riproporre la struttura ciclica del poema lucreziano, che si chiude con la peste di Atene per poi riaprirsi, di nuovo, col proemiale inno a Venere. Una ciclicità che sembra suggellata dal dittico finale, dove al volto deformato nell’urlo (<a href=’http://localhost:4200/work/21/donna-urlante’>35 <i>Donna urlante</i></a>) segue «la serena immagine del silenzio» (36) che ha l’aspetto di «una giovane e graziosa fanciulla, quasi presaga di un nuovo inizio dopo le rovine» (Martina Corgnati).</p>",
+        "title": "Le storie della morte",
+        "body": "<p>La terza sezione, che rappresenta le storie della morte, si apre con un dittico che sembra rievocare due passi contigui che si incontrano nel proemio del I libro del <i>De rerum natura</i>: <i>L’uomo che lotta col drago</i> (25) sembra infatti rimandare alla lotta di Epicuro contro la mostruosa <i>religio</i> evocata nel primo elogio del filosofo (Lucr. 1, 63-79), mentre l’acquaforte successiva (26) rappresenta il sacrificio di Ifianassa, descritto in Lucr. 1, 80-101 quale exemplum dei terribili delitti compiuti in nome della religio (Lucr. 1,101 <i>tantum religio potuit suadere malorum</i>). Le restanti incisioni, aperte dall’inquietante <i>Insetto</i>(27), illustrano allora guerra (28 <i>Battaglia</i>) e morte, una morte che giunge sotto forma di una pestilenza che consuma progressivamente i corpi, disgregandoli in informi spirali atomiche (29-34): quelle stesse spirali atomiche che nelle storie del sole rappresentavano l’origine delle cose, il passaggio dal caos al cosmo, dall’informale alla forma. Baj sembra allora riproporre la struttura ciclica del poema lucreziano, che si chiude con la peste di Atene per poi riaprirsi, di nuovo, col proemiale inno a Venere. Una ciclicità che sembra suggellata dal dittico finale, dove al volto deformato nell’urlo (<a href=’http://localhost:4200/work/21/donna-urlante’>35 <i>Donna urlante</i></a> <i class='fas fa-cubes'></i>) segue «la serena immagine del silenzio» (36) che ha l’aspetto di «una giovane e graziosa fanciulla, quasi presaga di un nuovo inizio dopo le rovine» (Martina Corgnati).</p>",
+        "href": "donna-urlante",
         "named_entities": [
           {
             "person": {
@@ -91,36 +88,45 @@ export class StoryComponent implements OnInit {
           }
         ]
       },
-      "http://www.example.com/topic_4": {
-        "title": "Jean Chièze, Lucrèce. De natura rerum (1958) ",
-        "body": "<p>Nel 1958 l’<i>Union Latine d’Editions</i> pubblica la traduzione francese del De rerum natura di Mauro Meunier accompagnata da 19 incisioni di <a href='https://viaf.org/viaf/7388391/'>Jean Chièze</a>. L’ultima di queste xilografie raffigura una scena ispirata alla peste d’Atene di Lucrezio, in particolare ai vv. 1272-1275, dove sono descritti i cadaveri degli appestati stipati all’interno dei templi. L’ispirazione lucreziana risulta però contaminata con la memoria iconografica, dal momento che l’associazione tra cadaveri e templi è ben presente in varie rappresentazioni di antiche pestilenze, come nella Peste di Azoth di <a href='https://viaf.org/viaf/24606800/'>Nicolas Poussin</a> (1631): <img src='../../assets/img/Nicolas_Poussin_-_La_Peste_à_Ashdod.jpg' width='90%' style='display:block;margin-left:auto;margin-right:auto;padding:20px'/> o nella Peste in una città antica del pittore fiammingo <a href=’ https://viaf.org/viaf/24606800/’>Michiel Sweerts</a>  (1652/1654): <img src='../../assets/img/plagueofathens.jpg' width='90%' style='display:block;margin-left:auto;margin-right:auto;padding:20px'> Se esaminata alla luce di questi modelli la soluzione proposta da Chièze, che rappresenta i cadaveri riversi lungo la scalinata del tempio, risulta più patetica e più in linea con il pensiero filosofico di Lucrezio: è come se questi uomini morissero mentre cercano invano un ultimo, disperato, aiuto degli dèi.</p>",
+      "http://www.example.com/topic_5": {
+        "title": "Natura decomposta",
+        "body": "<p>Il cortometraggio di <a style=’text-decoration:none’ href=’#’>Vittorio Armentano</a>, prodotto nel 1964 da Vette FilmItalia, offre un approccio fortemente sperimentale, che si presenta come un montaggio serrato di immagini statiche e brevi sequenze, accompagnate dalle musiche di <a style=’text-decoration:none’ href=’#’>Egisto Macchi</a> e da una voce fuoricampo che recita passi tratti dalla peste d’Atene di Lucrezio intervallati da frammenti dei Cantos di <a style=’text-decoration:none’  href=’#’>Ezra Pound</a>. Il filmato si apre con la traduzione italiana di Lucr. 1131-1134, cioè dei versi che introducono l’excursus dedicato alla peste d’Atene: il contagio colpisce indistintamente uomini e animali, che vengono così associati nello stesso tragico destino. Il filmato sia apre allora con scene cruente, girate all’interno del mattatoio di Roma; a partire dal 3’ le immagini degli animali abbattuti vengono montate assieme a brevi spezzoni che mostrano macchine industriali in rapido movimento, che quasi eclissano con la loro presenza il ruolo degli operai che le manovrano. In 3.45’’ viene recitato dalla voce fuori campo un altro passo del De rerum natura: si tratta dei vv. 1259-1271 che accompagnano ancora una volta immagini girate al mattatoio, ma che in un certo senso anticipano la sequenza successiva, in cui all’uccisione dei bovini si mescolano immagini di torture e esecuzioni perpetrate contro esseri umani. Questa sequenza, piuttosto violenta, si chiude solo in 6.54’’, quando in maniera improvvisa le immagini convulse lasciano il posto alle riprese di una ragazza che cammina in un giorno d’inverno lungo una spiaggia deserta: la voce fuoricampo recita ora diversi passi tratti dai Cantos di Pound, l’ultimo dei quali sembra suggerire la chiave di lettura dell’intero cortometraggio: «questi frammenti hai del naufragio».</p>",
+        "href": "natura-decomposta",
         "named_entities": [
           {
             "person": {
-              "label": "Jean Chièze",
-              "url": "https://viaf.org/viaf/7388391/",
-              "rdf_value": "http://www.example.com/Jean_Chièze"
+              "label": "Vittorio Armentano",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
             }
           },
           {
             "person": {
-              "label": "Nicolas Poussin",
-              "url": "https://viaf.org/viaf/24606800/",
-              "rdf_value": "http://www.example.com/Jean_Chièze"
+              "label": "Egisto Macchi",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
             }
           },
           {
             "person": {
-              "label": "Michiel Sweerts",
-              "url": "https://viaf.org/viaf/24606800/",
-              "rdf_value": "http://www.example.com/Jean_Chièze"
+              "label": "Ezra Pound",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
             }
-          }
+          },
+          {
+            "item": {
+              "label": "Natura decomposta",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
         ]
       },
-      "http://www.example.com/topic_5": {
-        "title": "Teresa Procaccini, Op. 17: La peste d’Atene (1958)",
-        "body": "<p>Nello stesso anno in cui <a href=’#’>Baj</a> e <a href=’#’>Chièze</a> pubblicano i loro lavori lucreziani, <a href=’#’>Teresa Procaccini</a> licenzia <a href=’#’>La peste d’Atene</a>, cantata per coro e orchestra ispirata al finale del <i>De rerum natura</i>, di cui vengono selezionate le sezioni più dense di pathos: Lucr. 1,1138-1146 (l’inizio dell’epidemia e i primi sintomi del male); 1158-1159 (al dolore fisico si unisce un senso d’angoscia); 1216-1224 (la morte non risparmia nemmeno gli animali); 1230-1234 (il pensiero della morte affligge gli appestati); 1252-1258 (i corpi ammassati dei malati, i famigliari che muoiono gli uni sugli altri). Può essere interessante il confronto con la selezione che farà, trent’anni più tardi <a href=’#’>Edoardo Sanguineti</a>, chiamato dal compositore <a href=’#’>Luca Lombardi</a> a realizzare un’«anti-antologia» lucreziana divisa in tre sezioni (Natura, Amore, Morte), che costituiranno le tre parte di <i>Oratorio materialistico</i>: per la terza sezione – l’unica non ancora musicata da Lombardi – Sanguineti sceglierà infatti brani molto espressivi e violenti, indugiando soprattutto sui sintomi della peste (Lucr. 6,1138-1144; 1197-1214; 1263-1281). Dal punto di vista musicale la cantata di <a href=’#’>Teresa Procaccini</a> offre un vasto affresco sinfonico-corale, le cui sezioni, ben distinte e caratterizzate, si susseguono senza soluzione di continuità. La scrittura corale – un declamato omoritmico che suggerisce un’atmosfera sonora arcaica – inserisce la cantata nell’alveo della corrente neoclassica, basata sul recupero di stilemi musicali anticheggianti o sull’impiego di riferimenti al mondo latino e greco. L’opera si caratterizza per l’impiego di una scrittura orchestrale moderno-espressionista: rispetto al declamato arcaizzante e misurato del coro, la parte strumentale tende a rendere l’atmosfera cupa e spettrale dei versi con timbri scuri e colori accesi. La suddivisione in sezioni ben distinte, la scrittura orchestrale tesa a valorizzare il clima espressivo dei versi, e, in generale, il rapporto descrittivo-imitativo che la musica instaura con il contenuto poetico, conferiscono alla <i>Peste d’Atene</i> una qualità cinematografica.</p>",
+      "http://www.example.com/topic_6": {
+        "title": "Oro",
+        "body": "<p>La riflessione sulle età dell’uomo alla luce dell’atomismo lucreziano affrontata in <a style=’text-decoration:none’  href=’#’>La natura delle cose</a> (2008) trova il suo naturale sviluppo in <a style=’text-decoration:none’  href=’#’>Oro</a> (2009). In questo spettacolo il tema è indagato attraverso la giustapposizione, o meglio la concatenazione di elementi contrastanti; le coreografie sono infatti danzate da professionisti assieme a non professionisti, soluzione che permette di ricreare sul palcoscenico una concordia oppositorum in cui si mescolano uomini e donne, adolescenti e vecchi, bambini e adulti, persone in grado di vedere e non vedenti. Questa processione di corpi, in cui «le figure procedono fisicamente unite in un viaggio immerso nella lentezza lungo il bordo della vita», culmina nella scena finale – ispirata alla peste d’Atene di Lucrezio – in cui viene rappresentata la morte di cinque gemelli: cinque danzatori, resi indistinguibili dall’identica maschera di bamboccio macrocefalo (la stessa già usata in La natura delle cose, e ispirata alle acqueforti di <a style=’text-decoration:none’  href=’#’>Baj</a>), formano «un unico corpo che si sostiene dall’interno, un corpo capace di osservarsi, di moltiplicare lo sguardo e il tatto» (Virgilio Sieni).</p>",
+        "href": "oro",
         "named_entities": [
           {
             "person": {
@@ -130,122 +136,43 @@ export class StoryComponent implements OnInit {
             }
           },
           {
-            "person": {
-              "label": "Jeanne Chièze",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          },
-          {
-            "person": {
-              "label": "Luca Lombardi",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          },
-          {
-            "person": {
-              "label": "Teresa Procaccini",
-              "url": "http://viaf.org/viaf/54154160",
-              "rdf_value": "http://www.example.com/Excalibur"
-            }
-          },
-          {
-            "person": {
-              "label": "Edoardo Sanguineti",
+            "item": {
+              "label": "La natura delle cose",
               "url": "http://viaf.org/viaf/54154160",
               "rdf_value": "http://www.example.com/Excalibur"
             }
           },
           {
             "item": {
-              "label": "Op. 17: La peste d'Atene",
+              "label": "Oro",
               "url": "http://viaf.org/viaf/54154160",
               "rdf_value": "http://www.example.com/Excalibur"
             }
           },
         ]
       },
-      // "http://www.example.com/topic_6": {
-      //   "title": "Sesto",
-      //   "body": "<p>Questo è il sesto topic</p>",
-      //   "named_entities": [
-      //     {
-      //       "person": {
-      //         "label": "Enrico Baj",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     },
-      //     {
-      //       "person": {
-      //         "label": "La peste d'Atene",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     },
-      //     {
-      //       "person": {
-      //         "label": "La peste d'Atene",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     },
-      //     {
-      //       "person": {
-      //         "label": "La peste d'Atene",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     },
-      //     {
-      //       "item": {
-      //         "label": "Op. 17: La peste d'Atene",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     },
-      //   ]
-      // },
-      // "http://www.example.com/topic_7": {
-      //   "title": "Settimo",
-      //   "body": "<p>Questo è il settimo topic</p>",
-      //   "named_entities": [
-      //     {
-      //       "item": {
-      //         "label": "Excalibur",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     }
-      //   ]
-      // },
-      // "http://www.example.com/topic_8": {
-      //   "title": "Ottavo",
-      //   "body": "<p>Questo è il ottavo topic</p>",
-      //   "named_entities": [
-      //     {
-      //       "item": {
-      //         "label": "Excalibur",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     }
-      //   ]
-      // },
-      // "http://www.example.com/topic_9": {
-      //   "title": "Nono",
-      //   "body": "<p>Questo è il nono topic</p>",
-      //   "named_entities": [
-      //     {
-      //       "item": {
-      //         "label": "Excalibur",
-      //         "url": "http://viaf.org/viaf/54154160",
-      //         "rdf_value": "http://www.example.com/Excalibur"
-      //       }
-      //     }
-      //   ]
-      // }
+      "http://www.example.com/topic_7": {
+        "title": "L'ultimo giorno per noi",
+        "body": "<p>La sequenza finale di <a style=’text-decoration:none’ href=’#’>Oro</a> viene poi ripresa e sviluppata in <a style=’text-decoration:none’ href=’#’>L’ultimo giorno per noi</a> (2010), atto conclusivo della trilogia ispirata al De rerum natura. Lo spunto lucreziano e rappresentato, anche in questo caso, dalla peste d’Atene e in particolare dai vv. 1256-1258: «Sui bambini esanimi si vedevano talvolta i corpi inanimati dei genitori, e all’opposto talora sulle madri e sui padri i figli esalare la vita» (passo che concludeva anche la cantata di <a style=’text-decoration:none’  href=’#’>Teresa Procaccini</a>, segnando il culmine del pathos). All’immagine lucreziana si sovrappone pero l’eco di due drammatici fatti di cronaca, l’uno contemporaneo, l’altro risalente a piu di un decennio prima: la tragedia del ‘gommone di Malta’, in cui cinque migranti – gli unici superstiti di un barcone della speranza partito dall’Africa – vennero respinti in mare senza soccorso, abbandonati a una deriva disumana; e l’immagine straziante della ‘Madonna di Benthala’, diventata icona del massacro compiuto il 23 settembre 1997 da un gruppo di terroristi islamici in un villaggio dell’Algeria. Il testo di Lucrezio entra cosi in relazione con i drammi della storia e prende forma nei corpi di cinque fratelli gemelli «fatti d’atomi e vuoto, di amaro e dolore» che danzando vanno incontro alla morte: per Sieni queste «figure lucreziane che si nutrono di declinazioni e sospensioni fisiche» realizzano allora «una coreografia sul sostenersi e sulla ciclicità del gesto che si rigenera nella fisica e nell’etica, nell’emozione e nell’incessante ora del desiderio. Un desiderio che crea tenuità e incanto, che scioglie il corpo nella dinamica, che reinventa una sintassi della fine» (Virgilio Sieni).</p>",
+        "href": "lultimo-giorno-per-noi",
+        "named_entities": [
+          {
+            "item": {
+              "label": "Oro",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
+          {
+            "item": {
+              "label": "L'ultimo giorno per noi",
+              "url": "http://viaf.org/viaf/54154160",
+              "rdf_value": "http://www.example.com/Excalibur"
+            }
+          },
+        ]
+      },
+      
     }
   ];
   topicArray_2 = [];
@@ -253,12 +180,49 @@ export class StoryComponent implements OnInit {
   buttonArray = [];
 
   loadedItems = [];
+
   timeline_json = {
     events: [],
   };
   options = {
     debug: true,
+    hash_bookmark: true,
   };
+
+  // carousel = false;
+  // timeline = true;
+
+  switchBetweenView(id) {
+    let timeline = document.querySelector('.timeline');
+    let carousel = document.querySelector('.carousel');
+    if (id === 'carousel') {
+      timeline.className += ' hidden';
+      carousel.className = 'carousel';
+    }
+    if (id === 'timeline') {
+      carousel.className += ' hidden';
+      timeline.className = 'timeline';
+    }
+  }
+
+  isActive() {
+    var btnContainer = document.getElementById("toc");
+    let btns = btnContainer.getElementsByClassName('topic');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+    // document.getElementById(selectedTopic).className += ' active-filter';
+  }
+  
+  timeline;
+
+  goToEvent(id) {
+    this.timeline.goToId(id);
+  }
 
   fetchItems() {
     this.http
@@ -279,7 +243,8 @@ export class StoryComponent implements OnInit {
           this.loadedItems.push(parser.parseSimpleMedia(item))
         );
         this.buildTimeline(this.loadedItems);
-        new Timeline('timeline-embed', this.timeline_json, this.options);
+        console.log(this.timeline_json);
+        this.timeline = new Timeline('timeline-embed', this.timeline_json, this.options);
       });
   }
 
@@ -512,7 +477,7 @@ export class StoryComponent implements OnInit {
   createButtons(array) {
     array.map((element) => {
       for (let topic in element) {
-        this.buttonArray.push({ id: topic, label: element[topic].title });
+        this.buttonArray.push({ id: topic, label: element[topic].title, href: element[topic].href });
       }
     });
   }
@@ -530,6 +495,7 @@ export class StoryComponent implements OnInit {
             <h2 class='topic-title'>${title}</h2>
             <div class='topic-body'>${body}</div>
           </div>`;
+
         }
         let peopleArray = [];
         let itemsArray = [];
@@ -563,7 +529,7 @@ export class StoryComponent implements OnInit {
             divSide.appendChild(ulSide);
             for (let entity of peopleArray) {
               let liSide = document.createElement('li');
-              liSide.innerHTML = `<li><a href='${entity.url}'>${entity.label}</a></li>`;
+              liSide.innerHTML = `<li><i class="fas fa-user"> </i><a style="text-decoration:none" href='${entity.url}'> ${entity.label}</a></li>`;
               ulSide.appendChild(liSide);
             }
           }
@@ -582,7 +548,7 @@ export class StoryComponent implements OnInit {
             divSide.appendChild(ulSide);
             for (let entity of itemsArray) {
               let liSide = document.createElement('li');
-              liSide.innerHTML = `<li><a href='${entity.url}'>${entity.label}</a></li>`;
+              liSide.innerHTML = `<li><i class="fas fa-cubes"></i> <a style="text-decoration:none" href='${entity.url}'> ${entity.label}</a></li>`;
               ulSide.appendChild(liSide);
             }
           }
@@ -598,7 +564,7 @@ export class StoryComponent implements OnInit {
       }
     };
 
-    arr.forEach((item) => {
+    arr.forEach((item) => {if (item['o:title'] !== "Untitled" && item['o:title'] !== "Casa di Lucrezio" && item['o:title'] !== "La peste d'Athènes"){
       const timeline_item = {
         media: {
           url: item.video_source
@@ -609,6 +575,7 @@ export class StoryComponent implements OnInit {
         start_date: {
           year: searchValue(item['dcterms:date']),
         },
+        group: item['o:title'] === 'La morte' || item['o:title'] === 'Silenzio' || item['o:title'] === 'Mostro' || item['o:title'] === 'Donna urlante' || item['o:title'] === 'I bambini muoiono' ? 'Le storie della morte' : '',
         text: {
           headline: `<a
                 href="work/${item['o:id']}/timeline">${item['o:title']}</a>`,
@@ -616,9 +583,10 @@ export class StoryComponent implements OnInit {
             ? '<p>' + searchValue(item['dcterms:description']) + '</p>'
             : null,
         },
+        unique_id: this.slugify(item['o:title'])
       };
       this.timeline_json.events.push(timeline_item);
-    });
+    }});
   }
 
   slugify(text) {

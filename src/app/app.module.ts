@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { WorkComponent } from './work/work.component';
 import { LibraryComponent } from './library/library.component';
@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SingleWorkComponent } from './single-work/single-work.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { TextSelectorService } from './text-selector.service';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { RouterModule, ROUTES, RoutesRecognized } from '@angular/router';
 // import { JwPaginationComponent } from 'jw-angular-pagination';
 
 @NgModule({
@@ -26,9 +28,12 @@ import { TextSelectorService } from './text-selector.service';
     // JwPaginationComponent
   ],
   imports: [
+    RouterModule,
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    CarouselModule,
     NgbModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

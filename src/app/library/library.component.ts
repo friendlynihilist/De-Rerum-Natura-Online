@@ -144,6 +144,8 @@ export class LibraryComponent implements OnInit, AfterViewInit {
               ${inner}
             </a>`;
               let reference = shadow.getElementById(`text-reference-${i}`);
+              reference.style.textDecoration = 'none';
+              reference.style.color = '#333333';
               tippy(reference, {
                 theme: 'light',
                 content: `<img style="width:100%" src="https://137.204.168.14/lib/files/large/c03cfc0843862a6b1ff72f73954d47cfefe2fe0d.jpg"></img><span>Natura decomposta</span>`,

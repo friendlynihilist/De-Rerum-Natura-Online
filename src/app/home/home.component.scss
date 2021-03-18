@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,700|Prata');
 
 .jumbotron {
+    height: 40vh;
     padding-top: 4rem;
     padding-bottom: 4rem;
     background-image: url("../../assets/img/plagueofathens.jpg");
@@ -23,3 +24,39 @@
     font-family: 'Lato', sans-serif;
     font-weight: 300;
 }
+
+.link {
+    /* RESET */
+    text-decoration: none;
+    line-height: 1;
+    
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    padding: 5px 5px;
+    overflow: hidden;
+    color: #333;
+    vertical-align: bottom;
+    transition: color .3s ease-out;
+ }
+ 
+ .link::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    transform: translateY(calc(100% - 2px));
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
+    transition: transform .25s ease-out;
+ }
+ 
+ .link:hover { 
+    color: #fff; 
+ }
+ .link:hover::before {
+    transform: translateY(0);
+    transition: transform .25s ease-out;
+ }

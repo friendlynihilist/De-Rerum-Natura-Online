@@ -14,6 +14,24 @@ A prebuilt version of the app can be installed from exist-db's central app repos
 
 **Important**: TEI Publisher from version 5.0.0 requires [eXist-db 5.0.0](https://bintray.com/existdb/releases/exist/5.0.0/view/files) or later.
 
+## Serialization
+Items stored in Omeka S are retrieved from an exposed REST API and consequently serialized in JSON-LD, a lightweight Linked Data format based on the largely diffused JSON. A JSON document does not assign any semantics to the keys used. In order to prevent this issue, JSON-LD was introduced as a solution to explicit semantics of keys by adding a so-called context object to documents that describes how the keys are to be interpreted. Technically, this is achieved by adding a new property to a JSON document named `@context` that describes the semantics by mapping each key to a URI or a datatype.
+In the aforementioned API, resources (such as items, item sets and media) have stored their metadata as “resource values”.
+Every value has an associated data type that governs how the value is rendered to and ingested from JSON-LD. Moreover, resource values are represented as “top-level” arrays of objects, where each object represents a single value:
+
+Output values are then grouped by property. Object properties common to all data types include:
+● `type`: a string that declares the data type of the value (e.g., literal, uri, resource:media etc.).
+● `property_id`: an integer ID automatically assigned by Omeka S to the object.
+● `is_public`: a boolean that defines if the object is private or public.
+● `property_label`: a string that contains the human-readable name of the related property.
+Based on the type value, more properties are allowed. Literal value properties include:
+● `@value`: a string that contains the text of the value.
+● `@language`: a string that contains the language of the text specified in BCP 4749 codes.
+URI value properties represent links to external resources and include:
+● `@id`: a string that contains the URI to which the item is linked.
+● `o:label`: a string that contains the human-readable label for the link.
+Finally, resource value properties represent links to internal resources and can define an item, an item set or a media.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -18,7 +18,8 @@ import { timeStamp } from 'console';
   styleUrls: ['./work.component.scss'],
 })
 export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
-  filterTypesArray = ['creator', 'date', 'subject', 'type'];
+  filterTypesArray = ['creator', 'date', 'subject', 'type']; //FIXME: move to config
+  defaultLang = 'en-EN';
   loadedItems = [];
   filteredItems = []; //
   reserved = [];
@@ -35,7 +36,6 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   // filterItems(selectedFilter, type) is called with the value and the type of the selected filter (e.g. Giulio Paolini, creator).
   // A temporary array is created by filtering loadedItems in order to retrieve only the items that contains the requested property.
   // If the filter is not yet in filterSwitch global array, loadedItems will be updated with filteredArray, thus
-
 
   ngOnInit() {
     this.fetchItems();
@@ -62,23 +62,23 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   filterSwitch = [];
 
   removeFilter(selectedFilter) {
-    this.reserved.map(
-      element => {
-        let key = Object.keys(element)[0];
-        if (selectedFilter === key) {
-          this.loadedItems = element[key];
-          document.getElementById(selectedFilter).classList.remove('active-filter');
-          let index = this.filterSwitch.indexOf(selectedFilter);
-          this.filterSwitch.splice(index, 1);
-          for (let badge of this.activeFilterBadges) {
-            if (selectedFilter === badge.label) {
-              let index = this.activeFilterBadges.indexOf(badge);
-              this.activeFilterBadges.splice(index, 1);
-            }
+    this.reserved.map((element) => {
+      let key = Object.keys(element)[0];
+      if (selectedFilter === key) {
+        this.loadedItems = element[key];
+        document
+          .getElementById(selectedFilter)
+          .classList.remove('active-filter');
+        let index = this.filterSwitch.indexOf(selectedFilter);
+        this.filterSwitch.splice(index, 1);
+        for (let badge of this.activeFilterBadges) {
+          if (selectedFilter === badge.label) {
+            let index = this.activeFilterBadges.indexOf(badge);
+            this.activeFilterBadges.splice(index, 1);
           }
         }
       }
-    )
+    });
   }
 
   filterItems(selectedFilter, type) {
@@ -89,9 +89,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     );
     if (!this.filterSwitch.includes(selectedFilter)) {
       this.reserved.push({ [selectedFilter]: this.loadedItems });
-      console.log(this.reserved);
+      // console.log(this.reserved);
       this.loadedItems = filteredArray;
-      console.log(this.loadedItems);
+      // console.log(this.loadedItems);
       document.getElementById(selectedFilter).className += ' active-filter';
       this.createFilterBadges(selectedFilter, type); //add type
       this.filterSwitch.push(selectedFilter);
@@ -101,22 +101,30 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   }
 
   activeFilterBadges = [];
-  createFilterBadges(selectedFilter, type) { //add type param
-    this.activeFilterBadges.push({label: selectedFilter, type: type});
+  createFilterBadges(selectedFilter, type) {
+    //add type param
+    this.activeFilterBadges.push({ label: selectedFilter, type: type });
   }
 
   getFilters(type) {
     let filteredArray = [];
     this.loadedItems.map((item) => {
-      if (item[`dcterms:${type}`]) {
-        item[`dcterms:${type}`].map((field) => {
-          if (field['o:label'] || field['@value']) {
-            filteredArray.push(field['o:label'] || field['@value']);
-          }
-        });
+      if (item.metadata[type]) { //['creator', 'date', 'subject', 'type'];
+        if (Array.isArray(item.metadata[type])) {
+          item.metadata[type].map((field) => {
+            // if (field['@language'] === this.language) {
+              if (field) {
+                filteredArray.push(field);
+              }
+            // }
+          });
+        } else {
+          filteredArray.push(item.metadata[type]);
+        }
       }
     });
     let filteredSet = [...new Set(filteredArray)];
+    // console.log(filteredSet);
     for (let value of filteredSet) {
       let count = filteredArray.filter((x) => x == value).length;
       this.filteredItems.push({
@@ -125,6 +133,90 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
         count: count,
       });
     }
+    // console.log(this.filteredItems);
+  }
+
+  // getLanguageMetadata(item, type) {
+  //   // console.log(item[type]);
+  //   if (item[type]) {
+  //     item[type].map(hit => {
+  //       if (hit['@language'] === this.defaultLang) {
+  //         return hit["o:label"] || hit["@value"] 
+  //       } else if (!hit['@language'] && hit['type'] !== 'uri') {
+  //         return hit["o:label"] || hit["@value"] 
+  //       } 
+  //     })
+  //   }
+  // }
+
+  createDataModel(item) { // FIXME: move to parser?
+    let lang = this.defaultLang;
+    const dataModel = {
+        creator: [],
+        title: '',
+        date: '',
+        description: [],
+        subject: [],
+        type: []
+    }
+
+    Object.keys(item).map(property => {
+      // console.log(item[property]);
+      switch (property) {
+        case 'dcterms:creator':
+          item[property].map(hit => {
+            if (hit.type === 'literal' && hit['@language']) {
+              if (hit['@language'] === lang) {
+                // console.log(hit['@value']);
+                dataModel.creator.push(hit['@value'])
+              }
+            }
+          })
+        break;
+
+        case 'dcterms:date':
+          dataModel.date = item[property][0]['@value'];
+        break;
+
+        case 'dcterms:title':
+          dataModel.title = item[property][0]['@value'];
+        break;
+
+        case 'dcterms:description':
+          item[property].map(hit => {
+            if (hit.type === 'literal' && hit['@language']) {
+              if (hit['@language'] === lang) {
+                dataModel.description.push(hit['@value'])
+              }
+            }
+          })
+        break;
+
+        case 'dcterms:subject':
+          item[property].map(hit => {
+            if (hit.type === 'literal' && hit['@language']) {
+              if (hit['@language'] === lang) {
+                // console.log(hit['@value']);
+                dataModel.subject.push(hit['@value'])
+              }
+            }
+          })
+        break;
+
+        case 'dcterms:type':
+          item[property].map(hit => {
+            if (hit.type === 'literal' && hit['@language']) {
+              if (hit['@language'] === lang) {
+                dataModel.type.push(hit['@value'])
+              }
+            }
+          })
+        break;
+
+      }
+    })
+
+    item.metadata = dataModel;
   }
 
   sortAscItems(array) {
@@ -199,7 +291,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   fetchItems() {
     //private?
     this.http
-      .get('https://137.204.168.14/lib/api/items')
+      .get('http://137.204.168.14/lib/api/items')
       .pipe(
         map((responseData) => {
           const itemsArray = [];
@@ -208,17 +300,21 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
               itemsArray.push({ ...responseData[key] });
             }
           }
-          return itemsArray;
+          return itemsArray; //retrieve an array of all the items in the collection
         })
       )
       .subscribe((items) => {
-        items.map((item) =>
-          this.loadedItems.push(parser.parseMedia(parser.parseRDF(item)))
-        );
+        items.map((item) => {
+          // console.log(item);
+          // item is been parsed in order to retrieve media from the o:media property URI
+          this.createDataModel(item);
+          this.loadedItems.push(parser.parseMedia(item)); // add parser.parseRDF?
+        });
         this.sortDescItems(this.loadedItems);
-        for (let type of this.filterTypesArray) {
+        for (let type of this.filterTypesArray) { // ['creator', 'date', 'subject', 'type'];
           this.getFilters(type);
         }
       });
-  }
+      // console.log(this.loadedItems);
+    }
 }

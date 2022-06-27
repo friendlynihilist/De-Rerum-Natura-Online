@@ -9,7 +9,7 @@
 
     <!-- FIXME: use openseadragon -->
     <div class="row justify-content-md-center image-container">
-      <div *ngIf="loadedItem.original_url; else loadVideo" class="col-md-auto">
+      <div *ngIf="loadedItem.original_url[0]; else loadVideo" class="col-md-auto">
         <!-- FIXME: undefined -->
         <img [src]="loadedItem.thumbnail_display_urls.large" />
       </div>
@@ -17,12 +17,12 @@
         <!-- FIXME: undefined -->
         <iframe
           [src]="
-            sanitizer.bypassSecurityTrustResourceUrl(loadedItem.video_source)
+            sanitizer.bypassSecurityTrustResourceUrl(loadedItem.video_source[0])
           "
           width="550"
           height="400"
-          frameborder="0"
-          allowfullscreen
+          frameBorder="0"
+          allowfullscreen="true"
         ></iframe>
       </ng-template>
     </div>

@@ -3,34 +3,44 @@ import { DataFactory } from 'rdf-data-factory';
 
 export const parser = {
   parseMedia(item) {
-    let mediaUrl = item['o:media'].map((field) => field['@id']);
+    
+    // let mediaUrl = item['o:media'].map((field) => field['@id']); 
+    item.original_url = [];
+    item.video_source = [];
+    
+    for (let media of item['o:media']) {
+      fetch(media['@id'])
+        .then((response) => response.json())
+        .then((data) => {
+          if (data['o:original_url']) {
+            //FIXME: items can have multiple media. so this should be an object rather than a shallow property.
+            item.original_url.push(data['o:original_url']); // create a original_url property into item
+          } else {
+            const stripUrl = this.getId(data['o:source']);
+            item.video_source.push('https://www.youtube.com/embed/' + stripUrl); // create a video_source property into item
+          }
+        });
+    }
 
-    fetch(mediaUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data['o:original_url']) {
-          item.original_url = data['o:original_url'];
-        } else {
-          const stripUrl = this.getId(data['o:source']);
-          item.video_source = 'https://www.youtube.com/embed/' + stripUrl;
-        }
-      });
     return item;
   },
 
   parseSimpleMedia(item) {
-    let mediaUrl = item['o:media'].map((field) => field['@id']);
+    // let mediaUrl = item['o:media'].map((field) => field['@id']);
 
-    fetch(mediaUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data['o:original_url']) {
-          item.original_url = data['o:original_url'];
-        } else {
-          const stripUrl = this.getId(data['o:source']);
-          item.video_source = 'https://www.youtube.com/watch?v=' + stripUrl;
-        }
-      });
+    for (let media of item['o:media']) {
+      fetch(media['@id'])
+        .then((response) => response.json())
+        .then((data) => {
+          if (data['o:original_url']) {
+            item.original_url = data['o:original_url'];
+          } else {
+            const stripUrl = this.getId(data['o:source']);
+            item.video_source = 'https://www.youtube.com/watch?v=' + stripUrl;
+          }
+        });
+    }
+
     return item;
   },
 
@@ -132,7 +142,7 @@ export const parser = {
   },
 
   buildLink(obj) {
-    let baseUrl = 'http://localhost:4200';
+    let baseUrl = 'http://localhost:4200'; // FIXME: move to config
     return `${baseUrl}/work/${obj['value_resource_id']}/${this.slugify(
       obj['display_title']
     )}`;
@@ -145,9 +155,11 @@ export const parser = {
   },
 
   getId(url) {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-
-    return match && match[2].length === 11 ? match[2] : null;
+    if (url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+  
+      return match && match[2].length === 11 ? match[2] : null;
+    }
   },
 };

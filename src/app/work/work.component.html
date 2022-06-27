@@ -71,10 +71,10 @@
           </ng-container>
       </div>
 
-      <button class="accordion">Verses</button>
+      <!-- <button class="accordion">Verses</button>
       <div class="panel">
         <p>Lorem ipsum...</p>
-      </div>
+      </div> -->
     </div>
 
     <div class="col items-list">
@@ -110,35 +110,35 @@
           /></a>
           <p
             class="metadata-artist"
-            *ngFor="let field of item['dcterms:creator']"
+            *ngFor="let hit of item.metadata.creator"
           >
-            {{ field["o:label"] || field["@value"] }}
+          {{ hit }}
           </p>
           <a class="link hover-1" [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
-            ><h3 class="metadata-title">{{ item["o:title"] }}</h3></a
+            ><h3 class="metadata-title">{{ item.metadata.title }}</h3></a
           >
-          <p class="metadata-date" *ngFor="let field of item['dcterms:date']">
-            {{ field["o:label"] || field["@value"] }}
+          <p class="metadata-date">
+            {{ item.metadata.date }}
           </p>
-          <ng-container *ngIf="item['dcterms:type']">
+          <ng-container *ngIf="item.metadata.type?.length > 0">
             <span class="metadata metadata-date"
               >type
-              <ng-container *ngFor="let field of item['dcterms:type']">
+              <ng-container *ngFor="let hit of item.metadata.type">
                 <span
                   style="font-weight: bold"
-                  >{{ field["o:label"] || field["@value"] }}</span
+                  >{{ hit }}</span
                 >
               </ng-container>
             </span>
             <br />
           </ng-container>
-          <ng-container *ngIf="item['dcterms:subject']">
+          <ng-container *ngIf="item.metadata.subject?.length > 0">
             <span class="metadata metadata-date"
               >subject
-              <ng-container *ngFor="let field of item['dcterms:subject']">
+              <ng-container *ngFor="let hit of item.metadata.subject">
                 <span
                   style="font-weight: bold"
-                  >{{ field["o:label"] || field["@value"] }}</span
+                  >{{ hit }}</span
                 >
               </ng-container>
             </span>

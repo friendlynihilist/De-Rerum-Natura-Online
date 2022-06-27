@@ -14,6 +14,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { TextSelectorService } from './text-selector.service';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RouterModule, ROUTES, RoutesRecognized } from '@angular/router';
+import { CreditsComponent } from './credits/credits.component';
 // import { JwPaginationComponent } from 'jw-angular-pagination';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { RouterModule, ROUTES, RoutesRecognized } from '@angular/router';
     StoryComponent,
     SingleWorkComponent,
     TimelineComponent,
+    CreditsComponent,
     // JwPaginationComponent
   ],
   imports: [

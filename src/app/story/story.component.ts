@@ -226,7 +226,7 @@ export class StoryComponent implements OnInit {
 
   fetchItems() {
     this.http
-      .get('https://137.204.168.14/lib/api/items')
+      .get('http://137.204.168.14/lib/api/items')
       .pipe(
         map((responseData) => {
           const itemsArray = [];
@@ -573,7 +573,10 @@ export class StoryComponent implements OnInit {
           credit: searchValue(item['dcterms:creator']),
         },
         start_date: {
-          year: searchValue(item['dcterms:date']),
+          year: searchValue(item['dcterms:date']).toString().includes('-') ? searchValue(item['dcterms:date']).toString().split('-')[0] : searchValue(item['dcterms:date']),
+        },
+        end_date: {
+          year: searchValue(item['dcterms:date']).toString().includes('-') ? searchValue(item['dcterms:date']).toString().split('-')[1] : '',
         },
         group: item['o:title'] === 'La morte' || item['o:title'] === 'Silenzio' || item['o:title'] === 'Mostro' || item['o:title'] === 'Donna urlante' || item['o:title'] === 'I bambini muoiono' ? 'Le storie della morte' : '',
         text: {

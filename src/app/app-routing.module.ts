@@ -6,9 +6,11 @@ import { LibraryComponent } from './library/library.component';
 import { WorkComponent } from './work/work.component';
 import { SingleWorkComponent } from './single-work/single-work.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { CreditsComponent } from './credits/credits.component';
 
 const routes: Routes = [
   { path: 'library', component: LibraryComponent },
+  { path: 'credits', component: CreditsComponent },
   { path: 'timeline', component: TimelineComponent },
   { path: 'story', component: StoryComponent },
   { path: 'work', component: WorkComponent },

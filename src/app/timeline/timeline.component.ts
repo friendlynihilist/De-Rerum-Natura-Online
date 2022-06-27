@@ -26,7 +26,7 @@ export class TimelineComponent implements OnInit {
 
   fetchItems() {
     this.http
-      .get('https://137.204.168.14/lib/api/items')
+      .get('http://137.204.168.14/lib/api/items')
       .pipe(
         map((responseData) => {
           const itemsArray = [];
@@ -64,7 +64,10 @@ export class TimelineComponent implements OnInit {
           credit: searchValue(item['dcterms:creator']),
         },
         start_date: {
-          year: searchValue(item['dcterms:date']),
+          year: searchValue(item['dcterms:date']).toString().includes('-') ? searchValue(item['dcterms:date']).toString().split('-')[0] : searchValue(item['dcterms:date']),
+        },
+        end_date: {
+          year: searchValue(item['dcterms:date']).toString().includes('-') ? searchValue(item['dcterms:date']).toString().split('-')[1] : '',
         },
         text: {
           headline: `<a

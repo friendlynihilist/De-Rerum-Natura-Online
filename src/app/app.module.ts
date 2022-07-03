@@ -15,6 +15,8 @@ import { TextSelectorService } from './text-selector.service';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RouterModule, ROUTES, RoutesRecognized } from '@angular/router';
 import { CreditsComponent } from './credits/credits.component';
+import { GraphComponent } from './graph/graph.component';
+import { MapComponent } from './map/map.component';
 // import { JwPaginationComponent } from 'jw-angular-pagination';
 
 @NgModule({
@@ -27,6 +29,8 @@ import { CreditsComponent } from './credits/credits.component';
     SingleWorkComponent,
     TimelineComponent,
     CreditsComponent,
+    GraphComponent,
+    MapComponent,
     // JwPaginationComponent
   ],
   imports: [

@@ -7,6 +7,8 @@ import { WorkComponent } from './work/work.component';
 import { SingleWorkComponent } from './single-work/single-work.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { CreditsComponent } from './credits/credits.component';
+import { GraphComponent } from './graph/graph.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   { path: 'library', component: LibraryComponent },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: 'timeline', component: TimelineComponent },
   { path: 'story', component: StoryComponent },
   { path: 'work', component: WorkComponent },
+  { path: 'graph', component: GraphComponent },
+  { path: 'map', component: MapComponent },
   { path: 'home', component: HomeComponent},
   { path: 'work/:id/:title', component: SingleWorkComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },

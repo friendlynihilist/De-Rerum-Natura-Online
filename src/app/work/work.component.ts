@@ -12,6 +12,7 @@ import { access } from 'fs';
 import { style } from '@angular/animations';
 import { timeStamp } from 'console';
 
+
 @Component({
   selector: 'app-work',
   templateUrl: './work.component.html',
@@ -300,6 +301,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
               itemsArray.push({ ...responseData[key] });
             }
           }
+          console.log(itemsArray);
           return itemsArray; //retrieve an array of all the items in the collection
         })
       )

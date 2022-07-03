@@ -120,7 +120,7 @@ export class SingleWorkComponent implements OnInit, OnDestroy {
 
   fetchItem() {
     this.http
-      .get(`https://137.204.168.14/lib/api/items`)
+      .get(`http://137.204.168.14/lib/api/items`)
       .pipe(
         map((responseData) => {
           const itemsArray = [];

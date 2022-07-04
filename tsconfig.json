@@ -12,6 +12,9 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "module": "commonjs", //es2020
     "lib": [
       "es2018",

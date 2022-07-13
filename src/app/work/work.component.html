@@ -6,17 +6,17 @@
   <!-- <div class="container"> -->
 
   <div class="row align-items-start">
-    <div class="col-4"><h1>Items</h1></div>
+    <div class="col-4"><h1>Oggetti</h1></div>
   </div>
   <div class="row justify-content-md-start">
     <div class="col-3 total-works">
       <p style="font-size: 1.2rem">
-        <span style="font-weight: bold">Filter the results</span>
+        <span style="font-weight: bold">Filtra i risultati</span>
       </p>
     </div>
     <div class="col-4 total-works">
       <p style="font-size: 1.2rem">
-        <span style="font-weight: bold">{{ loadedItems.length }}</span> total Items
+        <span style="font-weight: bold">{{ loadedItems.length }}</span> Oggetti totali
       </p>
     </div>
     <div class="col-4">
@@ -25,8 +25,8 @@
         aria-label="Default select example"
         (change)="switchSort()"
       >
-        <option selected>Alphabetical order (A→Z)</option>
-        <option value="1">Alphabetical order (Z→A)</option>
+        <option selected>Ordine alfabetico (A→Z)</option>
+        <option value="1">Ordine alfabetico (Z→A)</option>
       </select>
     </div>
   </div>
@@ -35,7 +35,16 @@
     <div class="col-lg-2 filters-list">
       <!-- <h4 class="filters-title">Filtri</h4> -->
 
-      <button class="accordion">Author</button>
+      <!-- <button class="accordion">Collection</button>
+      <div class="panel">
+        <ng-container *ngFor="let filter of filteredItems">
+          <ng-container *ngIf="filter.label === 'relation'">
+        <li class="filter-artist" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
+          </ng-container>
+      </ng-container>
+      </div> -->
+
+      <button class="accordion">Autore</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'creator'">
@@ -44,7 +53,7 @@
       </ng-container>
       </div>
 
-      <button class="accordion">Date</button>
+      <button class="accordion">Data</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'date'">
@@ -53,7 +62,7 @@
           </ng-container>
       </div>
 
-      <button class="accordion">Subject</button>
+      <button class="accordion">Tema</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'subject'">
@@ -62,10 +71,28 @@
           </ng-container>
       </div>
 
-      <button class="accordion">Type</button>
+      <button class="accordion">Categoria</button>
+      <div class="panel">
+        <ng-container *ngFor="let filter of filteredItems">
+          <ng-container *ngIf="filter.label === 'category'">
+        <li class="filter-artist" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
+          </ng-container>
+      </ng-container>
+      </div>
+
+      <button class="accordion">Tipologia</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
           <ng-container *ngIf="filter.label === 'type'">
+        <li class="filter-type" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
+          </ng-container>
+          </ng-container>
+      </div>
+
+      <button class="accordion">Collezione</button>
+      <div class="panel">
+        <ng-container *ngFor="let filter of filteredItems">
+          <ng-container *ngIf="filter.label === 'relation'">
         <li class="filter-type" [id]="filter.value" (click)="filterItems(filter.value, filter.label)">{{filter.value}} <span class="badge bg-secondary">{{filter.count}}</span></li><br>
           </ng-container>
           </ng-container>
@@ -81,6 +108,11 @@
       <div class="row no-padding-row">
         <div class="col-lg-auto active-filter-badge" *ngFor="let badge of activeFilterBadges">
           <span class="badge badge-secondary filter-badge slide current" id="{{badge.label}}-badge" (click)="removeFilter(badge.label)">{{badge.label}}</span>
+        </div>
+      </div>
+      <div class="row no-padding-row" *ngIf="collectionDescription">
+        <div class="col-lg-auto">
+          <span id="collection-description" (click)="removeFilter(badge.label)">{{collectionDescription}}</span>
         </div>
       </div>
       <div class="row">
@@ -117,12 +149,15 @@
           <a class="link hover-1" [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]"
             ><h3 class="metadata-title">{{ item.metadata.title }}</h3></a
           >
-          <p class="metadata-date">
+          <p class="metadata-date" *ngIf="item.metadata.date">
             {{ item.metadata.date }}
+          </p>
+          <p class="metadata-date" *ngIf="item.metadata.category">
+            {{ item.metadata.category }}
           </p>
           <ng-container *ngIf="item.metadata.type?.length > 0">
             <span class="metadata metadata-date"
-              >type
+              >tipologia
               <ng-container *ngFor="let hit of item.metadata.type">
                 <span
                   style="font-weight: bold"
@@ -134,7 +169,7 @@
           </ng-container>
           <ng-container *ngIf="item.metadata.subject?.length > 0">
             <span class="metadata metadata-date"
-              >subject
+              >tema
               <ng-container *ngFor="let hit of item.metadata.subject">
                 <span
                   style="font-weight: bold"
@@ -142,6 +177,21 @@
                 >
               </ng-container>
             </span>
+            <br />
+          </ng-container>
+          <ng-container *ngIf="item.metadata.citation?.length > 0">
+            <div
+              >
+              <!-- source -->
+              <ng-container *ngFor="let hit of item.metadata.citation">
+                <a [href]="hit.link" target="_blank" class="metadata-source">
+                  <span
+                    >{{ hit.label }}</span
+                  >
+                </a>
+                  
+              </ng-container>
+            </div>
             <br />
           </ng-container>
           <span class="metadata metadata-date" *ngIf="item.ref_count"

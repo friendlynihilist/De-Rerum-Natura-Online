@@ -36,43 +36,44 @@ export class GraphComponent implements OnInit, AfterContentInit {
     nodes: [
       {
         id: 1,
-        name: 'A',
+        name: 'Casa di Lucrezio, 1981 (prima versione)',
+        img: '../../assets/img/casalucrezio2.jpg'
       },
       {
         id: 2,
-        name: 'B',
+        name: 'Casa di Lucrezio, 1981 (seconda versione)',
       },
       {
         id: 3,
-        name: 'C',
+        name: 'Casa di Lucrezio, 1981 (terza versione)',
       },
       {
         id: 4,
-        name: 'D',
+        name: 'Casa di Lucrezio, 1981 (quarta versione)',
       },
       {
         id: 5,
-        name: 'E',
+        name: 'Casa di Lucrezio, 1981 (quinta versione)',
       },
       {
         id: 6,
-        name: 'F',
+        name: 'Casa di Lucrezio, 1981 (sesta versione)',
       },
       {
         id: 7,
-        name: 'G',
+        name: 'Casa di Lucrezio, 1981 (settima versione)',
       },
       {
         id: 8,
-        name: 'H',
+        name: 'Casa di Lucrezio, 1981-1982 (ottava versione)',
       },
       {
         id: 9,
-        name: 'I',
+        name: 'Casa di Lucrezio, 1981-1984 (nona versione)',
       },
       {
         id: 10,
-        name: 'J',
+        name: 'Morte',
       },
     ],
     links: [
@@ -204,8 +205,8 @@ export class GraphComponent implements OnInit, AfterContentInit {
         d3.select(this).style('stroke', 'black').style('opacity', 1);
       })
       .on('mousemove', function (event: any, d: any) {
-        console.log(d);
-        Tooltip.html('The exact value of<br>this cell is: ' + d.name)
+        // console.log(d);
+        Tooltip.html(d.name)
         .style('left', d3.pointer(event)[0] + 200 + 'px')
         .style('top', d3.pointer(event)[1] + 'px');
       })

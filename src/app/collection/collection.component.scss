@@ -1,3 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,700|Prata');
+
+.jumbotron {
+    height: 40vh;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    background-image: url("../../assets/img/plagueofathens.jpg");
+    background-position: center;
+    color: white;
+}
+
+.display-4 {
+    font-family: 'Prata', serif;
+}
+
+.lead {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+
+.description {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+
+.link {
+    /* RESET */
+    text-decoration: none;
+    line-height: 1;
+    
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    padding: 5px 5px;
+    overflow: hidden;
+    color: #333;
+    vertical-align: bottom;
+    transition: color .3s ease-out;
+ }
+ 
+ .link::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    transform: translateY(calc(100% - 2px));
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
+    transition: transform .25s ease-out;
+ }
+ 
+ .link:hover { 
+    color: #fff; 
+ }
+ .link:hover::before {
+    transform: translateY(0);
+    transition: transform .25s ease-out;
+ }
+
+.with-margins {
+    margin-bottom: 50px;
+}
+
+.collection-title {
+    font-family: 'Prata', serif;
+    font-weight: 300;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding-bottom: 1vh;
+    border-bottom: 0.5px solid rgba(44, 43, 43, 0.225);
+}
+
+.sets-bg {
+    background-color: #c9d2d9;
+    // padding-top: 80px;
+    padding-bottom: 10vh;
+}
+
+.set-link {
+    color: white;
+}
+
+.set-link:hover {
+    color: rgb(91, 140, 189);
+}
+
+.card-container {
+    max-width: 60%;
+}
+
+.card {
+    transition: all .2s;
+    box-shadow: 0 2px 1px #0000000a, 0 3px 10px #00000014;
+    // max-height: 100px;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+.set-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, .5);
+  }
+
+.card-img {
+    object-fit: cover;
+}
+
+.card-title {
+    z-index: 2;
+}
+
+// .card {}
+
+//  .flex-container {
+//     display: flex;
+//     // justify-content: center;
+//     // align-items: center;
+//     // align-self: center;
+//  }
+
+//  .row {
+//     display: flex;
+//     flex-direction: row;
+//     flex-wrap: wrap;
+//     width: 100%;
+//   }
+  
+//   .column {
+//     display: flex;
+//     flex-direction: column;
+//     flex-basis: 100%;
+//     flex: 1;
+//   }
+
 .lead {
     font-family: 'Prata', serif;
 }
@@ -153,37 +299,37 @@ h1 {
 // #MIXINS
 // ------------------------------------ //
 @mixin overlay {
-  position: absolute;
-  content: " ";
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(#000000, .4) !important;
-  transition: all $transition-durations;
+    position: absolute;
+    content: " ";
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(#000000, .4) !important;
+    transition: all $transition-durations;
 }
 
 @mixin overlay-bottom-gradient {
-  position: absolute;
-  content: " ";
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+    position: absolute;
+    content: " ";
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-  background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
-  transition: all $transition-durations;
+    transition: all $transition-durations;
 }
 
 @mixin consistent {
-  &:after {
-      content: ' ';
-      clear: both;
-      display: block;
-  }
+    &:after {
+        content: ' ';
+        clear: both;
+        display: block;
+    }
 }
 
 
@@ -191,38 +337,38 @@ h1 {
 // #INPUT PLACEHOLDER STYLE
 // ------------------------------------ //
 @mixin placeholder {
-  &::-webkit-input-placeholder {
-      @content;
-  }
+    &::-webkit-input-placeholder {
+        @content;
+    }
 
-  &:-moz-placeholder {
-      @content;
-  }
+    &:-moz-placeholder {
+        @content;
+    }
 
-  &::-moz-placeholder {
-      @content;
-  }
+    &::-moz-placeholder {
+        @content;
+    }
 
-  &:-ms-input-placeholder {
-      @content;
-  }
+    &:-ms-input-placeholder {
+        @content;
+    }
 }
 
 // ------------------------------------ //
 // #FLEX-ITEM-WIDTH
 // ------------------------------------ //
 @mixin flex-item-width($width) {
-  flex: 0 0 $width;
-  width: $width;
+    flex: 0 0 $width;
+    width: $width;
 }
 
 // ------------------------------------ //
 // #FIRST LETTER CAPITAL
 // ------------------------------------ //
 @mixin first-letter-capital() {
-  &:first-letter {
-      text-transform: uppercase;
-  }
+    &:first-letter {
+        text-transform: uppercase;
+    }
 }
 
 // ------------------------------------ //
@@ -603,165 +749,165 @@ $progress-line-height: $space * 3;
 
 
 /**
-* IMAGE-VIEWER
-*
-* Image viewer component based on OpenSeaDragon.
-* The component includes a thumb preview tool and
-* native controls for zoomin zoomout home and fullscreen.
-*/
-
+ * IMAGE-VIEWER
+ *
+ * Image viewer component based on OpenSeaDragon.
+ * The component includes a thumb preview tool and
+ * native controls for zoomin zoomout home and fullscreen.
+ */
+ 
 /* ------------------------------------ *\
- #IMAGE-VIEWER
+   #IMAGE-VIEWER
 \* ------------------------------------ */
 .n7-image-viewer {
-  position: relative;
-  background-color: $image-viewer-background-color;
+    position: relative;
+    background-color: $image-viewer-background-color;
 
-  &__viewer {
-      height: $image-viewer-height;
-  }
+    &__viewer {
+        height: $image-viewer-height;
+    }
 }
 
 
 /* ------------------------------------ *\
- #THUMBS
+   #THUMBS
 \* ------------------------------------ */
 /* This is the style for the default OpenSeaDragon thumbs. 
 For our custom thumbs please refer to ImageViewerTools. */
 .n7-image-viewer {
-  &__thumbs {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: $space*2;
-  }
+    &__thumbs {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: $space*2;
+    }
 
-  &__thumb-list {
-      list-style: none;
-  }
+    &__thumb-list {
+        list-style: none;
+    }
 
-  &__thumb-item {
-      width: $image-viewer-thumb-width !important;
-      height: $image-viewer-thumb-height !important;
-      margin-bottom: $space;
-      background-size: cover;
-      background-position: center center;
-      background-repeat: none;
-      border: 2px solid transparent;
-      cursor: pointer;
+    &__thumb-item {
+        width: $image-viewer-thumb-width !important;
+        height: $image-viewer-thumb-height !important;
+        margin-bottom: $space;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: none;
+        border: 2px solid transparent;
+        cursor: pointer;
 
-      &:last-child {
-          margin-bottom: 0;
-      }
+        &:last-child {
+            margin-bottom: 0;
+        }
 
-      &:hover:not(.is-active) {
-          border: 2px solid $image-viewer-thumb-hover-border-color;
-      }
+        &:hover:not(.is-active) {
+            border: 2px solid $image-viewer-thumb-hover-border-color;
+        }
 
-      &.is-active {
-          border: 2px solid $image-viewer-thumb-active-border-color;
-      }
-  }
+        &.is-active {
+            border: 2px solid $image-viewer-thumb-active-border-color;
+        }
+    }
 }
 
 
 /* ------------------------------------ *\
- #CONTROLS
+   #CONTROLS
 \* ------------------------------------ */
 .n7-image-viewer__controls {
-  position: absolute;
-  top: $space*2;
-  right: $space*2;
-  
-  .n7-image-viewer__controls-list {
-      margin: 0;
-      padding: 0;
-  }
+    position: absolute;
+    top: $space*2;
+    right: $space*2;
+    
+    .n7-image-viewer__controls-list {
+        margin: 0;
+        padding: 0;
+    }
 
-  .n7-image-viewer__controls-item {
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      width: $image-viewer-control-width;
-      height: $image-viewer-control-height;
-      margin-bottom: $space !important;
-      cursor: pointer;
-      background-color: rgba(#000000, .9);
-      border-radius: $border-radius;
+    .n7-image-viewer__controls-item {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: $image-viewer-control-width;
+        height: $image-viewer-control-height;
+        margin-bottom: $space !important;
+        cursor: pointer;
+        background-color: rgba(#000000, .9);
+        border-radius: $border-radius;
 
-      span {
-          color: rgba($color-text-inverse, .8);
-          font-size: $image-viewer-control-icon-size;
-          transition: color $transition-durations;
-      }
+        span {
+            color: rgba($color-text-inverse, .8);
+            font-size: $image-viewer-control-icon-size;
+            transition: color $transition-durations;
+        }
 
-      &:hover {
-          background-color: rgba(#000000, 1);
-          span {
-              color: rgba($color-text-inverse, 1);
-          }
-      }
+        &:hover {
+            background-color: rgba(#000000, 1);
+            span {
+                color: rgba($color-text-inverse, 1);
+            }
+        }
 
-      &:last-child {
-          margin-bottom: 0;
-      }
-  }
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 
 
 /* ------------------------------------ *\
- #PREV-NEXT
+   #PREV-NEXT
 \* ------------------------------------ */
 .n7-image-viewer__prev, .n7-image-viewer__next {
-  position: absolute !important;
-  top: 50%;
-  transform: translateY(-50%);
-  
-  span {
-      color: rgba($color-text-inverse, .8);
-      font-size: $font-size-xxl*2;
-      transition: all $transition-durations;
-      cursor: pointer !important;
-      text-shadow: 0 2px 4px rgba(#000000, .5);
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    span {
+        color: rgba($color-text-inverse, .8);
+        font-size: $font-size-xxl*2;
+        transition: all $transition-durations;
+        cursor: pointer !important;
+        text-shadow: 0 2px 4px rgba(#000000, .5);
 
-      &:hover {
-          color: rgba($color-text-inverse, 1);
-      }
-  }
+        &:hover {
+            color: rgba($color-text-inverse, 1);
+        }
+    }
 }
 
 .n7-image-viewer__prev {
-  left: 0;
+    left: 0;
 }
 
 .n7-image-viewer__next {
-  right: 0;
+    right: 0;
 }
 
 
 /* ------------------------------------ *\
- #REFERENCE-STRIP
+   #REFERENCE-STRIP
 \* ------------------------------------ */
 .openseadragon-container {
-  &:hover {
-      .referencestrip {
-          margin-bottom: 0 !important;
-      }
-  }
+    &:hover {
+        .referencestrip {
+            margin-bottom: 0 !important;
+        }
+    }
 }
 
 .referencestrip {
-  margin-bottom: -100px !important;
-  transition: all $transition-durations*2;
+    margin-bottom: -100px !important;
+    transition: all $transition-durations*2;
 
-  > *, .openseadragon-container, .openseadragon-canvas, canvas, .displayregion {
-      cursor: pointer !important;
-  }
+    > *, .openseadragon-container, .openseadragon-canvas, canvas, .displayregion {
+        cursor: pointer !important;
+    }
 }
 
 
 /* ------------------------------------ *\
- #MEDIA-QUERIES
+   #MEDIA-QUERIES
 \* ------------------------------------ */
 @media all and (max-width: $breakpoint-laptop) {
 }

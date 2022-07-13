@@ -29,20 +29,20 @@ export class LibraryComponent implements OnInit, AfterViewInit {
     private textSelector: TextSelectorService,
     private router: Router
   ) {
-    this.isLoading = true;
-    this.checkIfLoaded();
+    // this.isLoading = true;
+    // this.checkIfLoaded();
   }
 
   isLoading: boolean;
 
   ngOnInit(): void {
-    this.subscription = this.textSelector.customerUpdate$.subscribe(
-      (updatedClientData) => {
-        console.log(updatedClientData);
-        this.delayHighlight(updatedClientData);
-      }
-    );
-    this.textSelector.customerUpdate$ = undefined;
+    // this.subscription = this.textSelector.customerUpdate$.subscribe(
+    //   (updatedClientData) => {
+    //     console.log(updatedClientData);
+    //     this.delayHighlight(updatedClientData);
+    //   }
+    // );
+    // this.textSelector.customerUpdate$ = undefined;
     //     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
     // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     //   return new bootstrap.Popover(popoverTriggerEl)
@@ -60,11 +60,9 @@ export class LibraryComponent implements OnInit, AfterViewInit {
   }
 
   checkIfLoaded() {
-    window.addEventListener('load', function (event) {
-      console.log('All resources finished loading!');
-      //here i should do something, either returning false or...
-      //...manipulating the isLoading, but i can't access isLoading from here
-    });
+    // window.addEventListener('load', function (event) {
+    //   console.log('All resources finished loading!');
+    // });
   }
 
   highlight(item) {

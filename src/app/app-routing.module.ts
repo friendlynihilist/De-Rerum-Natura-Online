@@ -9,9 +9,11 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { CreditsComponent } from './credits/credits.component';
 import { GraphComponent } from './graph/graph.component';
 import { MapComponent } from './map/map.component';
+import { CollectionComponent } from './collection/collection.component';
 
 const routes: Routes = [
   { path: 'library', component: LibraryComponent },
+  { path: 'collection', component: CollectionComponent},
   { path: 'credits', component: CreditsComponent },
   { path: 'timeline', component: TimelineComponent },
   { path: 'story', component: StoryComponent },

@@ -5,11 +5,13 @@ import {
   AfterContentChecked,
 } from '@angular/core';
 // import * as L from 'leaflet';
-import L, { TileLayerOptions, MapOptions } from 'leaflet';
+import * as L from 'leaflet';
+import { TileLayerOptions, MapOptions } from 'leaflet';
 import { Icon } from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 import { filter, map } from 'rxjs/operators';
 import { parser } from '../parsers';
+import { Subject } from 'rxjs';
 
 /**
  * Interface for TileLayer's "data"
@@ -101,7 +103,7 @@ export class MapComponent
               "41.89193",
               "12.51133"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/c03cfc0843862a6b1ff72f73954d47cfefe2fe0d.jpg\"/>\n                            <h3>Natura decomposta</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3169070\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/c03cfc0843862a6b1ff72f73954d47cfefe2fe0d.jpg\"/>\n                            <h3>Natura decomposta</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3169070\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Rome"
       },
       {
@@ -109,39 +111,39 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/f189cd796a1fc5da4a4f813a4f11c63e9dedc96e.jpg\"/>\n                            <h3>Donne nude</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/f189cd796a1fc5da4a4f813a4f11c63e9dedc96e.jpg\"/>\n                            <h3>Donne nude</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
-      },
-      {
-          "coords": [
-              "48.81999",
-              "2.29998"
-          ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/5388cd0aac5bcbc3e02caeda854a8cbb3e34d644.jpg\"/>\n                            <h3>La peste d'Atene - 2</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2996514\">Geonames</a></p>\n                            ",
-          "title": "Malakoff"
-      },
-      {
-          "coords": [
-              "43.77925",
-              "11.24626"
-          ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/fca823cfc835ce2d4a918b1bbd03f0876f28a009.jpg\"/>\n                            <h3>La natura delle cose</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3176959\">Geonames</a></p>\n                            ",
-          "title": "Florence"
       },
       {
           "coords": [
               "50.93333",
               "6.95"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/2f79093b34ede76333d44c9a4de9842094e0d6db.jpg\"/>\n                            <h3>Guai ai gelidi mostri</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2886242\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/2f79093b34ede76333d44c9a4de9842094e0d6db.jpg\"/>\n                            <h3>Guai ai gelidi mostri</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2886242\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Cologne"
+      },
+      {
+          "coords": [
+              "43.77925",
+              "11.24626"
+          ],
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/fca823cfc835ce2d4a918b1bbd03f0876f28a009.jpg\"/>\n                            <h3>La natura delle cose</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3176959\" target=\"_blank\">Geonames</a></p>\n                            ",
+          "title": "Florence"
+      },
+      {
+          "coords": [
+              "48.81999",
+              "2.29998"
+          ],
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/5388cd0aac5bcbc3e02caeda854a8cbb3e34d644.jpg\"/>\n                            <h3>La peste d'Atene - 2</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2996514\" target=\"_blank\">Geonames</a></p>\n                            ",
+          "title": "Malakoff"
       },
       {
           "coords": [
               "-37.814",
               "144.96332"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/8069cb159ed0976b9849739ec56d927f26a3f14e.jpg\"/>\n                            <h3>Clinamen</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2158177\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/8069cb159ed0976b9849739ec56d927f26a3f14e.jpg\"/>\n                            <h3>Clinamen</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2158177\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Melbourne"
       },
       {
@@ -149,23 +151,15 @@ export class MapComponent
               "43.30341",
               "12.33749"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/14310cb3a6cd65c2e3fe854003e0f65290cbb16e.jpg\"/>\n                            <h3>Here comes the sun</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3165052\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/14310cb3a6cd65c2e3fe854003e0f65290cbb16e.jpg\"/>\n                            <h3>Here comes the sun</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3165052\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Umbertide"
-      },
-      {
-          "coords": [
-              "45.46427",
-              "9.18951"
-          ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/fbf353c1c91b526c1c7660f3ecc3b0cbd958c2f2.jpg\"/>\n                            <h3>Vecchio sotto una pianta</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
-          "title": "Milan"
       },
       {
           "coords": [
               "42.83333",
               "12.83333"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/2a6a81cc717ed3ff02cdf9776391e1c86c7ee3ef.jpg\"/>\n                            <h3>Cose naturali</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3175395\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/2a6a81cc717ed3ff02cdf9776391e1c86c7ee3ef.jpg\"/>\n                            <h3>Cose naturali</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3175395\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Italy"
       },
       {
@@ -173,7 +167,7 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/c352a19d854782d319419d58a772e37981d3eaf3.jpg\"/>\n                            <h3>Passaggio</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/c352a19d854782d319419d58a772e37981d3eaf3.jpg\"/>\n                            <h3>Passaggio</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
       },
       {
@@ -181,31 +175,15 @@ export class MapComponent
               "49.23262",
               "7.00982"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/34130b5fae9221897dbf0774e906cfbfc72cb97b.jpg\"/>\n                            <h3>Lucrezio. Un oratorio materialistico - Parte II: Amore</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2842647\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/34130b5fae9221897dbf0774e906cfbfc72cb97b.jpg\"/>\n                            <h3>Lucrezio. Un oratorio materialistico - Parte II: Amore</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/2842647\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Saarbrücken"
-      },
-      {
-          "coords": [
-              "45.46427",
-              "9.18951"
-          ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/bb5202f6b2169717cda8c98a8e3610219896a636.jpg\"/>\n                            <h3>La morte</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
-          "title": "Milan"
-      },
-      {
-          "coords": [
-              "43.77925",
-              "11.24626"
-          ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/278969388fd87c52baaf3bdcef73f57b398f1959.jpg\"/>\n                            <h3>Lucrezio. Un oratorio materialistico - Parte I: Natura</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3176959\">Geonames</a></p>\n                            ",
-          "title": "Florence"
       },
       {
           "coords": [
               "45.58005",
               "9.27246"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/b7f5b6acedbcb91ba7968eac972db5a3d2447ff4.jpg\"/>\n                            <h3>Casa di Lucrezio, 1981</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3172629\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/b7f5b6acedbcb91ba7968eac972db5a3d2447ff4.jpg\"/>\n                            <h3>Casa di Lucrezio, 1981 (prima versione)</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3172629\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Monza"
       },
       {
@@ -213,7 +191,7 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/42f7fa9af16f0affe87cf00263a13494373caeea.jpg\"/>\n                            <h3>I bambini muoiono</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/fbf353c1c91b526c1c7660f3ecc3b0cbd958c2f2.jpg\"/>\n                            <h3>Vecchio sotto una pianta</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
       },
       {
@@ -221,7 +199,7 @@ export class MapComponent
               "43.77925",
               "11.24626"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/77347850278ce8e5e9e3b60ed495a1f0360bd9de.jpg\"/>\n                            <h3>Casa di Lucrezio,  1981</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3176959\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/278969388fd87c52baaf3bdcef73f57b398f1959.jpg\"/>\n                            <h3>Lucrezio. Un oratorio materialistico - Parte I: Natura</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3176959\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Florence"
       },
       {
@@ -229,7 +207,23 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/77b65c2efc79b853f116df23b51c86102266f29b.jpg\"/>\n                            <h3>Mostro</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/bb5202f6b2169717cda8c98a8e3610219896a636.jpg\"/>\n                            <h3>La morte</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
+          "title": "Milan"
+      },
+      {
+          "coords": [
+              "43.77925",
+              "11.24626"
+          ],
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/77347850278ce8e5e9e3b60ed495a1f0360bd9de.jpg\"/>\n                            <h3>Casa di Lucrezio,  1981 (seconda versione)</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3176959\" target=\"_blank\">Geonames</a></p>\n                            ",
+          "title": "Florence"
+      },
+      {
+          "coords": [
+              "45.46427",
+              "9.18951"
+          ],
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/42f7fa9af16f0affe87cf00263a13494373caeea.jpg\"/>\n                            <h3>I bambini muoiono</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
       },
       {
@@ -237,7 +231,7 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/1f9bd68d2d71b71c9a1e32bd440e8a8a07b282c9.jpg\"/>\n                            <h3>Il gufo</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/77b65c2efc79b853f116df23b51c86102266f29b.jpg\"/>\n                            <h3>Mostro</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
       },
       {
@@ -245,7 +239,7 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/a04c908cc0baf184f57eb53e64ee6c0010c950a0.jpg\"/>\n                            <h3>Donna urlante</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/1f9bd68d2d71b71c9a1e32bd440e8a8a07b282c9.jpg\"/>\n                            <h3>Il gufo</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
       },
       {
@@ -253,7 +247,15 @@ export class MapComponent
               "45.46427",
               "9.18951"
           ],
-          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/243d8ffc5901dc8d4c14b12f5a8cfa8959a358a5.jpg\"/>\n                            <h3>Silenzio</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\">Geonames</a></p>\n                            ",
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/a04c908cc0baf184f57eb53e64ee6c0010c950a0.jpg\"/>\n                            <h3>Donna urlante</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
+          "title": "Milan"
+      },
+      {
+          "coords": [
+              "45.46427",
+              "9.18951"
+          ],
+          "template": "\n                            <img src=\"http://137.204.168.14/lib/files/medium/243d8ffc5901dc8d4c14b12f5a8cfa8959a358a5.jpg\"/>\n                            <h3>Silenzio</h3>\n                            <p>External reference: <a href=\"https://www.geonames.org/3173435\" target=\"_blank\">Geonames</a></p>\n                            ",
           "title": "Milan"
       }
   ]
@@ -270,6 +272,20 @@ export class MapComponent
   /** Knows if the component is loaded */
   private _loaded = false;
   loadedItems = [];
+
+  MARKER_ICON = L.icon({
+    iconUrl: '/assets/pin.png',
+    iconSize: [20, 30.5],
+    popupAnchor: [0, -25],
+    className: 'marker-icon'
+  });
+  
+  MARKER_ICON_SELECTED = L.icon({
+    iconUrl: '/assets/pin-selected.png',
+    iconSize: [30, 45.5],
+    popupAnchor: [0, -25],
+    className: 'marker-icon-selected'
+  });
 
   createDataModel = async (item) => {
     // FIXME: move to parser?
@@ -323,7 +339,7 @@ export class MapComponent
                             template: `
                             <img src="${item.thumbnail_display_urls.medium}"/>
                             <h3>${dataModel.title ? dataModel.title : item['dcterms:title'][0]['@value']}</h3>
-                            <p>External reference: <a href="https://www.geonames.org/${res[key][0]['geonameId']}">Geonames</a></p>
+                            <p>External reference: <a href="https://www.geonames.org/${res[key][0]['geonameId']}" target="_blank">Geonames</a></p>
                             `,
                             title: res[key][0]['name'],
                           });
@@ -414,6 +430,9 @@ export class MapComponent
     cluster: await import('leaflet.markercluster'),
   });
 
+  public markerOpen$: Subject<object> = new Subject();
+  public markerClose$: Subject<void> = new Subject();
+
   ngAfterContentChecked(): void {
     if (!this.data || this._loaded) return;
     this._loaded = true;
@@ -442,7 +461,7 @@ export class MapComponent
             this.data.clusterLibOptions
           );
           this.data.markers.forEach((mrk) => {
-            leaflet.marker(mrk.coords).addTo(markers).bindPopup(mrk.template);
+            leaflet.marker(mrk.coords, {icon: this.MARKER_ICON}).addTo(markers).bindPopup(mrk.template)
           });
           map.addLayer(markers);
           if (this.data._setMarkerLayer) this.data._setMarkerLayer(markers);

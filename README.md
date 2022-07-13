@@ -1,11 +1,6 @@
 # De Rerum Natura Online
-<<<<<<< HEAD
-
-De Rerum Natura Online (DRN) is a flexible framework for creating digital exhibitions. In particular, this demo hosts heterogeneous collections regarding the reception of Lucretius' De rerum natura in contemporary art.
-=======
 De Rerum Natura Online (DRN) is a flexible framework for creating digital exhibitions. In particular, this demo hosts the heterogeneous collection contained in Vedere l'Invisibile, an exhibition held in Bologna in 2017, regarding the reception of Lucretius' De rerum natura in contemporary art.
 Starting from heterogeneous data sources (i.e., items of a collection and textual documents regarding De rerum natura and its translations), the application implements modern technological solutions in order to deliver a system that can be both flexible in terms of requirements, reusable and ephemeral. In particular, Omeka S and TEI Publisher have been employed as sources respectively for items and documents. Angular, a single-page framework application, has been used for building the business logic and presentation layer required for parsing the data and representing them homogeneously. Furthermore, RDF(S), Open Annotation and CIDOC CRM have been employed in the creation of a data model for describing multi-layered, narrative paths designed by the curator.
->>>>>>> 9fd61c738b2b5e495839b03c79ae0d9048c56c23
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
 ## Serialization

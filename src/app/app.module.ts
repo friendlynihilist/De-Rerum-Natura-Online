@@ -17,6 +17,7 @@ import { RouterModule, ROUTES, RoutesRecognized } from '@angular/router';
 import { CreditsComponent } from './credits/credits.component';
 import { GraphComponent } from './graph/graph.component';
 import { MapComponent } from './map/map.component';
+import { CollectionComponent } from './collection/collection.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MapComponent } from './map/map.component';
     CreditsComponent,
     GraphComponent,
     MapComponent,
+    CollectionComponent,
     // JwPaginationComponent
   ],
   imports: [

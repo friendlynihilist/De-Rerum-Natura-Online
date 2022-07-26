@@ -1,53 +1,99 @@
 <div class="container-fluid adapted single-item">
-    <!-- <div class="container single-item"> -->
-      <div class="row align-items-start">
-        <div class="col-4">
-          <!-- FIXME: undefined -->
-          <h1>Casa di Lucrezio</h1>
-        </div>
+  <!-- <div class="container single-item"> -->
+  <div class="row align-items-start">
+    <div class="col-4">
+      <!-- FIXME: undefined -->
+      <h1>Casa di Lucrezio</h1>
+    </div>
+  </div>
+
+  <div *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
+    <!-- OSD viewer -->
+    <div id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>
+
+    <!-- Zoom controls -->
+    <div class="n7-image-viewer__controls">
+      <ul class="n7-image-viewer__controls-list">
+        <li class="n7-image-viewer__controls-item" id="n7-image-viewer-zoom-in">
+          <span class="n7-icon-search-plus"></span>
+        </li>
+        <li
+          class="n7-image-viewer__controls-item"
+          id="n7-image-viewer-zoom-out"
+        >
+          <span class="n7-icon-search-minus"></span>
+        </li>
+        <!--
+                <li class="n7-image-viewer__controls-item" id="n7-image-viewer-full-screen">
+                    <span class="n7-icon-expand-arrows"></span>
+                </li>
+                -->
+      </ul>
+    </div>
+
+    
+
+    <!-- Navigation -->
+    <div
+      *ngIf="!data.hideNavigation"
+      class="n7-image-viewer__prev"
+      id="n7-image-viewer-nav-prev"
+    >
+      <span class="n7-icon-angle-left"></span>
+    </div>
+
+    <div
+      *ngIf="!data.hideNavigation"
+      class="n7-image-viewer__next"
+      id="n7-image-viewer-nav-next"
+    >
+      <span class="n7-icon-angle-right"></span>
+    </div>
+  </div>
+
+  <div class="description">
+    <hr />
+
+    <div class="row justify-content-md-start metadata">
+      <div class="col-2">
+        <h2>Metadata</h2>
       </div>
 
-      <div class="description">
-  
-        <hr/>
-  
-        <div class="row justify-content-md-start metadata">
-          <div class="col-2">
-            <h2>Metadata</h2>
-          </div>
-  
-          <div class="col-10 metadata">
-            <table class="table table-borderless">
-              <tbody>
+      <div class="col-10 metadata">
+        <table class="table table-borderless">
+          <tbody>
+            <ng-container>
+              <tr>
                 <ng-container>
-                    <tr>
-                        <ng-container>
-                          <td>
-                            <b>Type</b>
-                          </td>
-                          <td>
-                            <span>installation (series)</span>
-                          </td>
-                        </ng-container>
-                      </tr>
-                      <tr>
-                        <ng-container>
-                          <td>
-                            <b>Date</b>
-                          </td>
-                          <td>
-                            <span>1981-1984</span>
-                          </td>
-                        </ng-container>
-                      </tr>
-                    <tr>
-                        <ng-container>
-                          <td>
-                            <b>Format</b>
-                          </td>
-                          <td>
-                            <span>Plaster casts, fabrics, fragments of an engraved plaster tablet, white bases</span>
-                            <!-- <a class="link"
+                  <td>
+                    <b>Type</b>
+                  </td>
+                  <td>
+                    <span>installation (series)</span>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr>
+                <ng-container>
+                  <td>
+                    <b>Date</b>
+                  </td>
+                  <td>
+                    <span>1981-1984</span>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr>
+                <ng-container>
+                  <td>
+                    <b>Format</b>
+                  </td>
+                  <td>
+                    <span
+                      >Plaster casts, fabrics, fragments of an engraved plaster
+                      tablet, white bases</span
+                    >
+                    <!-- <a class="link"
                               *ngIf="field['property_label'] === 'Relation'"
                               [href]="buildLink(field)"
                               >{{ field["display_title"] }} <i *ngIf="field['display_title']" class="fas fa-cubes"></i></a
@@ -57,18 +103,48 @@
                               [href]="field['@id']"
                               >{{ field["o:label"] || field["@value"] }} <i class="fas fa-external-link-alt"></i></a
                             > -->
-                          </td>
-                        </ng-container>
-                      </tr>
-                  <tr>
-                    <ng-container>
-                      <td>
-                        <b>Description</b>
-                      </td>
-                      <td>
-                        <span>Casa di Lucrezio è un tema sviluppato in sette varianti coeve (da GPO-0452 a GPO-0458), seguite da altre due versioni realizzate nel 1982 e nel 1984 (GPO-0481, GPO-0517). Comune denominatore tra i lavori è la frammentazione di una tavoletta di gesso con inciso il disegno del labirinto scalfito su un pilastro dell’abitazione di Lucrezio a Pompei, abbinata a una rassegna di possibili sembianze del poeta latino, evocato attraverso il calco in gesso di una testa apollinea e un tessuto drappeggiato. Il ricalco dell'antica incisione è frantumato di volta in volta in un numero crescente di frammenti – a cominciare dalla rottura in due parti nel primo lavoro – che accentua la componente labirintica. La graduale suddivisione del disegno definisce anche una complementare moltiplicazione dei volti del poeta – a partire da due teste e due tessuti nella versione iniziale – che insieme alle diverse posizioni del calco e alle variazioni di colore dei tessuti amplifica via via la domanda sulla possibilità di definizione di una figura inafferrabile.
-                            Nelle parole dell’artista: “L’intenzionalità di questo lavoro sta nell’evocare – e non nel rappresentare – l’idea del continuo divenire di uno spazio possibile, abitato dalla poesia. Il titolo porta a un altro luogo, i calchi indicano un loro luogo d’origine, il disegno del labirinto evoca non solo un altro luogo – la Casa di Lucrezio – ma anche la figura simbolica del labirinto. Sono vari elementi tutti intenzionati a sottrarsi alla visione per suggerire, invece, un vuoto denso di evocazione, un fare spazio alla possibilità di immaginazione che ognuno di noi ha.”</span>
-                        <!-- <a class="link"
+                  </td>
+                </ng-container>
+              </tr>
+              <tr>
+                <ng-container>
+                  <td>
+                    <b>Description</b>
+                  </td>
+                  <td>
+                    <span
+                      >Casa di Lucrezio è un tema sviluppato in sette varianti
+                      coeve (da GPO-0452 a GPO-0458), seguite da altre due
+                      versioni realizzate nel 1982 e nel 1984 (GPO-0481,
+                      GPO-0517). Comune denominatore tra i lavori è la
+                      frammentazione di una tavoletta di gesso con inciso il
+                      disegno del labirinto scalfito su un pilastro
+                      dell’abitazione di Lucrezio a Pompei, abbinata a una
+                      rassegna di possibili sembianze del poeta latino, evocato
+                      attraverso il calco in gesso di una testa apollinea e un
+                      tessuto drappeggiato. Il ricalco dell'antica incisione è
+                      frantumato di volta in volta in un numero crescente di
+                      frammenti – a cominciare dalla rottura in due parti nel
+                      primo lavoro – che accentua la componente labirintica. La
+                      graduale suddivisione del disegno definisce anche una
+                      complementare moltiplicazione dei volti del poeta – a
+                      partire da due teste e due tessuti nella versione iniziale
+                      – che insieme alle diverse posizioni del calco e alle
+                      variazioni di colore dei tessuti amplifica via via la
+                      domanda sulla possibilità di definizione di una figura
+                      inafferrabile. Nelle parole dell’artista:
+                      “L’intenzionalità di questo lavoro sta nell’evocare – e
+                      non nel rappresentare – l’idea del continuo divenire di
+                      uno spazio possibile, abitato dalla poesia. Il titolo
+                      porta a un altro luogo, i calchi indicano un loro luogo
+                      d’origine, il disegno del labirinto evoca non solo un
+                      altro luogo – la Casa di Lucrezio – ma anche la figura
+                      simbolica del labirinto. Sono vari elementi tutti
+                      intenzionati a sottrarsi alla visione per suggerire,
+                      invece, un vuoto denso di evocazione, un fare spazio alla
+                      possibilità di immaginazione che ognuno di noi ha.”</span
+                    >
+                    <!-- <a class="link"
                           *ngIf="field['property_label'] === 'Relation'"
                           [href]="buildLink(field)"
                           >{{ field["display_title"] }} <i *ngIf="field['display_title']" class="fas fa-cubes"></i></a
@@ -78,73 +154,89 @@
                           [href]="field['@id']"
                           >{{ field["o:label"] || field["@value"] }} <i class="fas fa-external-link-alt"></i></a
                         > -->
-                      </td>
-                    </ng-container>
-                  </tr>
+                  </td>
                 </ng-container>
-              </tbody>
-            </table>
-          </div>
-        </div>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
-    <!-- </div> -->
+    </div>
   </div>
+  <!-- </div> -->
+</div>
 <div class="container-fluid sets-bg">
-
-  
-    <div class="container card-container">
-      <div class="row">
-        <div class="col">
-          <h3 class="collection-title">Browse the items</h3>
+  <div class="container card-container">
+    <div class="row">
+      <div class="col">
+        <h3 class="collection-title">Browse the items</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex">
+        <div class="card bg-dark text-white border-0">
+          <a href="/work/76/casa-di-lucrezio-1981" class="set-link">
+            <img
+              src="../../assets/img/casalucrezio3.jpg"
+              class="card-img"
+              alt="..."
+            />
+            <div class="card-img-overlay d-flex">
+              <h5 class="card-title align-self-center mx-auto">
+                Casa di Lucrezio, 1981
+              </h5>
+              <!-- <p class="card-text">
+                  This is a wider card with supporting text below as a natural lead-in
+                  to additional content. This content is a little bit longer.
+                </p>
+                <p class="card-text">Last updated 3 mins ago</p> -->
+            </div>
+          </a>
         </div>
       </div>
-      <div class="row">
-        <div class="col d-flex">
-          <div class="card bg-dark text-white border-0">
-            <a href="/work/76/casa-di-lucrezio-1981" class="set-link">
-              <img src="../../assets/img/casalucrezio3.jpg" class="card-img" alt="..." />
-              <div class="card-img-overlay d-flex">
-                <h5 class="card-title align-self-center mx-auto">Casa di Lucrezio, 1981</h5>
-                <!-- <p class="card-text">
+      <div class="col d-flex">
+        <div class="card bg-dark text-white border-0">
+          <a href="/work/79/casa-di-lucrezio-1981" class="set-link">
+            <img
+              src="../../assets/img/casalucrezio2.jpg"
+              class="card-img"
+              alt="..."
+            />
+            <div class="card-img-overlay d-flex">
+              <h5 class="card-title align-self-center mx-auto">
+                Casa di Lucrezio, 1981
+              </h5>
+              <!-- <p class="card-text">
                   This is a wider card with supporting text below as a natural lead-in
                   to additional content. This content is a little bit longer.
                 </p>
                 <p class="card-text">Last updated 3 mins ago</p> -->
-              </div>
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
-        <div class="col d-flex">
-          <div class="card bg-dark text-white border-0">
-            <a href="/work/79/casa-di-lucrezio-1981" class="set-link">
-              <img src="../../assets/img/casalucrezio2.jpg" class="card-img" alt="..." />
-              <div class="card-img-overlay d-flex">
-                <h5 class="card-title align-self-center mx-auto">Casa di Lucrezio, 1981</h5>
-                <!-- <p class="card-text">
-                  This is a wider card with supporting text below as a natural lead-in
-                  to additional content. This content is a little bit longer.
-                </p>
-                <p class="card-text">Last updated 3 mins ago</p> -->
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col d-flex">
-            <div class="card bg-dark text-white border-0">
-              <a href="/work/79/casa-di-lucrezio-1981" class="set-link">
-                <img src="../../assets/img/casalucrezio4.jpg" class="card-img" alt="..." />
-                <div class="card-img-overlay d-flex">
-                  <h5 class="card-title align-self-center mx-auto">Casa di Lucrezio, 1981</h5>
-                  <!-- <p class="card-text">
+      </div>
+      <div class="col d-flex">
+        <div class="card bg-dark text-white border-0">
+          <a href="/work/79/casa-di-lucrezio-1981" class="set-link">
+            <img
+              src="../../assets/img/casalucrezio4.jpg"
+              class="card-img"
+              alt="..."
+            />
+            <div class="card-img-overlay d-flex">
+              <h5 class="card-title align-self-center mx-auto">
+                Casa di Lucrezio, 1981
+              </h5>
+              <!-- <p class="card-text">
                     This is a wider card with supporting text below as a natural lead-in
                     to additional content. This content is a little bit longer.
                   </p>
                   <p class="card-text">Last updated 3 mins ago</p> -->
-                </div>
-              </a>
             </div>
-          </div>
-        <!-- <div class="col d-flex">
+          </a>
+        </div>
+      </div>
+      <!-- <div class="col d-flex">
           <div class="card bg-dark text-white border-0">
             <a href="#" class="set-link">
               <img src="../../assets/img/plagueofathens.jpg" class="card-img" alt="..." />
@@ -154,7 +246,6 @@
             </a>
           </div>
         </div> -->
-      </div>
     </div>
-  
   </div>
+</div>

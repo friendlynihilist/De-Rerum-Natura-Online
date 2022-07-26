@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { WorkComponent } from './work/work.component';
 import { LibraryComponent } from './library/library.component';
@@ -18,6 +18,8 @@ import { CreditsComponent } from './credits/credits.component';
 import { GraphComponent } from './graph/graph.component';
 import { MapComponent } from './map/map.component';
 import { CollectionComponent } from './collection/collection.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NetworkInterceptor } from './network.interceptor';
 
 @NgModule({
   declarations: [
@@ -42,9 +44,14 @@ import { CollectionComponent } from './collection/collection.component';
     AppRoutingModule,
     CarouselModule,
     NgbModule,
+    MatProgressSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [TextSelectorService],
+  providers: [TextSelectorService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: NetworkInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

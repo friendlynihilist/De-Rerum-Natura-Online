@@ -11,10 +11,66 @@ h1 {
     margin: 0 auto;
 }
 
-.description {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+.border-right {
+  border-right: 1px solid #7373737b;
+  border-bottom: 1px solid #7373737b;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.border-left {
+  border-bottom: 1px solid #7373737b;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.metadata-box {
+    // padding-top: 2rem;
+    margin-bottom: 20vh;
     font-size: 1.2rem;
+}
+
+.description {
+  margin-bottom: 10vh;
+}
+.metadata-artist {
+  font-weight: 400;
+  margin-bottom: 1.2vh;
+  margin-top: 4vh;
+  // line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.075em;
+  font-size: 0.8rem;
+  font-family: PGC, Verlag A, Verlag B, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  line-height: 1.4;
+}
+
+.metadata-date,
+.metadata-subject,
+.metadata-references,
+.metadata-type {
+  font-weight: 400;
+  // line-height: 1.2;
+  text-transform: uppercase;
+  margin-bottom: 10vh;
+  color: #737373;
+  letter-spacing: 0.075em;
+  font-size: 0.8rem;
+  font-family: PGC, Verlag A, Verlag B, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  line-height: 1.4;
+}
+
+.metadata-title {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  line-height: 1.2;
+  font-size: 1.9rem;
+  margin-bottom: 1.2vh;
+  // margin-bottom: .75rem;
 }
 
 .single-item {
@@ -31,10 +87,28 @@ h1 {
     font-weight: 300;
 }
 
-.adapted {
-    padding-left: 4vw;
-    padding-right: 4vw;
-  }
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+}
+
+mat-progress-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+// .adapted {
+//     padding-left: 4vw;
+//     padding-right: 4vw;
+//   }
 
   .link {
     /* RESET */
@@ -44,7 +118,7 @@ h1 {
     position: relative;
     z-index: 0;
     display: inline-block;
-    padding: 5px 5px;
+    padding: 5px 2px;
     overflow: hidden;
     color: #333;
     vertical-align: bottom;

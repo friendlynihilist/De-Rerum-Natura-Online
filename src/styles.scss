@@ -4,3 +4,13 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #31373b!important;
+}
+.adapted {
+    padding-left: 12vw;
+    padding-right: 12vw;
+  }

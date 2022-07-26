@@ -16,6 +16,7 @@ import { parser } from '../parsers';
 import { TextSelectorService } from '../text-selector.service';
 import * as N3 from 'n3';
 import { DataFactory } from 'rdf-data-factory';
+import { LoadingService } from '../loading.service';
 
 /**
  * Interface for ImageViewerComponent's images "data"
@@ -91,6 +92,7 @@ export class SingleWorkComponent
   work: Work;
   id;
   sub;
+  loading$ = this.loader.loading$;
 
   constructor(
     private textSelector: TextSelectorService,
@@ -98,6 +100,7 @@ export class SingleWorkComponent
     private router: Router,
     private workService: WorkService,
     private http: HttpClient,
+    public loader: LoadingService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -105,105 +108,77 @@ export class SingleWorkComponent
 
   private _loaded = false;
 
-  parseRDF(item) {
-    item.ref_count = 0;
-    fetch('../../assets/tei-ref/de-rerum-natura.nt')
-      .then((response) => response.text())
-      .then((data) => {
-        // Do something with your data
-        const parser = new N3.Parser({ format: 'N-Triples' });
-        parser.parse(data, (error, quad, prefixes) => {
-          const factory = new DataFactory();
-          const store = new N3.Store();
-
-          store.addQuad(quad); // .addQuads
-          const uri = item['@id'];
-          const searchQuad = store.getQuads(factory.namedNode(uri));
-          // console.log(searchQuad);
-          for (const quad of searchQuad) {
-            if (
-              quad.subject.value === uri &&
-              quad.predicate.value === 'rdfs:seeAlso'
-            ) {
-              item.ref_count++;
-              item.has_object = quad.object.value;
-            }
-          }
-          const searchQuadB = store.getQuads(
-            factory.namedNode(item.has_object)
-          );
-          for (const quadB of searchQuadB) {
-            if (
-              quadB.subject.value === item.has_object &&
-              quadB.predicate.value === 'http://www.w3.org/ns/oa#hasBody' &&
-              quadB.object.value === uri
-            ) {
-              item.has_fragment = 'true';
-            }
-          }
-          const searchQuadC = store.getQuads(
-            factory.namedNode(item.has_object)
-          );
-          for (const quadC of searchQuadC) {
-            if (
-              quadC.subject.value === item.has_object &&
-              quadC.predicate.value === 'http://www.w3.org/ns/oa#hasTarget'
-            ) {
-              item.has_target = quadC.object.value;
-            }
-          }
-
-          const searchQuadD = store.getQuads(
-            factory.namedNode(item.has_target)
-          );
-          for (const quadD of searchQuadD) {
-            if (
-              quadD.subject.value === item.has_target &&
-              quadD.predicate.value === 'http://www.w3.org/ns/oa#hasSelector'
-            ) {
-              item.has_selector = quadD.object.value;
-            }
-          }
-
-          const searchQuadE = store.getQuads(
-            factory.namedNode(item.has_selector)
-          );
-          for (const quadE of searchQuadE) {
-            if (
-              quadE.subject.value === item.has_selector &&
-              quadE.predicate.value === 'rdf:value'
-            ) {
-              item.has_xpath = quadE.object.value;
-              // item.has_xpath = quadE.object.value;
-            }
-            if (
-              quadE.subject.value === item.has_selector &&
-              quadE.predicate.value === 'rdf:text'
-            ) {
-              item.has_text = quadE.object.value;
-            }
-          }
-        });
-      });
-    return item;
-  }
-
   createDataModel(item) {
     // FIXME: move to parser?
     let lang = this.defaultLang;
     const dataModel = {
       creator: [],
+      publisher: [],
+      contributor: [],
       title: '',
       date: '',
       description: [],
+      format: '',
+      extent: '',
+      place: [],
       subject: [],
       type: [],
+      rights: [],
+      identifier: '',
       citation: [],
     };
 
     Object.keys(item).map((property) => {
       // console.log(item[property]);
       switch (property) {
+        case 'dcterms:format':
+          dataModel.format = item[property][0]['@value'];
+          break;
+
+        case 'dcterms:extent':
+          dataModel.extent = item[property][0]['@value'];
+          break;
+
+        case 'dcterms:identifier':
+          dataModel.identifier = item[property][0]['@value'];
+          break;
+
+        case 'dcterms:spatial':
+          item[property].map((hit) => {
+            // if (hit.type === 'literal' && hit['@language']) {
+            // if (hit['@language'] === lang) {
+            //   dataModel.creator.push(hit['@value'])
+            // }
+            if (hit.type === 'uri') {
+              // if (hit['@language'] === lang) {
+              dataModel.place.push({
+                label: hit['o:label'],
+                link: hit['@id'],
+              });
+              // }
+            }
+            // }
+          });
+          break;
+
+        case 'dcterms:rights':
+          item[property].map((hit) => {
+            // if (hit.type === 'literal' && hit['@language']) {
+            // if (hit['@language'] === lang) {
+            //   dataModel.creator.push(hit['@value'])
+            // }
+            if (hit.type === 'uri') {
+              // if (hit['@language'] === lang) {
+              dataModel.rights.push({
+                label: hit['o:label'],
+                link: hit['@id'],
+              });
+              // }
+            }
+            // }
+          });
+          break;
+
         case 'dcterms:creator':
           item[property].map((hit) => {
             // if (hit.type === 'literal' && hit['@language']) {
@@ -213,6 +188,42 @@ export class SingleWorkComponent
             if (hit.type === 'uri') {
               // if (hit['@language'] === lang) {
               dataModel.creator.push({
+                label: hit['o:label'],
+                link: hit['@id'],
+              });
+              // }
+            }
+            // }
+          });
+          break;
+
+        case 'dcterms:publisher':
+          item[property].map((hit) => {
+            // if (hit.type === 'literal' && hit['@language']) {
+            // if (hit['@language'] === lang) {
+            //   dataModel.creator.push(hit['@value'])
+            // }
+            if (hit.type === 'uri') {
+              // if (hit['@language'] === lang) {
+              dataModel.publisher.push({
+                label: hit['o:label'],
+                link: hit['@id'],
+              });
+              // }
+            }
+            // }
+          });
+          break;
+
+        case 'dcterms:contributor':
+          item[property].map((hit) => {
+            // if (hit.type === 'literal' && hit['@language']) {
+            // if (hit['@language'] === lang) {
+            //   dataModel.creator.push(hit['@value'])
+            // }
+            if (hit.type === 'uri') {
+              // if (hit['@language'] === lang) {
+              dataModel.contributor.push({
                 label: hit['o:label'],
                 link: hit['@id'],
               });
@@ -278,6 +289,34 @@ export class SingleWorkComponent
     item.metadata = dataModel;
   }
 
+  isArray(obj: any) {
+    return Array.isArray(obj);
+  }
+
+  typeOf(obj: any) {
+    return typeof obj;
+  }
+
+  translationParser(label) {
+    const mapping = {
+      'creator': 'autore',
+      'contributor': 'collaboratore',
+      'publisher': 'editore',
+      'format': 'formato',
+      'identifier': 'identificatore',
+      'title': 'titolo originale',
+      'date': 'anno',
+      'place': 'luogo',
+      'citation': 'riferimento bibliografico',
+      'rights': 'diritti',
+      'type': 'tipo',
+      'subject': 'soggetto',
+      'extent': 'misure'
+    }
+
+    return mapping[label].charAt(0).toUpperCase() + mapping[label].slice(1)
+  }
+
   fetchItem() {
     this.http
       .get(`http://137.204.168.14/lib/api/items`)
@@ -297,12 +336,11 @@ export class SingleWorkComponent
           if (i['o:id'] === +this.id) {
             this.loadedItem = this.createDataModel(i);
             this.loadedItem = parser.parseMedia(i);
-            // this.loadedItem = this.parseRDF(parser.parseMedia(i));
-            // this.updatedClient = this.loadedItem.has_xpath;
-            // this.textSelector.updatedCustomer(this.updatedClient);
+            this.setImages(this.loadedItem);
+            console.log(i);
           }
         });
-        console.log(item);
+        // console.log(item);
       });
   }
 
@@ -350,18 +388,40 @@ export class SingleWorkComponent
     )}`;
   }
 
-  data: ImageViewerData = {
+  setImages(item) {
+    if (item.thumbnail_display_urls.large) {
+      item['o:media'].map((uri) => {
+        this.http.get(uri['@id']).subscribe((responseData) => {
+          this.data.images.push({
+            type: 'image',
+            url: responseData['o:original_url'],
+            buildPyramid: false,
+          });
+        });
+      });
+      // this.data.images.push({
+      //   type: 'image',
+      //   url: item.thumbnail_display_urls.large,
+      //   buildPyramid: false
+      // })
+    }
+    // for (let image of item['original_url']) {
+    //   console.log(image);
+    // }
+  }
+
+  data: any = {
     images: [
-      {
-        type: 'image',
-        url: 'http://placekitten.com/500/600',
-        buildPyramid: false,
-      },
-      {
-        type: 'image',
-        url: 'http://placekitten.com/500/600',
-        buildPyramid: false,
-      },
+      // {
+      //   type: 'image',
+      //   url: 'http://placekitten.com/500/600',
+      //   buildPyramid: false,
+      // },
+      // {
+      //   type: 'image',
+      //   url: 'http://placekitten.com/500/600',
+      //   buildPyramid: false,
+      // },
       // { type: 'image', url: 'http://placekitten.com/700/400', buildPyramid: false }
     ],
     viewerId: 'seadragon-viewer',
@@ -386,7 +446,12 @@ export class SingleWorkComponent
     _setViewer: (viewer) => viewer,
   };
 
+  timeout = 0;
+
   ngAfterContentChecked() {
+    if (!this.loadedItem) {
+      this.timeout = this.timeout + 2000;
+    }
     if (!this.data || this._loaded) return;
     this._loaded = true;
 
@@ -401,6 +466,9 @@ export class SingleWorkComponent
           id: this.data.viewerId,
           prefixUrl,
           tileSources: this.data.images,
+          sequenceMode: true,
+          showReferenceStrip: true,
+          showSequenceControl: true,
           // zoomInButton: 'n7-image-viewer-zoom-in',
           // zoomOutButton: 'n7-image-viewer-zoom-out',
           // homeButton: 'n7-image-viewer-home',
@@ -412,7 +480,7 @@ export class SingleWorkComponent
 
         this.data._setViewer(viewer);
       });
-    });
+    }, this.timeout);
   }
 
   onClick(payload) {

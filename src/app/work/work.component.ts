@@ -11,6 +11,7 @@ import { parser } from '../parsers';
 import { access } from 'fs';
 import { style } from '@angular/animations';
 import { timeStamp } from 'console';
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-work',
@@ -27,13 +28,17 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     'relation',
   ]; //FIXME: move to config
   defaultLang = 'it-IT';
+
+  loading$ = this.loader.loading$;
+  
   loadedItems = [];
   filteredItems = []; //
   reserved = [];
   order;
   isArrayLoaded: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public loader: LoadingService) {}
+
 
   // on initialization, filterTypesArray is iterated and the function getFilters(type) is called for every type of the array.
   // getFilters(type) iterates over every item from loadedItems on the passed DC property (e.g. creator) and takes the value from it
@@ -86,6 +91,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
         }
       }
     });
+    if (this.collectionDescription) {
+      this.collectionDescription = '';
+    }
   }
 
   filterItems(selectedFilter, type) {
@@ -169,7 +177,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   createCollectionDescription(item) {
     
     this.http.get(item['dcterms:relation'][0]['@id']).subscribe((data) => {
-      this.collectionDescription = data['dcterms:description'][0]['@value'];
+      if (data['dcterms:description'][0]['@value']) {
+        this.collectionDescription = data['dcterms:description'][0]['@value'];
+      }
     });
     // this.collectionDescription = item.metadata.relation[0].description;
   }

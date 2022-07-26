@@ -67,13 +67,19 @@ export class CollectionComponent implements OnInit, AfterContentChecked {
 
   private _loaded = false;
 
-  data: ImageViewerData = {
+  data: any = {
     images: [
       { type: 'image', url: 'http://placekitten.com/1920/1080', buildPyramid: false },
+      { type: 'image', url: 'http://placekitten.com/500/600', buildPyramid: false },
+      { type: 'image', url: 'http://placekitten.com/500/600', buildPyramid: false },
+      { type: 'image', url: 'http://placekitten.com/500/600', buildPyramid: false },
+      { type: 'image', url: 'http://placekitten.com/500/600', buildPyramid: false },
+      { type: 'image', url: 'http://placekitten.com/500/600', buildPyramid: false },
       { type: 'image', url: 'http://placekitten.com/500/600', buildPyramid: false },
       // { type: 'image', url: 'http://placekitten.com/700/400', buildPyramid: false }
     ],
     viewerId: 'seadragon-viewer',
+    collectionMode: true,
     hideNavigation: false,
     libOptions: {
       /* SHOW GROUP */
@@ -111,6 +117,9 @@ export class CollectionComponent implements OnInit, AfterContentChecked {
           id: this.data.viewerId,
           prefixUrl,
           tileSources: this.data.images,
+          sequenceMode: true,
+          showReferenceStrip: true,
+          showSequenceControl: true,
           // zoomInButton: 'n7-image-viewer-zoom-in',
           // zoomOutButton: 'n7-image-viewer-zoom-out',
           // homeButton: 'n7-image-viewer-home',

@@ -1,52 +1,136 @@
 <div class="container-fluid" style="background-color: rgb(240, 240, 240)">
   <div class="container n7-text-viewer">
     <div class="row align-items-start">
-      <div class="col-4"><h1 class="main-title"><i>De rerum natura</i></h1></div>
+      <div class="col-4">
+        <h1 class="main-title"><i>De rerum natura</i></h1>
+      </div>
     </div>
+
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <p>
+          “Lucrezio ha avuto più modi per improntare la poesia di ogni tempo. […] Ma
+          lucreziano è indubbiamente il senso unitario e universo della vita, più in
+          particolare il fremito di erompente energia che si coglie nella profondità
+          del vivente. Soprattutto in questo ultimo significato è probabile che una
+          possibile grande poesia del futuro sia destinata a essere sempre più
+          lucreziana”
+        </p> 
+        <p>
+          (Mario Luzi, 1974)
+        </p> 
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="row align-items-start" id="venere">
+      <div class="col-4">
+        <h3 class="main-title"><i>Venere</i></h3>
+        <h5 class="main-title">(<i>DRN</i> 1.1-16)</h5>
+      </div>
+    </div>
+    
     <!-- <button id="prova">Prova</button> -->
     <div class="row align-items-start">
       <div class="col-12">
-       <ng-container>
-        <pb-page endpoint="https://teipublisher.com/exist/apps/tei-publisher" api-version="1.0.0"> <!-- api-version="1.0.0"-->
-          <pb-document path="playground/lucretius_dererum_sextus.xml" odd="teipublisher" id="document1">
-          </pb-document>
-          <pb-document path="playground/leonard_dererum_sextus.xml" odd="teipublisher" id="document2">
-          </pb-document>
-  
-          <app-drawer-layout force-narrow="force-narrow" narrow="">
+        <ng-container>
+          <pb-page
+            endpoint="https://teipublisher.com/exist/apps/tei-publisher"
+            api-version="1.0.0"
+          >
+            <!-- api-version="1.0.0"-->
+            <pb-document
+              path="playground/drn_lucretius_source.xml"
+              odd="teipublisher"
+              id="document1"
+            >
+            </pb-document>
+            <pb-document
+              path="playground/drn_translation_source.xml"
+              odd="teipublisher"
+              id="document2"
+            >
+            </pb-document>
+
+            <app-drawer-layout force-narrow="force-narrow" narrow="">
               <app-header-layout>
-                  <app-header fixed="fixed" data-template="browse:fix-links" style="
-                  transition-duration: 0ms;
-                  transform: translate3d(0px, 0px, 0px);
-                  left: 0px;
-                  right: 0.399994px;">
-                      <app-toolbar class="toolbar" sticky="sticky" style="transform: translate3d(0px, 0px, 0px)">
-                          <!-- <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" role="button"
+                <app-header
+                  fixed="fixed"
+                  data-template="browse:fix-links"
+                  style="
+                    transition-duration: 0ms;
+                    transform: translate3d(0px, 0px, 0px);
+                    left: 0px;
+                    right: 0.399994px;
+                  "
+                >
+                  <app-toolbar
+                    class="toolbar"
+                    sticky="sticky"
+                    style="transform: translate3d(0px, 0px, 0px)"
+                  >
+                    <!-- <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" role="button"
                               tabindex="0" aria-disabled="false"></paper-icon-button> -->
-                              
-  
-                          <pb-toggle-feature name="highlight" selector="tei-app,pb-popover,pb-highlight" default="off"
-                              action="disable" emit="transcription" subscribe="transcription">
-                              <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
-                          </pb-toggle-feature>
-                          <pb-zoom emit="transcription" direction="in" icon="icons:zoom-in"></pb-zoom>
-                          <pb-zoom emit="transcription" direction="out" icon="icons:zoom-out"></pb-zoom>
-                          <pb-navigation emit="transcription" keyboard="left" subscribe="transcription"
-                              direction="backward" unit="page">
-                              <paper-icon-button icon="icons:chevron-left" role="button" tabindex="0"
-                                  aria-disabled="false"></paper-icon-button>
-                          </pb-navigation>
-                          <pb-navigation emit="transcription" keyboard="right" subscribe="transcription"
-                              direction="forward" unit="page">
-                              <paper-icon-button icon="icons:chevron-right" role="button" tabindex="0"
-                                  aria-disabled="false"></paper-icon-button>
-                          </pb-navigation>
-  
-                          <pb-progress subscribe="transcription" indeterminate="" bottom-item="bottom-item"
-                              style="visibility: hidden"></pb-progress>
-                      </app-toolbar>
-                  </app-header>
-                  <!-- <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
+
+                    <pb-toggle-feature
+                      name="highlight"
+                      selector="tei-app,pb-popover,pb-highlight"
+                      default="off"
+                      action="disable"
+                      emit="transcription"
+                      subscribe="transcription"
+                    >
+                      <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
+                    </pb-toggle-feature>
+                    <pb-zoom
+                      emit="transcription"
+                      direction="in"
+                      icon="icons:zoom-in"
+                    ></pb-zoom>
+                    <pb-zoom
+                      emit="transcription"
+                      direction="out"
+                      icon="icons:zoom-out"
+                    ></pb-zoom>
+                    <pb-navigation
+                      emit="transcription"
+                      keyboard="left"
+                      subscribe="transcription"
+                      direction="backward"
+                      unit="page"
+                    >
+                      <paper-icon-button
+                        icon="icons:chevron-left"
+                        role="button"
+                        tabindex="0"
+                        aria-disabled="false"
+                      ></paper-icon-button>
+                    </pb-navigation>
+                    <pb-navigation
+                      emit="transcription"
+                      keyboard="right"
+                      subscribe="transcription"
+                      direction="forward"
+                      unit="page"
+                    >
+                      <paper-icon-button
+                        icon="icons:chevron-right"
+                        role="button"
+                        tabindex="0"
+                        aria-disabled="false"
+                      ></paper-icon-button>
+                    </pb-navigation>
+
+                    <pb-progress
+                      subscribe="transcription"
+                      indeterminate=""
+                      bottom-item="bottom-item"
+                      style="visibility: hidden"
+                    ></pb-progress>
+                  </app-toolbar>
+                </app-header>
+                <!-- <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
                       <div class="drawer-content">
                           <h3>
                               <pb-i18n key="document.contents">Contents</pb-i18n>
@@ -55,19 +139,174 @@
                               src="document1" subscribe="toc" emit="toc" expand="expand" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
                       </div>
                   </pb-drawer> -->
-                  <main class="content-body">
-                     
-                    <pb-view id="view1" src="document1" subscribe="transcription" emit="transcription"></pb-view>
-                    <pb-view id="view2" src="document2" view="page" subscribe="transcription" emit="letter">
-                      <pb-param name="mode" value="commentary"></pb-param>
-                    </pb-view>
-                      
-                  </main>
+                <main class="content-body">
+                  <pb-view
+                    id="view1"
+                    src="document1"
+                    xpath="//text//div[@xml:id='s.1']"
+                    subscribe="transcription"
+                    emit="transcription"
+                  ></pb-view>
+                  <pb-view
+                    id="view2"
+                    src="document2"
+                    view="page"
+                    subscribe="transcription"
+                    emit="letter"
+                  >
+                    <pb-param name="mode" value="commentary"></pb-param>
+                  </pb-view>
+                </main>
               </app-header-layout>
-          </app-drawer-layout>
-      </pb-page>
-       </ng-container>
+            </app-drawer-layout>
+          </pb-page>
+        </ng-container>
+      </div>
+    </div>
 
+    <hr/>
+
+    <!-- FIXME: generarli a partire da un'iterazione e tenere metadati nella logica -->
+
+    <div class="row align-items-start" id="nulla">
+      <div class="col-4">
+        <h3 class="main-title"><i>Nulla nasce dal nulla</i></h3>
+        <h5 class="main-title">(<i>DRN</i> 1.146-173)</h5>
+        <h6 class="main-title">di Giuseppe Ungaretti, 1946</h6>
+      </div>
+    </div>
+    
+    <!-- <button id="prova">Prova</button> -->
+    <div class="row align-items-start">
+      <div class="col-12">
+        <ng-container>
+          <pb-page
+            endpoint="https://teipublisher.com/exist/apps/tei-publisher"
+            api-version="1.0.0"
+          >
+            <!-- api-version="1.0.0"-->
+            <pb-document
+              path="playground/drn_lucretius_source.xml"
+              odd="teipublisher"
+              id="document3"
+            >
+            </pb-document>
+            <pb-document
+              path="playground/drn_sanguineti_I_146-173.xml"
+              odd="teipublisher"
+              id="document4"
+            >
+            </pb-document>
+
+            <app-drawer-layout force-narrow="force-narrow" narrow="">
+              <app-header-layout>
+                <app-header
+                  fixed="fixed"
+                  data-template="browse:fix-links"
+                  style="
+                    transition-duration: 0ms;
+                    transform: translate3d(0px, 0px, 0px);
+                    left: 0px;
+                    right: 0.399994px;
+                  "
+                >
+                  <app-toolbar
+                    class="toolbar"
+                    sticky="sticky"
+                    style="transform: translate3d(0px, 0px, 0px)"
+                  >
+                    <!-- <paper-icon-button id="tocToggle" class="toc-toggle" icon="icons:view-list" role="button"
+                              tabindex="0" aria-disabled="false"></paper-icon-button> -->
+
+                    <pb-toggle-feature
+                      name="highlight"
+                      selector="tei-app,pb-popover,pb-highlight"
+                      default="off"
+                      action="disable"
+                      emit="transcription"
+                      subscribe="transcription"
+                    >
+                      <pb-i18n key="document.plain">Plain Reading View</pb-i18n>
+                    </pb-toggle-feature>
+                    <pb-zoom
+                      emit="transcription"
+                      direction="in"
+                      icon="icons:zoom-in"
+                    ></pb-zoom>
+                    <pb-zoom
+                      emit="transcription"
+                      direction="out"
+                      icon="icons:zoom-out"
+                    ></pb-zoom>
+                    <pb-navigation
+                      emit="transcription"
+                      keyboard="left"
+                      subscribe="transcription"
+                      direction="backward"
+                      unit="page"
+                    >
+                      <paper-icon-button
+                        icon="icons:chevron-left"
+                        role="button"
+                        tabindex="0"
+                        aria-disabled="false"
+                      ></paper-icon-button>
+                    </pb-navigation>
+                    <pb-navigation
+                      emit="transcription"
+                      keyboard="right"
+                      subscribe="transcription"
+                      direction="forward"
+                      unit="page"
+                    >
+                      <paper-icon-button
+                        icon="icons:chevron-right"
+                        role="button"
+                        tabindex="0"
+                        aria-disabled="false"
+                      ></paper-icon-button>
+                    </pb-navigation>
+
+                    <pb-progress
+                      subscribe="transcription"
+                      indeterminate=""
+                      bottom-item="bottom-item"
+                      style="visibility: hidden"
+                    ></pb-progress>
+                  </app-toolbar>
+                </app-header>
+                <!-- <pb-drawer toggle="tocToggle" class="tocDrawer" emit="toc" subscribe="transcription">
+                      <div class="drawer-content">
+                          <h3>
+                              <pb-i18n key="document.contents">Contents</pb-i18n>
+                          </h3>
+                          <pb-load id="toc" url="api/document/{doc}/contents?target=transcription&amp;icons=true"
+                              src="document1" subscribe="toc" emit="toc" expand="expand" auto="auto"><pb-i18n key="dialogs.loading">Loading</pb-i18n></pb-load>
+                      </div>
+                  </pb-drawer> -->
+                <main class="content-body">
+                  <pb-view
+                    id="view3"
+                    src="document3"
+                    subscribe="transcription"
+                    emit="transcription"
+                    xpath="//text//div[@xml:id='s.2']"
+                  ></pb-view>
+                  <pb-view
+                    id="view4"
+                    src="document4"
+                    view="page"
+                  
+                    subscribe="transcription"
+                    emit="letter"
+                  >
+                    <pb-param name="mode" value="commentary"></pb-param>
+                  </pb-view>
+                </main>
+              </app-header-layout>
+            </app-drawer-layout>
+          </pb-page>
+        </ng-container>
       </div>
     </div>
   </div>

@@ -1,97 +1,146 @@
-<div class="container-fluid adapted single-item">
+<ng-container *ngIf="loading$ | async">
+  <div class="overlay"></div>
+  <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</ng-container>
+<div *ngIf="loadedItem" class="container-fluid adapted single-item">
   <!-- <div class="container single-item"> -->
-    <div class="row align-items-start">
-      <div class="col-4">
-        <!-- FIXME: undefined -->
-        <h1>{{ loadedItem["o:title"] }}</h1>
-      </div>
-    </div>
+  <div class="row align-items-start">
+    <!-- <div class="col-12" *ngIf="loadedItem && loadedItem['o:title']">
+      <h1>{{ loadedItem["o:title"] }}</h1>
+    </div> -->
+  </div>
 
-    <!-- FIXME: use openseadragon -->
-    <div class="row justify-content-md-center image-container">
-      <div *ngIf="loadedItem.original_url[0]; else loadVideo" class="col-md-auto">
-        <!-- FIXME: undefined -->
-        <img [src]="loadedItem.thumbnail_display_urls.large" />
-      </div>
-      <ng-template #loadVideo>
-        <!-- FIXME: undefined -->
-        <iframe
-          [src]="
-            sanitizer.bypassSecurityTrustResourceUrl(loadedItem.video_source[0])
-          "
-          width="550"
-          height="400"
-          frameBorder="0"
-          allowfullscreen="true"
-        ></iframe>
-      </ng-template>
-    </div>
+  <ng-container *ngIf="loadedItem.original_url[0]; else loadVideo">
+    <div *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
+      <!-- OSD viewer -->
+      <div id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>
 
-    <div class="description">
+      <!-- Zoom controls -->
+      <!-- <div class="n7-image-viewer__controls">
+        <ul class="n7-image-viewer__controls-list">
+          <li class="n7-image-viewer__controls-item" id="n7-image-viewer-zoom-in">
+            <span class="n7-icon-search-plus"></span>
+          </li>
+          <li
+            class="n7-image-viewer__controls-item"
+            id="n7-image-viewer-zoom-out"
+          >
+            <span class="n7-icon-search-minus"></span>
+          </li>
+        </ul>
+      </div> -->
+      <!-- Navigation -->
       <div
-        *ngIf="loadedItem.has_text"
-        class="row justify-content-md-start metadata"
+        *ngIf="!data.hideNavigation"
+        class="n7-image-viewer__prev"
+        id="n7-image-viewer-nav-prev"
       >
-        <div class="col-2">
-          <h2>Verses</h2>
-        </div>
-
-        <div class="col-10 metadata">
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <td>
-                  <span
-                    (click)="updateXPath()"
-                    routerLink="/library"
-                    routerclass="text-fragment-link"
-                    class="text-link"
-                  >
-                    {{ loadedItem.has_text }} <i class="fas fa-pen-fancy"></i>
-                </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <span class="n7-icon-angle-left"></span>
       </div>
 
-      <hr *ngIf="loadedItem.has_text" />
-
-      <div class="row justify-content-md-start metadata">
-        <div class="col-2">
-          <h2>Metadata</h2>
-        </div>
-
-        <div class="col-10 metadata">
-          <table class="table table-borderless">
-            <tbody *ngFor="let property of loadedItem | keyvalue">
-              <ng-container *ngIf="isValid(property.key)">
-                <tr *ngFor="let field of loadedItem[property.key]">
-                  <ng-container *ngIf="field['property_label'] != 'Title'">
-                    <td>
-                      <b>{{ field["property_label"] }}</b>
-                    </td>
-                    <td>
-                      <span *ngIf="field['type'] !== 'uri'">{{ field["o:label"] || field["@value"] }}</span>
-                      <a class="link"
-                        *ngIf="field['property_label'] === 'Relation'"
-                        [href]="buildLink(field)"
-                        >{{ field["display_title"] }} <i *ngIf="field['display_title']" class="fas fa-cubes"></i></a
-                      >
-                      <a class="link"
-                        *ngIf="field['type'] === 'uri'"
-                        [href]="field['@id']"
-                        >{{ field["o:label"] || field["@value"] }} <i class="fas fa-external-link-alt"></i></a
-                      >
-                    </td>
-                  </ng-container>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
+      <div
+        *ngIf="!data.hideNavigation"
+        class="n7-image-viewer__next"
+        id="n7-image-viewer-nav-next"
+      >
+        <span class="n7-icon-angle-right"></span>
       </div>
     </div>
+  </ng-container>
+
+  <!-- FIXME: use openseadragon -->
+  <!-- <div class="row justify-content-md-center image-container"> -->
+
+  <ng-template #loadVideo>
+    <div class="row align-items-center">
+      <!-- FIXME: undefined -->
+      <iframe
+        [src]="
+          sanitizer.bypassSecurityTrustResourceUrl(loadedItem.video_source[0])
+        "
+        width="550"
+        height="400"
+        frameBorder="0"
+        allowfullscreen="true"
+      ></iframe>
+    </div>
+  </ng-template>
+  <!-- </div> -->
+
+  <ng-container *ngIf="loadedItem && loadedItem.metadata">
+    <div class="container-fluid metadata-box metadata">
+      <hr />
+
+      <div class="row justify-content-center">
+        <div class="col-8 metadata-artist">
+          {{ loadedItem.metadata["creator"][0].label }}
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-8 metadata-title">    
+            {{ loadedItem.metadata["title"] }}
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-8 metadata-date">
+          {{ loadedItem.metadata["date"] }}
+        </div>
+      </div>
+      <div class="row justify-content-center description">
+        <div class="col-8">
+          {{ loadedItem.metadata["description"] }}
+        </div>
+      </div>
+
+      <ng-container *ngFor="let property of loadedItem.metadata | keyvalue">
+        <ng-container
+          *ngIf="
+            loadedItem.metadata[property.key] &&
+            loadedItem.metadata[property.key]?.length &&
+            property.key !== 'description'
+          "
+        >
+          <div class="row justify-content-center">
+            <div class="col-2 border-right">
+              <div class="row">
+                <b>{{ translationParser(property.key) }}</b>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 border-left">
+              <ng-container
+                *ngIf="
+                  isArray(loadedItem.metadata[property.key]);
+                  else stringItem
+                "
+              >
+                <ng-container
+                  *ngFor="let element of loadedItem.metadata[property.key]"
+                >
+                  <div class="row" *ngIf="element.link && element.label">
+                    <div class="col">
+                      <a class="link" [href]="element.link" target="_blank"
+                        >{{ element.label }}
+                        <i class="fas fa-external-link-alt"></i
+                      ></a>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="!element.link || !element.label">
+                    <div class="col">
+                      {{ element }}
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-template #stringItem>
+                <div class="col">
+                  {{ loadedItem.metadata[property.key] }}
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
   <!-- </div> -->
 </div>

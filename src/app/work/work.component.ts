@@ -175,8 +175,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
 
   collectionDescription;
   createCollectionDescription(item) {
-    
+    // FIXME: BISOGNA ITERARE PER VEDERE LA RELATION CHE HA ITEM SETS E SOLO QUELLA CHE CORRISPONDE NEL display_title
     this.http.get(item['dcterms:relation'][0]['@id']).subscribe((data) => {
+      console.log(item);
       if (data['dcterms:description'][0]['@value']) {
         this.collectionDescription = data['dcterms:description'][0]['@value'];
       }

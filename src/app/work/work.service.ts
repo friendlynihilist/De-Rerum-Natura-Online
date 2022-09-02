@@ -5,13 +5,12 @@ import { map } from 'rxjs/operators';
 import { Work } from './work';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WorkService {
+  loadedItems = [];
 
-  loadedItems=[];
-
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     // this.workConf();
   }
 
@@ -42,9 +41,9 @@ export class WorkService {
   }
 
   loadedWork: {
-    id: 1,
-    title: 'Caso',
-    creator: 'Tizio'
+    id: 1;
+    title: 'Caso';
+    creator: 'Tizio';
   };
 
   // workConf() {
@@ -57,21 +56,19 @@ export class WorkService {
   // }
 
   public getWorks() {
+    let works: Work[];
 
-    let works:Work[];
-
-    works=[
+    works = [
       new Work(1, 'Prova_1', 'Carlo'),
       new Work(2, 'Prova_2', 'Gigi', 'immagine_2'),
-      new Work(3, 'Prova_3', 'Luigi', 'immagine_3')
-    ]
+      new Work(3, 'Prova_3', 'Luigi', 'immagine_3'),
+    ];
 
     return works;
   }
 
   public getWork(id) {
-    let works:Work[]=this.getWorks();
-    return works.find(p => p.id==id);
+    let works: Work[] = this.getWorks();
+    return works.find((p) => p.id == id);
   }
-
 }

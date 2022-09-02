@@ -20,6 +20,7 @@ import { MapComponent } from './map/map.component';
 import { CollectionComponent } from './collection/collection.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NetworkInterceptor } from './network.interceptor';
+import { SingleStoryComponent } from './single-story/single-story.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NetworkInterceptor } from './network.interceptor';
     GraphComponent,
     MapComponent,
     CollectionComponent,
+    SingleStoryComponent,
     // JwPaginationComponent
   ],
   imports: [

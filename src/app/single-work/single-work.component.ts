@@ -382,8 +382,8 @@ export class SingleWorkComponent
   }
 
   buildLink(obj) {
-    let baseUrl = 'http://localhost:4200';
-    return `${baseUrl}/work/${obj['value_resource_id']}/${parser.slugify(
+    // let baseUrl = 'http://localhost:4200';
+    return `/work/${obj['value_resource_id']}/${parser.slugify(
       obj['display_title']
     )}`;
   }

@@ -1,59 +1,124 @@
 <div class="container-fluid adapted">
   <div class="row justify-content-center story-headline">
-    <div class="col-4"><h1>The plague of Athens</h1></div>
+    <div class="col-4"><h1>Storie</h1></div>
   </div>
-  
+
+  <!-- <ng-container *ngIf="loadedStories">
+    <div class="row">
+      <ng-container *ngFor="let story of loadedStories">
+        <ng-container *ngIf="story && story.thumbnail_display_urls.square">
+          <div class="col-4">
+            <div class="card bg-dark text-white">
+              <img
+                [src]="story.thumbnail_display_urls.square"
+                class="card-img"
+                alt="..."
+              />
+              <div class="card-img-overlay">
+                <h5 class="card-title">{{ story["o:title"] }}</h5>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-container> -->
+
+  <ng-container *ngIf="loadedStories">
+    <div class="row">
+      <ng-container *ngFor="let story of loadedStories">
+        <ng-container *ngIf="story && story.thumbnail_display_urls.square">
+          <div class="col-lg-4 col-lg-auto item slide current">
+            <div class="link-wrapper">
+              <a [routerLink]="['/story', story['o:id'], slugify(story['o:title'])]"
+                ><img
+                  class="thumbnail-preview scale-image"
+                  [src]="story.thumbnail_display_urls.large"
+              /></a>
+              <a
+                [routerLink]="['/story', story['o:id'], slugify(story['o:title'])]"
+                ><h3 class="metadata-title">{{ story['o:title'] }}</h3></a
+              >
+              <ng-container *ngIf="story['dcterms:description']">
+                <p class="metadata-description">
+                  {{ truncate(story['dcterms:description'][0]['@value'], 250) }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
 
   <!-- TIMELINE -->
-  <div class="timeline">
+  <!-- <div class="timeline">
     <div id="timeline-embed" style="width: 100%; height: 600px"></div>
   </div>
 
   <!-- CAROUSEL -->
-<!-- <div class="row carousel-row justify-content-center"> -->
+  <!-- <div class="row carousel-row justify-content-center"> -->
   <div class="carousel hidden">
-  <ngb-carousel *ngIf="images" #caro>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="images[0]" alt="Random first slide">
-      </div>
-      <!-- <div class="carousel-caption">
+    <ngb-carousel *ngIf="images" #caro>
+      <ng-template ngbSlide>
+        <div class="picsum-img-wrapper">
+          <img [src]="images[0]" alt="Random first slide" />
+        </div>
+        <!-- <div class="carousel-caption">
         <h3>First slide label</h3>
         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
       </div> -->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="images[1]" alt="Random second slide">
-      </div>
-      <!-- <div class="carousel-caption">
+      </ng-template>
+      <ng-template ngbSlide>
+        <div class="picsum-img-wrapper">
+          <img [src]="images[1]" alt="Random second slide" />
+        </div>
+        <!-- <div class="carousel-caption">
         <h3>Second slide label</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       </div> -->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="images[2]" alt="Random third slide">
-      </div>
-      <!-- <div class="carousel-caption">
+      </ng-template>
+      <ng-template ngbSlide>
+        <div class="picsum-img-wrapper">
+          <img [src]="images[2]" alt="Random third slide" />
+        </div>
+        <!-- <div class="carousel-caption">
         <h3>Third slide label</h3>
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
       </div> -->
-    </ng-template>
-  </ngb-carousel>
-</div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
   <!-- </div> -->
 
   <!-- BUTTONS -->
 
   <div class="row justify-content-center">
     <div class="col-md-auto">
-      
-      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-        <input (click)="switchBetweenView('timeline')" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+      <div
+        class="btn-group"
+        role="group"
+        aria-label="Basic radio toggle button group"
+      >
+        <input
+          (click)="switchBetweenView('timeline')"
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio1"
+          autocomplete="off"
+          checked
+        />
         <label class="btn btn-outline-primary" for="btnradio1">timeline</label>
-      
-        <input (click)="switchBetweenView('carousel')" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+
+        <input
+          (click)="switchBetweenView('carousel')"
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio2"
+          autocomplete="off"
+        />
         <label class="btn btn-outline-primary" for="btnradio2">carousel</label>
       </div>
     </div>
@@ -61,33 +126,27 @@
 
   <!-- STORY -->
   <div class="body">
-    <!-- <div class="row">
-      <div class="col-12">
-      <h2>La Peste d'Atene</h2>
-    </div>
-    </div> -->
     <div class="row">
       <div class="col-md-auto">
         <div class="table-of-contents" id="toc">
           <ul>
             <ng-container *ngFor="let button of buttonArray">
-            <a class="topic" (click)="goToEvent(button.href)"><li [id]="button.id" (click)="parseTopic(button.id)">{{button.label}}</li></a>
+              <a class="topic" (click)="goToEvent(button.href)"
+                ><li [id]="button.id" (click)="parseTopic(button.id)">
+                  {{ button.label }}
+                </li></a
+              >
             </ng-container>
           </ul>
-
         </div>
       </div>
-      
+
       <div class="col-6">
-        <div class="topic-container">
-          
-        </div>
+        <div class="topic-container"></div>
       </div>
       <div class="col-md-auto">
-        <div class="sidebar">
-
-        </div>
+        <div class="sidebar"></div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

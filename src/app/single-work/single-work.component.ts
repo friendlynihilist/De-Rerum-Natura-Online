@@ -390,14 +390,20 @@ export class SingleWorkComponent
 
   setImages(item) {
     if (item.thumbnail_display_urls.large) {
-      item['o:media'].map((uri) => {
-        this.http.get(uri['@id']).subscribe((responseData) => {
+      const promises = item['o:media'].map((uri) => {
+        return this.http.get(uri['@id']).toPromise();
+      });
+      Promise.all(promises).then((res) => {
+        for (let i = 0; i < res.length; i++) {
+          const responseData = res[i];
           this.data.images.push({
             type: 'image',
             url: responseData['o:original_url'],
             buildPyramid: false,
           });
-        });
+        }
+        console.log("we're done");
+        this._openseadragon();
       });
       // this.data.images.push({
       //   type: 'image',
@@ -449,6 +455,8 @@ export class SingleWorkComponent
   timeout = 0;
 
   ngAfterContentChecked() {
+  }
+  _openseadragon() {
     if (!this.loadedItem) {
       this.timeout = this.timeout + 2000;
     }
@@ -459,13 +467,16 @@ export class SingleWorkComponent
       const prefixUrl = !this.data.prefixUrl
         ? '//openseadragon.github.io/openseadragon/images/'
         : this.data.prefixUrl;
+      console.log(`prefixUrl: ${prefixUrl}`);
       import('openseadragon').then((module) => {
         const openseadragon: any = module;
         // console.log(openseadragon);
+        console.log({data: this.data})
         const viewer = openseadragon({
           id: this.data.viewerId,
           prefixUrl,
           tileSources: this.data.images,
+          // tileSources: this.data.images,
           sequenceMode: true,
           showReferenceStrip: true,
           showSequenceControl: true,

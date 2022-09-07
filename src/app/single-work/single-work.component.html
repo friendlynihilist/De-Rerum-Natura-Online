@@ -10,7 +10,7 @@
     </div> -->
   </div>
 
-  <ng-container *ngIf="loadedItem.original_url[0]; else loadVideo">
+  <ng-container *ngIf="loadedItem; else loadVideo">
     <div *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
       <!-- OSD viewer -->
       <div id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>

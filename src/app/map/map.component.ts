@@ -250,6 +250,7 @@ export class MapComponent
     });
 
     item.metadata = dataModel;
+    return dataModel;
   };
 
   public fetchItems() {
@@ -269,13 +270,20 @@ export class MapComponent
         })
       )
       .subscribe((items) => {
-        items.map((item) => {
+        const promises = items.map((item) => {
           // console.log(item);
           // item is been parsed in order to retrieve media from the o:media property URI
-          this.createDataModel(parser.parseMedia(item));
           this.loadedItems.push(item); // add parser.parseRDF?
+          return this.createDataModel(parser.parseMedia(item));
+        });
+        Promise.all(promises).then((res) => {
+          console.log("this.data")
+          console.log(res);
+          console.log(this.data)
+          this.initLeaflet();
         });
       });
+      // initLeaflet
     // console.log(this.loadedItems);
   }
 
@@ -288,7 +296,9 @@ export class MapComponent
   public markerOpen$: Subject<object> = new Subject();
   public markerClose$: Subject<void> = new Subject();
 
-  ngAfterContentChecked(): void {
+
+  ngAfterContentChecked(): void {}
+  initLeaflet() {
     if (!this.data || this._loaded) return;
     this._loaded = true;
     setTimeout(() => {
@@ -325,6 +335,6 @@ export class MapComponent
         // Assign the map instance
         if (this.data._setInstance) this.data._setInstance(map);
       });
-    }, 2500);
+    }, 1250);
   }
 }

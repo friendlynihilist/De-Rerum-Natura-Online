@@ -282,6 +282,7 @@ export class StoryComponent implements OnInit {
         items.map((item) => {
           if (item['@type'][1] == 'dctype:InteractiveResource') {
             this.loadedStories.push(item);
+            this.loadedStories.push(item);
           }
         });
         // this.buildTimeline(this.loadedItems);

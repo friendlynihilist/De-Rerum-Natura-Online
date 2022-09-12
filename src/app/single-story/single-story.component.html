@@ -15,7 +15,7 @@
   </div>
   
   <ng-container *ngIf="loadedRelatedItems">
-    <div *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
+    <div [className]="!viewerActive ? 'hidden' : ''" *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
       <!-- OSD viewer -->
       <div id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>
   

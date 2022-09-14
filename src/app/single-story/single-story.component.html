@@ -6,7 +6,7 @@
 
 <div *ngIf="loadedStory" class="container-fluid adapted single-item">
 
-  <div [className]="!mapActive ? 'hidden' : ''">
+  <div [className]="false && !mapActive ? 'hidden' : ''">
     <ng-container *ngIf="tilesData">
       <div class="map-container">
         <div class="map-frame" [id]="tilesData.containerId"></div>

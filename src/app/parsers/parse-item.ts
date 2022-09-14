@@ -2,13 +2,25 @@ import * as N3 from 'n3';
 import { DataFactory } from 'rdf-data-factory';
 
 export const parser = {
-  parseMedia(item) {
+  /*async*/ parseMedia(item) {
     
     // let mediaUrl = item['o:media'].map((field) => field['@id']); 
     item.original_url = [];
     item.video_source = [];
     
     for (let media of item['o:media']) {
+      // const _media = await fetch(media['@id']);
+      // const parsed = await _media.json();
+      // if (parsed['o:original_url']) {
+      //   //FIXME: items can have multiple media. so this should be an object rather than a shallow property.
+      //   item.original_url.push(parsed['o:original_url']); // create a original_url property into item
+      // } else {
+      //   const stripUrl = this.getId(parsed['o:source']);
+      //   item.video_source.push('https://www.youtube.com/embed/' + stripUrl); // create a video_source property into item
+      // }
+      
+      // // switched to await because else this is unmaintainable
+
       fetch(media['@id'])
         .then((response) => response.json())
         .then((data) => {

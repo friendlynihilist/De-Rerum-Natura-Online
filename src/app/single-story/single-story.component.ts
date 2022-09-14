@@ -282,15 +282,17 @@ export class SingleStoryComponent
   }
 
   fetchRelatedItems(items) {
-    items.map((item) => {
-      this.http.get(item['@id']).subscribe((data) => {
-        let relatedRes;
-        relatedRes = parser.parseMedia(data);
+    const promises = items.map((item) => this.http.get(item['@id']).toPromise());
+    Promise.all(promises).then(async (res) => {
+      for (let i = 0; i < res.length; i++) {
+        const data = res[i];
+        console.log({data});
+        const relatedRes = parser.parseMedia(data);
         this.setImages(relatedRes);
         this.createDataModel(relatedRes);
-        // this.buildTimeline(relatedRes);
         this.loadedRelatedItems.push(relatedRes);
-      });
+      }
+      this._loadMap();
     });
   }
 
@@ -360,14 +362,20 @@ export class SingleStoryComponent
 
   setImages(item) {
     if (item.thumbnail_display_urls.large) {
-      item['o:media'].map((uri) => {
-        this.http.get(uri['@id']).subscribe((responseData) => {
+      const promises = item['o:media'].map((uri) => {
+        return this.http.get(uri['@id']).toPromise();
+      });
+      Promise.all(promises).then((res) => {
+        for (let i = 0; i < res.length; i++) {
+          const responseData = res[i];
           this.data.images.push({
             type: 'image',
             url: responseData['o:original_url'],
             buildPyramid: false,
           });
-        });
+        }
+        console.log("we're done");
+        this._openseadragon();
       });
     }
   }
@@ -619,10 +627,7 @@ export class SingleStoryComponent
   public markerOpen$: Subject<object> = new Subject();
   public markerClose$: Subject<void> = new Subject();
 
-  ngAfterContentChecked() {
-    // if (!this.loadedItem) {
-    //   this.timeout = this.timeout + 2000;
-    // }
+  _openseadragon() {
     if (!this.data || this._viewerLoaded) return;
     this._viewerLoaded = true;
 
@@ -652,7 +657,9 @@ export class SingleStoryComponent
         this.data._setViewer(viewer);
       });
     }, 4000);
+  }
 
+  _loadMap() {
     if (!this.tilesData || this._mapLoaded) return;
     this._mapLoaded = true;
     setTimeout(() => {
@@ -691,6 +698,8 @@ export class SingleStoryComponent
       });
     }, 2500);
   }
+
+  ngAfterContentChecked() {}
 
   onClick(payload) {
     if (!this.emit) return;

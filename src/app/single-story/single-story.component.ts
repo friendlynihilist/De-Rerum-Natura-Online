@@ -17,6 +17,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { parser } from '../parsers';
 import { LoadingService } from '../loading.service';
 import { StoryService } from '../story/story.service';
+// import { TimelineComponent } from './../timeline/timeline.component';
 
 /**
  * Interface for TileLayer's "data"
@@ -293,25 +294,23 @@ export class SingleStoryComponent
         this.loadedRelatedItems.push(relatedRes);
       }
       this._loadMap();
+      console.log(this.loadedRelatedItems);
+      this.buildTimeline(this.loadedRelatedItems);
     });
   }
 
-  buildTimeline(item) {
-    console.log(item);
-    // console.log(arr);
-    // console.log(arr[0]);
-    const searchValue = (res) => {
-      for (let field of res) {
+  buildTimeline(arr) {
+    const searchValue = (item) => {
+      for (let field of item) {
         return field['@value'] || field['o:label'];
       }
     };
-
-    
-      this.timeline_json.events.push({
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      let mediaURL = item.video_source && item.video_source.length ? item.video_source : item.thumbnail_display_urls.large;
+      const timeline_item = {
         media: {
-          url: item.video_source
-            ? item.video_source
-            : item.thumbnail_display_urls.large, // FIXME: undefined
+          url: mediaURL, // FIXME: undefined
           credit: searchValue(item['dcterms:creator']),
         },
         start_date: {
@@ -327,39 +326,12 @@ export class SingleStoryComponent
             ? '<p>' + searchValue(item['dcterms:description']) + '</p>'
             : null,
         },
-      })
-
-      console.log(this.timeline_json.events);
-    
-    
-
-
-    // arr.forEach((item) => {
-    //   const timeline_item = {
-    //     media: {
-    //       url: item.video_source
-    //         ? item.video_source
-    //         : item.thumbnail_display_urls.large, // FIXME: undefined
-    //       credit: searchValue(item['dcterms:creator']),
-    //     },
-    //     start_date: {
-    //       year: searchValue(item['dcterms:date']).toString().includes('-') ? searchValue(item['dcterms:date']).toString().split('-')[0] : searchValue(item['dcterms:date']),
-    //     },
-    //     end_date: {
-    //       year: searchValue(item['dcterms:date']).toString().includes('-') ? searchValue(item['dcterms:date']).toString().split('-')[1] : '',
-    //     },
-    //     text: {
-    //       headline: `<a
-    //             href="work/${item['o:id']}/timeline">${item['o:title']}</a>`,
-    //       text: item['dcterms:description']
-    //         ? '<p>' + searchValue(item['dcterms:description']) + '</p>'
-    //         : null,
-    //     },
-    //   };
-    //   this.timeline_json.events.push(timeline_item);
-    // });
+      };
+      this.timeline_json.events.push(timeline_item);      
+    }
+    console.log(this.timeline_json);
+    new Timeline('timeline-embed', this.timeline_json, this.options);
   }
-
   setImages(item) {
     if (item.thumbnail_display_urls.large) {
       const promises = item['o:media'].map((uri) => {

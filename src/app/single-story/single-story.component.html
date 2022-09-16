@@ -6,6 +6,10 @@
 
 <div *ngIf="loadedStory" class="container-fluid adapted single-item">
 
+  <div class="container-timeline">
+    <div id="timeline-embed" style="width: 100%; height: 600px"></div>
+  </div>
+  
   <div [className]="false && !mapActive ? 'hidden' : ''">
     <ng-container *ngIf="tilesData">
       <div class="map-container">

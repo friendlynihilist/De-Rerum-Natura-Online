@@ -7,10 +7,10 @@
 <div *ngIf="loadedStory" class="container-fluid adapted single-item">
 
   <div class="container-timeline">
-    <div id="timeline-embed" style="width: 100%; height: 600px"></div>
+    <div [style.display]="timelineActive ? 'block' : 'none'" id="timeline-embed" style="width: 100%; height: 600px"></div>
   </div>
-  
-  <div [className]="false && !mapActive ? 'hidden' : ''">
+
+  <div [className]="!mapActive ? 'hidden' : ''">
     <ng-container *ngIf="tilesData">
       <div class="map-container">
         <div class="map-frame" [id]="tilesData.containerId"></div>
@@ -19,9 +19,9 @@
   </div>
   
   <ng-container *ngIf="loadedRelatedItems">
-    <div [className]="!viewerActive ? 'hidden' : ''" *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
+    <div *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
       <!-- OSD viewer -->
-      <div id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>
+      <div [style.display]="viewerActive ? 'block' : 'none'" id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>
   
       <!-- Zoom controls -->
       <!-- <div class="n7-image-viewer__controls">
@@ -57,8 +57,21 @@
   </ng-container>
   <hr/>
   <div class="row justify-content-center">
-    <div (click)="switchView('mapviewer')">mappa</div>
-    <div (click)="switchView('imgviewer')">viewer</div>
+    <div class="col-4 justify-content-center">
+      <button class="switch-view-buttons" (click)="switchView('imgviewer')">
+        viewer
+      </button>
+    </div>
+    <div class="col-4 justify-content-center">
+      <button class="switch-view-buttons" (click)="switchView('mapviewer')">
+        mappa
+      </button>
+    </div>
+    <div class="col-4 justify-content-center">
+      <button class="switch-view-buttons" (click)="switchView('timelineviewer')">
+        timeline
+      </button>
+    </div>
   </div>
   <div class="container-fluid metadata-box metadata">
     <div class="row justify-content-center">
@@ -86,6 +99,20 @@
               <div class="row">
                 <div class="col">
                   — <a [href]="person.link" class="text-decoration-none" target="_blank"> {{person.label}} </a>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div *ngIf="peopleEntities" class="row people">
+          <div class="row people-box">
+            <h4><i class="fas fa-cubes"></i> Risorse</h4>
+          </div>
+          <div class="entities-box">
+            <ng-container *ngFor="let item of loadedRelatedItems">
+              <div class="row">
+                <div class="col">
+                  — <a [href]="item['@id']" class="text-decoration-none" target="_blank"> {{item["o:title"]}} </a>
                 </div>
               </div>
             </ng-container>

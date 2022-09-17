@@ -71,6 +71,7 @@ export interface MapData {
   };
   /** Collection of map markers */
   markers?: MarkerData[];
+  instance: any;
   /** Sets the map instance to the given parameter */
   _setInstance?: (map) => void;
   /** Sets the marker layer to the given parameter */
@@ -143,6 +144,7 @@ export class SingleStoryComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
 
+  timelineActive = false;
   mapActive = false;
   viewerActive = true;
   updatedClient;
@@ -243,11 +245,20 @@ export class SingleStoryComponent
 
   switchView(view) {
     if (view == "mapviewer") {
+      this.timelineActive = false;
       this.viewerActive = false;
       this.mapActive = true;
+      setTimeout((tilesData) => {
+        tilesData.instance.invalidateSize();
+      }, 300, this.tilesData);
     } else if (view == "imgviewer") {
+      this.timelineActive = false;
       this.mapActive = false;
       this.viewerActive = true;
+    } else if (view == "timelineviewer") {
+      this.timelineActive = true;
+      this.mapActive = false;
+      this.viewerActive = false;
     }
   }
 
@@ -666,6 +677,7 @@ export class SingleStoryComponent
           if (this.tilesData._setMarkerLayer) this.tilesData._setMarkerLayer(markers);
         }
         // Assign the map instance
+        this.tilesData.instance = map;
         if (this.tilesData._setInstance) this.tilesData._setInstance(map);
       });
     }, 2500);

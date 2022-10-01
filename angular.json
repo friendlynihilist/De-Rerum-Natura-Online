@@ -143,5 +143,8 @@
       }
     }
   },
-  "defaultProject": "drn-frontend"
+  "defaultProject": "drn-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

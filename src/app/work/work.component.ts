@@ -31,11 +31,18 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
 
   loading$ = this.loader.loading$;
   
+  activeFilters = {};
   loadedItems = [];
+  loadedItemsFiltered = [];
+  
+  relations = {};
+  itemsets = [];
+
   filteredItems = []; //
   reserved = [];
   order;
   isArrayLoaded: boolean = false;
+  JSON = JSON;
 
   constructor(private http: HttpClient, public loader: LoadingService) {}
 
@@ -52,6 +59,9 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   ngOnInit() {
     this.fetchItems();
     this.enableDropDown();
+    this._fetchItemSets().then(itemsets => {
+      this.itemsets = itemsets;
+    });
   }
 
   ngAfterViewInit() {}
@@ -96,7 +106,221 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     }
   }
 
+  _getDcTermRelationItemSet(relation) {
+    let ret = "";
+    for (let i = 0; i < relation.length; i++) {
+      const element = relation[i];
+      if(!("@id" in element)) { continue; }
+      if(! element["@id"].startsWith("http://137.204.168.14/lib/api/item")) { continue; }
+      ret = element["@id"];
+    }
+    return ret;
+  }
+
+  async _getRelations(items) {
+    let relation_urls = [];
+    this.relations = {};
+    for (let i = 0; i < items.length; i++) {
+      const element = items[i];
+      console.log("1");
+      if(!("dcterms:relation" in element)) { continue }
+      console.log("2");
+      console.log(element["dcterms:relation"]);
+      const element_relation_uri = this._getDcTermRelationItemSet(element["dcterms:relation"]);
+      if(element_relation_uri == "") { continue }
+      console.log(element_relation_uri);
+      console.log("3");
+      relation_urls.push(element_relation_uri);
+      // if(!(element_relation_uri in this.relations)) {
+      //   this.relations[element_relation_uri] = {};
+      // }
+    }
+    relation_urls = [...new Set(relation_urls)];
+    for (let i = 0; i < relation_urls.length; i++) {
+      const relation_url = relation_urls[i];
+      this.http.get(relation_url).toPromise().then( relation_data => {
+        if(!relation_data["@type"].includes("dctype:Collection")) { return; }
+        // if(!("dcterms:title" in relation_data)) { return; }
+        // if(!("dcterms:description" in relation_data)) { return; }
+        // if(!("dcterms:relation" in relation_data)) { return; }
+        const relation_title = relation_data["dcterms:title"][0]["@value"];
+        const relation_description = relation_data["dcterms:description"][0]["@value"];
+        const relation_items = relation_data["dcterms:relation"].map( e => e["@id"]);
+        console.log({relation_title, relation_description, relation_items});  
+      });
+      // for
+    }
+    console.log({ relation_urls });
+  }
+
+  _checkDcTermMatch(list, value) {
+    // console.log("---> _checkDcTermMatch");
+    // console.log(`checking for ${value}`);
+    // only 1 match
+    let match = false;
+    for (let i = 0; i < list.length; i++) {
+      const element = list[i];
+      match = match || element["@value"] == value;
+    }
+    // console.log((match ? "found!" : "not found..."));
+    return match;
+  }
+
+  _checkFilterTypeMatch(activeFilterGroupItems, filterType, element) {
+    // all must match
+    let match = true;
+    for (let groupItemIndex = 0; groupItemIndex < activeFilterGroupItems.length; groupItemIndex++) {
+      const activeFilterGroupItem = activeFilterGroupItems[groupItemIndex];
+      const dcTerm = `dcterms:${filterType}`;
+      if(!(dcTerm in element) || !element[dcTerm]) {
+        match = false;
+      }
+      // console.log(`looking at ${dcTerm}`);
+      // console.log(`element[dcTerm] - element[${dcTerm}]`);
+      // console.log(element[dcTerm]);     
+      match = match && this._checkDcTermMatch(element[dcTerm], activeFilterGroupItem);
+      // dcTermMatchAll = dcTermMatch && dcTermMatchAll;
+    }
+    return match
+  }
+
+  _itemMatch(activeFilters, element) {
+    const dcTerms = [
+      "creator",
+      "date",
+      "subject",
+      "type",
+    ];
+    // all must match
+    let match = true;
+    for(let filterType in activeFilters) {
+      if(match == false) { break; }
+      console.log(`filterType: ${filterType}`);
+      // if this filter is in the dcTerms array
+      if(dcTerms.includes(filterType)) {
+        // get the current active filter
+        const filterTypeItems = activeFilters[filterType];
+        // get active filter group items
+        let activeFilterGroupItems = Object.keys(filterTypeItems).filter((key) => filterTypeItems[key] == true);
+        match = match && this._checkFilterTypeMatch(activeFilterGroupItems, filterType, element);
+      } else if(filterType == "category") {
+        const categoryFilters = activeFilters[filterType];
+        for(let categoryFilter in categoryFilters) {
+          if(!categoryFilters[categoryFilter]) { continue; }
+          console.log(`looking for: ${categoryFilter} - current: ${element.metadata.category}`)
+          match = match && element.metadata.category == categoryFilter;
+        }
+      } else if( filterType == "collection") {
+        const collectionFilters = activeFilters[filterType];
+        for(let collectionFilter in collectionFilters) {
+          if(!collectionFilters[collectionFilter]) { continue; }
+          const itemset = this.itemsets.find( itemset => {
+            console.log(`${itemset["o:title"]} == ${collectionFilter}`);
+            return itemset["o:title"] == collectionFilter
+          });
+          const valid_ids = itemset["dcterms:relation"].map( relation => relation.value_resource_id );
+          console.log({valid_ids});
+          match = match && valid_ids.includes(element["o:id"]);
+        }
+        // console.log("214")
+        // console.log({collectionFilter})
+        // const itemset = this.itemsets.find( itemset => {
+        //   return itemset["o:title"] == collectionFilter
+        // });
+        // const valid_ids = 
+        // value_resource_id
+        // console.log({collectionFilter})
+      }
+    }
+    return match;
+  }
+
+  async _fetchItemSets() {
+    const itemsets = <Array<any>>await this.http.get("http://137.204.168.14/lib/api/item_sets").toPromise();
+    const collections = itemsets
+      .filter( itemset => itemset["@type"].includes("dctype:Collection") &&
+                          "dcterms:relation" in itemset &&
+                          itemset["dcterms:relation"].length > 0);
+    console.log({collections});
+    return collections;
+  }
+
+  _updateFilteredItems() {
+    let _filteredItems = [];
+    // for every loaded item
+    for (let i = 0; i < this.loadedItems.length; i++) {
+      // get the current item
+      const element = this.loadedItems[i];
+      // for every active filter group
+      const itemMatch = this._itemMatch(this.activeFilters, element);
+      if(itemMatch) {
+        _filteredItems.push(element);
+      }
+
+      // for(let filterType in this.activeFilters) {
+      //   // if this filter is in the dcTerms array
+      //   if(dcTerms.includes(filterType)) {
+      //     // get the current active filter
+      //     const filterTypeItems = this.activeFilters[filterType];
+      //     // get active filter group items
+      //     let activeFilterGroupItems = Object.keys(filterTypeItems).filter((key) => filterTypeItems[key] == true);
+      //     // for every active filter group item
+      //     let filterTypeMatches = this._checkFilterTypeMatch(activeFilterGroupItems, filterType, element);
+      //     if(filterTypeMatches) {
+      //       console.log("match!");
+      //       _filteredItems.push(element);
+      //     }
+      //   }
+      // }
+      // _filteredItems.push(element);
+    }
+    this.loadedItemsFiltered = _filteredItems;
+  }
+
+  _addFilter(value, label) {
+    console.log(["_addFilter: ", value, label])
+    // init object if key does not exist
+    if(!(label in this.activeFilters)) { this.activeFilters[label] = {}; }
+    if((value in this.activeFilters[label])) {
+        if(this.activeFilters[label][value] == true) {
+          this.activeFilters[label][value] = false;
+          return;
+        }
+    }
+    this.activeFilters[label][value] = true;
+    this.activeFilterBadges.push({ label: value, type: label });
+    console.log({
+      activeFilters: this.activeFilters
+    });
+    this._updateFilteredItems();
+  }
+
+  _removeFilter(value, label) {
+    if(!(label in this.activeFilters)) { return; }
+    if(!(value in this.activeFilters[label])) { return; }
+    this.activeFilters[label][value] = false;
+
+    console.log({
+      activeFilters: this.activeFilters
+    });
+    this._updateFilteredItems();
+  }
+
+  _filter() {
+
+  }
+
   filterItems(selectedFilter, type) {
+    // if (type == "category") {
+      
+    // } if (type == "relation") {
+
+    // } else {
+
+    // }
+    // console.log("---> filterItems");
+    // console.log({ selectedFilter, type });
+    // return;
     let filteredArray = [];
     if (type === 'category') {
       filteredArray = this.loadedItems.filter(
@@ -413,13 +637,17 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
           // console.log(item);
           // item is been parsed in order to retrieve media from the o:media property URI
           this.createDataModel(item);
-          this.loadedItems.push(parser.parseMedia(item)); // add parser.parseRDF?
+          const parsedMedia = parser.parseMedia(item);
+          this.loadedItems.push(parsedMedia); // add parser.parseRDF?
+          this.loadedItemsFiltered.push(parsedMedia); 
         });
+        this._getRelations(this.loadedItems);
         this.sortDescItems(this.loadedItems);
         for (let type of this.filterTypesArray) {
           // ['creator', 'date', 'subject', 'type'];
           this.getFilters(type);
         }
+
       });
     // console.log(this.loadedItems);
   }

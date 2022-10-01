@@ -185,6 +185,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   }
 
   _itemMatch(activeFilters, element) {
+    this.collectionDescription = '';
     const dcTerms = [
       "creator",
       "date",
@@ -218,6 +219,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
             console.log(`${itemset["o:title"]} == ${collectionFilter}`);
             return itemset["o:title"] == collectionFilter
           });
+          this.collectionDescription = itemset['dcterms:description'][0]['@value'];
           const valid_ids = itemset["dcterms:relation"].map( relation => relation.value_resource_id );
           console.log({valid_ids});
           match = match && valid_ids.includes(element["o:id"]);
@@ -284,6 +286,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     if((value in this.activeFilters[label])) {
         if(this.activeFilters[label][value] == true) {
           this.activeFilters[label][value] = false;
+          this._updateFilteredItems();
           return;
         }
     }
@@ -298,7 +301,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
   _removeFilter(value, label) {
     if(!(label in this.activeFilters)) { return; }
     if(!(value in this.activeFilters[label])) { return; }
-    this.activeFilters[label][value] = false;
+    delete this.activeFilters[label][value];
 
     console.log({
       activeFilters: this.activeFilters

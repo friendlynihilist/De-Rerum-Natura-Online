@@ -43,51 +43,16 @@
       </div>
     </div>
     <div class="row">
-      <div class="col d-flex">
-        <div class="card bg-dark text-white border-0">
+      <div *ngFor="let story of (loadedStories | slice:0:3)" class="col d-flex">
+        <div class="card bg-dark text-white border-0" style="width: 100%;">
           <a href="/collection" class="set-link">
-            <img src="../../assets/img/casalucrezio.jpg" class="card-img" alt="..." />
+            <img [src]="story.thumbnail_display_urls.large" class="card-img" alt="..." />
             <div class="card-img-overlay d-flex">
-              <h5 class="card-title align-self-center mx-auto">Casa di Lucrezio</h5>
-              <!-- <p class="card-text">
-                This is a wider card with supporting text below as a natural lead-in
-                to additional content. This content is a little bit longer.
-              </p>
-              <p class="card-text">Last updated 3 mins ago</p> -->
+              <h5 class="card-title align-self-center mx-auto">{{ story['o:title'] }}</h5>
             </div>
           </a>
         </div>
-      </div>
-      <div class="col d-flex">
-        <div class="card bg-dark text-white border-0">
-          <a href="#" class="set-link">
-            <img src="../../assets/img/mostro.jpg" class="card-img" alt="..." />
-            <div class="card-img-overlay d-flex">
-              <h5 class="card-title align-self-center mx-auto">Storie della morte</h5>
-              <!-- <p class="card-text">
-                This is a wider card with supporting text below as a natural lead-in
-                to additional content. This content is a little bit longer.
-              </p>
-              <p class="card-text">Last updated 3 mins ago</p> -->
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col d-flex">
-        <div class="card bg-dark text-white border-0">
-          <a href="#" class="set-link">
-            <img src="../../assets/img/plagueofathens.jpg" class="card-img" alt="..." />
-            <div class="card-img-overlay d-flex">
-              <h5 class="card-title align-self-center mx-auto">Storie del sole</h5>
-              <!-- <p class="card-text">
-                This is a wider card with supporting text below as a natural lead-in
-                to additional content. This content is a little bit longer.
-              </p>
-              <p class="card-text">Last updated 3 mins ago</p> -->
-            </div>
-          </a>
-        </div>
-      </div>
+      </div>    
     </div>
   </div>
 

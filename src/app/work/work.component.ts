@@ -584,10 +584,12 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
 
   switchSort() {
     if (this.order === false) {
-      this.sortDescItems(this.loadedItems);
+      this.sortDescItems(this.loadedItemsFiltered);
+      // this.sortDescItems(this.loadedItems);
       this.order = true;
     } else {
-      this.sortAscItems(this.loadedItems);
+      this.sortAscItems(this.loadedItemsFiltered);
+      // this.sortAscItems(this.loadedItems);
       this.order = false;
     }
   }
@@ -644,8 +646,10 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
           this.loadedItems.push(parsedMedia); // add parser.parseRDF?
           this.loadedItemsFiltered.push(parsedMedia); 
         });
-        this._getRelations(this.loadedItems);
+        // this._getRelations(this.loadedItems);
+        this._getRelations(this.loadedItemsFiltered);
         this.sortDescItems(this.loadedItems);
+        this.sortDescItems(this.loadedItemsFiltered);
         for (let type of this.filterTypesArray) {
           // ['creator', 'date', 'subject', 'type'];
           this.getFilters(type);

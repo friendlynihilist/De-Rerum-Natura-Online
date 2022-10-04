@@ -244,7 +244,8 @@
             <ng-container *ngIf="item.metadata.subject?.length > 0">
               <span class="metadata metadata-date"
                 >tema
-                <ng-container *ngFor="let hit of item.metadata.subject">
+                <ng-container *ngFor="let hit of item.metadata.subject; let i = index">
+                  <span *ngIf="i != 0"> - </span>
                   <span style="font-weight: bold">{{ hit }}</span>
                 </ng-container>
               </span>

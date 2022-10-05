@@ -196,7 +196,7 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     let match = true;
     for(let filterType in activeFilters) {
       if(match == false) { break; }
-      console.log(`filterType: ${filterType}`);
+      // console.log(`filterType: ${filterType}`);
       // if this filter is in the dcTerms array
       if(dcTerms.includes(filterType)) {
         // get the current active filter
@@ -247,36 +247,36 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     return collections;
   }
 
-  _updateFilteredItems() {
+  _updateFilterCount() {
+    // for every filter
+    for (let i = 0; i < this.filteredItems.length; i++) {
+      const filteredItem = this.filteredItems[i];
+      const activeFiltersCopy = JSON.parse(JSON.stringify(this.activeFilters));
+      if(!(filteredItem.label in activeFiltersCopy)) { activeFiltersCopy[filteredItem.label] = {} }
+      activeFiltersCopy[filteredItem.label][filteredItem.value] = true
+      const result = this._updateFilteredItems(activeFiltersCopy);
+      filteredItem.count = result.length;
+      // if(!(filteredItem.label in this.activeFilters)) { this.activeFilters[filteredItem.label] = {} }
+      console.log({ filteredItem });
+    }
+    console.log(this.activeFilters);
+  }
+
+  _updateFilteredItems(_activeFilters) {
     let _filteredItems = [];
     // for every loaded item
     for (let i = 0; i < this.loadedItems.length; i++) {
       // get the current item
       const element = this.loadedItems[i];
       // for every active filter group
-      const itemMatch = this._itemMatch(this.activeFilters, element);
+      const itemMatch = this._itemMatch(_activeFilters, element);
       if(itemMatch) {
         _filteredItems.push(element);
       }
-
-      // for(let filterType in this.activeFilters) {
-      //   // if this filter is in the dcTerms array
-      //   if(dcTerms.includes(filterType)) {
-      //     // get the current active filter
-      //     const filterTypeItems = this.activeFilters[filterType];
-      //     // get active filter group items
-      //     let activeFilterGroupItems = Object.keys(filterTypeItems).filter((key) => filterTypeItems[key] == true);
-      //     // for every active filter group item
-      //     let filterTypeMatches = this._checkFilterTypeMatch(activeFilterGroupItems, filterType, element);
-      //     if(filterTypeMatches) {
-      //       console.log("match!");
-      //       _filteredItems.push(element);
-      //     }
-      //   }
-      // }
-      // _filteredItems.push(element);
     }
-    this.loadedItemsFiltered = _filteredItems;
+    return _filteredItems;
+    // this.loadedItemsFiltered = _filteredItems;
+    // console.log(this.loadedItemsFiltered);
   }
 
   _addFilter(value, label) {
@@ -286,7 +286,8 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     if((value in this.activeFilters[label])) {
         if(this.activeFilters[label][value] == true) {
           this.activeFilters[label][value] = false;
-          this._updateFilteredItems();
+          this.loadedItemsFiltered = this._updateFilteredItems(this.activeFilters);
+          this._updateFilterCount();
           return;
         }
     }
@@ -295,7 +296,8 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     console.log({
       activeFilters: this.activeFilters
     });
-    this._updateFilteredItems();
+    this.loadedItemsFiltered = this._updateFilteredItems(this.activeFilters);
+    this._updateFilterCount();
   }
 
   _removeFilter(value, label) {
@@ -306,7 +308,8 @@ export class WorkComponent implements OnInit, AfterViewChecked, AfterViewInit {
     console.log({
       activeFilters: this.activeFilters
     });
-    this._updateFilteredItems();
+    this.loadedItemsFiltered = this._updateFilteredItems(this.activeFilters);
+    this._updateFilterCount();
   }
 
   _filter() {

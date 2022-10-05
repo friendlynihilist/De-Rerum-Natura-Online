@@ -58,6 +58,11 @@
               [id]="filter.value"
               (click)="_addFilter(filter.value, filter.label)"
             >
+              <i
+              *ngIf="activeFilters.hasOwnProperty(filter.label) && 
+                      activeFilters[filter.label].hasOwnProperty(filter.value) &&
+                      activeFilters[filter.label][filter.value] == true" 
+              class="fas fa-check" style="padding-right: 5px"></i>
               {{ filter.value }}
               <span class="badge bg-secondary">{{ filter.count }}</span>
             </li>
@@ -75,6 +80,11 @@
               [id]="filter.value"
               (click)="_addFilter(filter.value, filter.label)"
             >
+              <i
+              *ngIf="activeFilters.hasOwnProperty(filter.label) && 
+                      activeFilters[filter.label].hasOwnProperty(filter.value) &&
+                      activeFilters[filter.label][filter.value] == true" 
+              class="fas fa-check" style="padding-right: 5px"></i>  
               {{ filter.value }}
               <span class="badge bg-secondary">{{ filter.count }}</span>
             </li>
@@ -92,6 +102,11 @@
               [id]="filter.value"
               (click)="_addFilter(filter.value, filter.label)"
             >
+              <i
+              *ngIf="activeFilters.hasOwnProperty(filter.label) && 
+                      activeFilters[filter.label].hasOwnProperty(filter.value) &&
+                      activeFilters[filter.label][filter.value] == true" 
+              class="fas fa-check" style="padding-right: 5px"></i>
               {{ filter.value }}
               <span class="badge bg-secondary">{{ filter.count }}</span>
             </li>
@@ -109,6 +124,11 @@
               [id]="filter.value"
               (click)="_addFilter(filter.value, filter.label)"
             >
+              <i
+              *ngIf="activeFilters.hasOwnProperty(filter.label) && 
+                      activeFilters[filter.label].hasOwnProperty(filter.value) &&
+                      activeFilters[filter.label][filter.value] == true" 
+              class="fas fa-check" style="padding-right: 5px"></i>
               {{ filter.value }}
               <span class="badge bg-secondary">{{ filter.count }}</span>
             </li>
@@ -126,6 +146,11 @@
               [id]="filter.value"
               (click)="_addFilter(filter.value, filter.label)"
             >
+              <i
+                *ngIf="activeFilters.hasOwnProperty(filter.label) && 
+                        activeFilters[filter.label].hasOwnProperty(filter.value) &&
+                        activeFilters[filter.label][filter.value] == true" 
+                class="fas fa-check" style="padding-right: 5px"></i>
               {{ filter.value }}
               <span class="badge bg-secondary">{{ filter.count }}</span>
             </li>
@@ -142,6 +167,11 @@
             [id]="itemset['o:title']"
             (click)="_addFilter(itemset['o:title'], 'collection')"
           >
+            <i
+            *ngIf="activeFilters.hasOwnProperty('collection') && 
+                    activeFilters['collection'].hasOwnProperty(itemset['o:title']) &&
+                    activeFilters['collection'][itemset['o:title']] == true" 
+            class="fas fa-check" style="padding-right: 5px"></i>
             {{ itemset['o:title'] }}
             <span class="badge bg-secondary">{{ itemset['dcterms:relation'].length }}</span>
           </li>

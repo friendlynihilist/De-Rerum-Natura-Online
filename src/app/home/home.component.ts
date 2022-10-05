@@ -39,13 +39,19 @@ export class HomeComponent implements OnInit {
         items.map((item) => {
           if (item['@type'][1] == 'dctype:InteractiveResource') {
             this.loadedStories.push(item);
-            console.log(item);
-            // this.loadedStories.push(item);
           }
         });
-        // this.buildTimeline(this.loadedItems);
         console.log(this.loadedStories);
-        // this.timeline = new Timeline('timeline-embed', this.timeline_json, this.options);
       });
+  }
+  slugify(text) {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, ''); // Trim - from end of text
   }
 }

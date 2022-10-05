@@ -112,7 +112,9 @@
             <ng-container *ngFor="let item of loadedRelatedItems">
               <div class="row">
                 <div class="col">
-                  — <a [href]="item['@id']" class="text-decoration-none" target="_blank"> {{item["o:title"]}} </a>
+                  — <a
+                    [routerLink]="['/work', item['o:id'], slugify(item['o:title'])]" 
+                    class="text-decoration-none" target="_blank"> {{item["o:title"]}} </a>
                 </div>
               </div>
             </ng-container>

@@ -45,8 +45,8 @@
     <div class="row">
       <div *ngFor="let story of (loadedStories | slice:0:3)" class="col-md-4 col-sm-12 d-flex">
         <div class="card bg-dark text-white border-0" style="width: 100%; min-height: 111px;">
-          <a [routerLink]="['/story', story['o:id'], slugify(story['o:title'])]" class="set-link">
-            <img [src]="story.thumbnail_display_urls.large" class="card-img" alt="..." />
+          <a [routerLink]="['/story', story['o:id'], slugify(story['o:title'])]" class="set-link" style="height: 100%;">
+            <img [src]="story.thumbnail_display_urls.large" class="card-img" alt="..."  style="height: 100%;"/>
             <div class="card-img-overlay d-flex">
               <h5 class="card-title align-self-center mx-auto">{{ story['o:title'] }}</h5>
             </div>

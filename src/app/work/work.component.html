@@ -52,7 +52,7 @@
       <button class="accordion">Autore</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
-          <ng-container *ngIf="filter.label === 'creator'">
+          <ng-container *ngIf="filter.label === 'creator' && filter.count && filter.count > 0">
             <li
               class="filter-artist"
               [id]="filter.value"
@@ -74,7 +74,7 @@
       <button class="accordion">Data</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
-          <ng-container *ngIf="filter.label === 'date'">
+          <ng-container *ngIf="filter.label === 'date' && filter.count && filter.count > 0">
             <li
               class="filter-date"
               [id]="filter.value"
@@ -96,7 +96,7 @@
       <button class="accordion">Tema</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
-          <ng-container *ngIf="filter.label === 'subject'">
+          <ng-container *ngIf="filter.label === 'subject' && filter.count && filter.count > 0">
             <li
               class="filter-subject"
               [id]="filter.value"
@@ -118,7 +118,7 @@
       <button class="accordion">Categoria</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
-          <ng-container *ngIf="filter.label === 'category'">
+          <ng-container *ngIf="filter.label === 'category' && filter.count && filter.count > 0">
             <li
               class="filter-artist"
               [id]="filter.value"
@@ -140,7 +140,7 @@
       <button class="accordion">Tipologia</button>
       <div class="panel">
         <ng-container *ngFor="let filter of filteredItems">
-          <ng-container *ngIf="filter.label === 'type'">
+          <ng-container *ngIf="filter.label === 'type' && filter.count && filter.count > 0">
             <li
               class="filter-type"
               [id]="filter.value"

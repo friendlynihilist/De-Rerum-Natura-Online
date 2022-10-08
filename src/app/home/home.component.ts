@@ -38,7 +38,9 @@ export class HomeComponent implements OnInit {
       .subscribe((items) => {
         items.map((item) => {
           if (item['@type'][1] == 'dctype:InteractiveResource') {
-            this.loadedStories.push(item);
+            if("thumbnail_display_urls" in item && item["thumbnail_display_urls"]["large"]) {
+              this.loadedStories.push(item);
+            }
           }
         });
         console.log(this.loadedStories);

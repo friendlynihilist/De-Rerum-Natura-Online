@@ -9,8 +9,10 @@
       <h1>{{ loadedItem["o:title"] }}</h1>
     </div> -->
   </div>
-
-  <ng-container *ngIf="loadedItem; else loadVideo">
+  <ng-container *ngIf="safeYoutubeURL != undefined">
+    <iframe style="width: 100%;height:100%; min-height: 400px;" [src]="safeYoutubeURL" frameborder="0" allowfullscreen></iframe>
+  </ng-container>
+  <ng-container *ngIf="loadedItem && safeYoutubeURL == undefined">
     <div *ngIf="data" class="n7-image-viewer {{ data.classes || '' }}">
       <!-- OSD viewer -->
       <div id="{{ data.viewerId }}" class="n7-image-viewer__viewer"></div>

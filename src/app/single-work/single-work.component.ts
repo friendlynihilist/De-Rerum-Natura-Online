@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { WorkService } from '../work/work.service';
 import { Work } from '../work/work';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { parser } from '../parsers';
 import { TextSelectorService } from '../text-selector.service';
 import * as N3 from 'n3';
@@ -336,7 +336,7 @@ export class SingleWorkComponent
           if (i['o:id'] === +this.id) {
             this.loadedItem = this.createDataModel(i);
             this.loadedItem = parser.parseMedia(i);
-            this.setImages(this.loadedItem);
+            this.setImages(this.loadedItem);  
             console.log(i);
           }
         });
@@ -389,6 +389,10 @@ export class SingleWorkComponent
   }
 
   setImages(item) {
+    if(item.video_source && item.video_source.length > 0) {
+      console.log("video source!!");
+      return;
+    }
     if (item.thumbnail_display_urls.large) {
       const promises = item['o:media'].map((uri) => {
         return this.http.get(uri['@id']).toPromise();
@@ -403,7 +407,11 @@ export class SingleWorkComponent
           });
         }
         console.log("we're done");
-        this._openseadragon();
+        if(this.loadedItem.video_source.length > 0) {
+          this.safeYoutubeURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.loadedItem.video_source[0]);
+        } else {
+          this._openseadragon();
+        }
       });
       // this.data.images.push({
       //   type: 'image',
@@ -452,6 +460,7 @@ export class SingleWorkComponent
     _setViewer: (viewer) => viewer,
   };
 
+  safeYoutubeURL:SafeResourceUrl = undefined;
   timeout = 0;
 
   ngAfterContentChecked() {

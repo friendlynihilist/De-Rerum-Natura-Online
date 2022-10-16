@@ -69,28 +69,41 @@
   </ng-template>
   <!-- </div> -->
 
-  <ng-container *ngIf="loadedItem && loadedItem.metadata">
+  <ng-container *ngIf="loadedItem &&
+                        loadedItem.metadata">
     <div class="container-fluid metadata-box metadata">
       <hr />
 
       <div class="row justify-content-center">
         <div class="col-8 metadata-artist">
-          {{ loadedItem.metadata["creator"][0].label }}
+          {{ loadedItem.metadata["creator"] && 
+                                              loadedItem.metadata["creator"].length ? 
+                                              loadedItem.metadata["creator"][0].label :
+                                              " - " }}
         </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-8 metadata-title">    
-            {{ loadedItem.metadata["title"] }}
+            {{ loadedItem.metadata["title"] ? 
+                                          loadedItem.metadata["title"] :
+                                          " - "
+                                        }}
         </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-8 metadata-date">
-          {{ loadedItem.metadata["date"] }}
+          {{ loadedItem.metadata["date"] ? 
+                                        loadedItem.metadata["date"] :
+                                        " - "
+                                      }}
         </div>
       </div>
       <div class="row justify-content-center description">
         <div class="col-8">
-          {{ loadedItem.metadata["description"] }}
+          {{ loadedItem.metadata["description"] ? 
+                                        loadedItem.metadata["description"] : 
+                                        " - "
+                                      }}
         </div>
       </div>
 

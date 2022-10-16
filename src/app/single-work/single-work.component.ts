@@ -336,6 +336,7 @@ export class SingleWorkComponent
           if (i['o:id'] === +this.id) {
             this.loadedItem = this.createDataModel(i);
             this.loadedItem = parser.parseMedia(i);
+            console.log(this.loadedItem);
             this.setImages(this.loadedItem);  
             console.log(i);
           }

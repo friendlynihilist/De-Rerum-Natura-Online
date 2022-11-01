@@ -152,7 +152,7 @@ export class SingleWorkComponent
             if (hit.type === 'uri') {
               // if (hit['@language'] === lang) {
               dataModel.place.push({
-                label: hit['o:label'],
+                label: hit['o:label'] == undefined ? " - " : hit['o:label'],
                 link: hit['@id'],
               });
               // }
@@ -170,7 +170,7 @@ export class SingleWorkComponent
             if (hit.type === 'uri') {
               // if (hit['@language'] === lang) {
               dataModel.rights.push({
-                label: hit['o:label'],
+                label: hit['o:label'] == undefined ? " - " : hit['o:label'],
                 link: hit['@id'],
               });
               // }
